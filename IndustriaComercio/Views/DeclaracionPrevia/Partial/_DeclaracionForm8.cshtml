@@ -1,0 +1,199 @@
+﻿@using IndustriaComercio.Common.Helpers
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+
+<div class="card"
+     v-show="vista === 8">
+    <div class="card-header">
+        LIQUIDACION PRIVADA
+    </div>
+    <div class="card-body">
+        <!-- Valor Exoneración Sobre Impuesto -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.ValorExoneracionImpuesto, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.ValorExoneracionImpuesto,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.ValorExoneracionImpuesto) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.ValorExoneracionImpuesto" }
+                    } })
+                @Html.ValidationMessageFor(model => model.ValorExoneracionImpuesto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Retención Practicada Por El Municipio -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.RetencionesDelMunicipio, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.RetencionesDelMunicipio,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.RetencionesDelMunicipio) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.RetencionesDelMunicipio" }
+                    } })
+                @Html.ValidationMessageFor(model => model.RetencionesDelMunicipio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Autoretención Practicada Por El Municipio -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.AutoretencionesDelMunicipio, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.AutoretencionesDelMunicipio,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.AutoretencionesDelMunicipio) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.AutoretencionesDelMunicipio" }
+                    } })
+                @Html.ValidationMessageFor(model => model.AutoretencionesDelMunicipio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Anticipo Año Anterior -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.AnticipoAnioAnterior, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.AnticipoAnioAnterior,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.AnticipoAnioAnterior) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.AnticipoAnioAnterior" }
+                    } })
+                @Html.ValidationMessageFor(model => model.AnticipoAnioAnterior, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Anticipo Año Siguiente -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.AnticipoAnioSiguiente, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.AnticipoAnioSiguiente,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.AnticipoAnioSiguiente) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.AnticipoAnioSiguiente" }
+                    } })
+                @Html.ValidationMessageFor(model => model.AnticipoAnioSiguiente, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Tipo de Sanción -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TipoSancion, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-8">
+                @Html.EnumDropDownListFor(Model => Model.TipoSancion, null, new { @class = "form-control" })
+            </div>
+        </div>
+        <!-- Otro Tipo de Sanción -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.OtroTipoSancion, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.OtroTipoSancion,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.OtroTipoSancion) },
+                    { "data-placement", "top" }
+                    } })
+                @Html.ValidationMessageFor(model => model.OtroTipoSancion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Valor de la Sanción -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.ValorSancion, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.ValorSancion,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.ValorSancion) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.ValorSancion" }
+                    } })
+                @Html.ValidationMessageFor(model => model.ValorSancion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Saldo a favor Período Anterior -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.SaldoFavorPeriodoAnterior, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.SaldoFavorPeriodoAnterior,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.SaldoFavorPeriodoAnterior) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.SaldoFavorPeriodoAnterior" }
+                    } })
+                @Html.ValidationMessageFor(model => model.SaldoFavorPeriodoAnterior, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Total Saldo a Cargo -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TotalSaldoCargo, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <h4>{{ TotalSaldoCargo | formatPrecio }}</h4>
+            </div>
+        </div>
+        <!-- Total Saldo a Favor -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TotalSaldoFavor, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <h4>{{ TotalSaldoFavor | formatPrecio }}</h4>
+            </div>
+        </div>
+    </div>
+</div>

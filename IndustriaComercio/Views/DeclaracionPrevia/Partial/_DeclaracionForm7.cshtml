@@ -1,0 +1,100 @@
+﻿@using IndustriaComercio.Common.Helpers
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+
+<div class="card"
+     v-show="vista === 7">
+    <div class="card-header">
+        LIUQUIDACION PRIVADA
+    </div>
+    <div class="card-body">
+        <!-- Total Impuesto Industria Comercio -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TotalImpuestoIndustriaComercio, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <h4>{{ TotalImpuestoIndustriaComercio | formatPrecio }}</h4>
+            </div>
+        </div>
+        <!-- Total Impuesto Avisos Tableros -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.ImpuestoAvisosTableros, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <h4>{{ ImpuestoAvisosTableros | formatPrecio }}</h4>
+            </div>
+        </div>
+        <!-- Pago Unidades Comerciales -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PagoUnidadesComerciales, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.PagoUnidadesComerciales,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.PagoUnidadesComerciales) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.PagoUnidadesComerciales" }
+                    } })
+                @Html.ValidationMessageFor(model => model.PagoUnidadesComerciales, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Sobretasa Bomberil -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.SobretasaBomberil, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.SobretasaBomberil,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.SobretasaBomberil) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.SobretasaBomberil" }
+                    } })
+                @Html.ValidationMessageFor(model => model.SobretasaBomberil, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Sobretasa Seguridad -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.SobretasaSeguridad, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.SobretasaSeguridad,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.SobretasaSeguridad) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.SobretasaSeguridad" }
+                    } })
+                @Html.ValidationMessageFor(model => model.SobretasaSeguridad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Total Impuesto Cargo -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TotalImpuestoCargo, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <h4>{{ TotalImpuestoCargo | formatPrecio }}</h4>
+            </div>
+        </div>
+    </div>
+</div>

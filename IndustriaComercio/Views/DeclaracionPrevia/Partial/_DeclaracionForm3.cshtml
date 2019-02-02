@@ -1,0 +1,61 @@
+﻿@using IndustriaComercio.Common.Helpers
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+
+<div class="card"
+     v-show="vista === 3">
+    <div class="card-header">
+        DATOS DEL CONTRIBUYENTE
+    </div>
+    <div class="card-body">
+        <!-- Ingresos en el país -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.IngresosEnElPais, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.IngresosEnElPais,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.IngresosEnElPais) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.IngresosEnElPais" }
+                    } })
+                @Html.ValidationMessageFor(model => model.IngresosEnElPais, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Ingresos fuera del municipio -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.IngresosFueraDelMunicipio, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.IngresosFueraDelMunicipio,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.IngresosFueraDelMunicipio) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.IngresosFueraDelMunicipio" }
+                    } })
+                @Html.ValidationMessageFor(model => model.IngresosFueraDelMunicipio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Total ingresos en el municipio -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TotalIngresosMunicipio, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <h4>{{ TotalIngresosMunicipio | formatPrecio }}</h4>
+            </div>
+        </div>
+    </div>
+</div>

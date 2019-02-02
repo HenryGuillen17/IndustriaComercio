@@ -1,0 +1,131 @@
+﻿@using IndustriaComercio.Common.Helpers
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+
+<div class="card"
+     v-show="vista === 5">
+    <div class="card-header">
+        DATOS DEL CONTRIBUYENTE
+    </div>
+    <div class="card-body">
+        <button type="button"
+                data-toggle="modal"
+                data-target="#modalActividad"
+                class="btn btn-outline-primary">
+            Añadir
+        </button>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="w-20">Actividad</th>
+                            <th class="w-20">Ingresos Gravados</th>
+                            <th class="w-10">Tarifa (Por Mil)</th>
+                            <th class="w-20">Impuesto Industria</th>
+                            <th class="w-10">(Acciones)</th>
+                        </tr>
+                    </thead>
+                    <tr v-for="(item, x) in actividades">
+                        <td>
+                            <h5>{{ item.Descripcion }}</h5>
+                            <input type="hidden"
+                                   v-model="item.ActividadId"
+                                   v-bind:name="calcularNameActividades(x, 'ActividadId')" />
+                        </td>
+                        <td>
+                            <input type="number"
+                                   class="form-control"
+                                   v-bind:name="calcularNameActividades(x, 'IngresosGravados')"
+                                   min="0"
+                                   max="2000000000"
+                                   v-model="actividades[x].IngresosGravados" />
+                        </td>
+                        <td>
+                            <input type="number"
+                                   class="form-control"
+                                   v-bind:name="calcularNameActividades(x, 'Tarifa')"
+                                   min="0"
+                                   max="2000000000"
+                                   v-model="actividades[x].Tarifa" />
+                        </td>
+                        <td>
+                            <input type="number"
+                                   class="form-control"
+                                   v-bind:name="calcularNameActividades(x, 'Impuesto')"
+                                   min="0"
+                                   max="2000000000"
+                                   v-model="actividades[x].Impuesto" />
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-danger"
+                                    type="button"
+                                    v-on:click="actividades.splice(x, 1)">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal para elegir Actividad -->
+<div class="modal fade" id="modalActividad" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">
+                    Actividades Gravadas
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="text-xs-center">Seleccione Actividad</h5>
+                        </div>
+                        <div class="col">
+                            <input type="text"
+                                   class="form-control"
+                                   v-model="searchActividad" />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <table class="table table-hover table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Actividad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in listaActividadesGravadas.filter(x => x.Value.toLowerCase().indexOf(searchActividad.toLowerCase()) > -1)">
+                                        <td>{{ item.Value }}</td>
+                                        <td>
+                                            <input type="radio" 
+                                                   name="radio-actividad"
+                                                   v-model="selectActividad"
+                                                   v-bind:value="item.Key"
+                                                   class="form-check" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" v-bind:disabled="selectActividad === 0" v-on:click="anadirActividades(selectActividad)">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

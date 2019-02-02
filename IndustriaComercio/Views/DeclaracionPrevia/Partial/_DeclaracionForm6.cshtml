@@ -1,0 +1,41 @@
+﻿@using IndustriaComercio.Common.Helpers
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+
+<div class="card"
+     v-show="vista === 6">
+    <div class="card-header">
+        GENERACIÓN CAPACIDAD INSTALADA
+    </div>
+    <div class="card-body">
+        <!-- Capacidad de Energía Instalada (En KiloVatios) -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.CapacidadInstalada, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.CapacidadInstalada,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.CapacidadInstalada) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.CapacidadInstalada"}
+                    } })
+                @Html.ValidationMessageFor(model => model.CapacidadInstalada, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Total Impuesto de Energía -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TotaImpuestoEnergiaElectrica, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <h4>{{ TotaImpuestoEnergiaElectrica | formatPrecio }}</h4>
+            </div>
+        </div>
+    </div>
+</div>

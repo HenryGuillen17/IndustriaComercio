@@ -1,0 +1,124 @@
+﻿@using IndustriaComercio.Common.Helpers
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+
+<div class="card"
+     v-show="vista === 4">
+    <div class="card-header">
+        DATOS DEL CONTRIBUYENTE
+    </div>
+    <div class="card-body">
+        <!-- Ingresos Por Devoluciones, Rebajas, Descuentos -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.IngresosDevoluciones, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.IngresosDevoluciones,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.IngresosDevoluciones) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.IngresosDevoluciones" }
+                    } })
+                @Html.ValidationMessageFor(model => model.IngresosDevoluciones, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Ingresos Por Exportaciones -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.IngresosExportaciones, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.IngresosExportaciones,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.IngresosExportaciones) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.IngresosExportaciones" }
+                    } })
+                @Html.ValidationMessageFor(model => model.IngresosExportaciones, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Ingresos Por Activos Fijos -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.IngresosActivosFijos, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.IngresosActivosFijos,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.IngresosActivosFijos) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.IngresosActivosFijos" }
+                    } })
+                @Html.ValidationMessageFor(model => model.IngresosActivosFijos, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Ingresos No Gravados -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.IngresosNoGravados, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.IngresosNoGravados,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.IngresosNoGravados) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.IngresosNoGravados" }
+                    } })
+                @Html.ValidationMessageFor(model => model.IngresosNoGravados, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Ingresos Actividades Exentas -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.IngresosActividadesExentas, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.IngresosActividadesExentas,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.IngresosActividadesExentas) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.IngresosActividadesExentas" }
+                    } })
+                @Html.ValidationMessageFor(model => model.IngresosActividadesExentas, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Total Ingresos Gravables -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TotalIngresosGravables, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <h4>
+                    {{ TotalIngresosGravables | formatPrecio }}
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,270 @@
+﻿@using Newtonsoft.Json;
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+<!DOCTYPE html>
+<html lang="es-co">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Declaracion</title>
+
+    <!-- Bootstrap core CSS-->
+    @Styles.Render("~/bundles/css")
+    @{
+        Layout = null;
+    }
+</head>
+
+<body id="page-top">
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col">
+
+                &nbsp;
+
+                <center>
+                    <img src="~/Content/Images/logo-alcaldia.png">
+                </center>
+
+                &nbsp;
+            </div>
+        </div>
+        @using (Html.BeginForm())
+        {
+            <div class="row " style="height:50vh;overflow:auto;">
+                @*<div class="col-md-1 d-none d-lg-block"></div>*@
+                <div class="col">
+
+
+                    @Html.Partial("Partial/_DeclaracionForm1")
+                    @Html.Partial("Partial/_DeclaracionForm2")
+                    @Html.Partial("Partial/_DeclaracionForm3")
+                    @Html.Partial("Partial/_DeclaracionForm4")
+                    @Html.Partial("Partial/_DeclaracionForm5")
+                    @Html.Partial("Partial/_DeclaracionForm6")
+                    @Html.Partial("Partial/_DeclaracionForm7")
+                    @Html.Partial("Partial/_DeclaracionForm8")
+                    @Html.Partial("Partial/_DeclaracionForm9")
+
+
+
+                </div>
+                @*<div class="col-md-1 d-none d-lg-block"></div>*@
+            </div>
+
+            <div class="form-group row mt-3">
+                @*<div class="col-md-1 d-none d-lg-block"></div>*@
+                <div class="col text-left">
+                    <button type="button"
+                            class="btn btn-outline-info"
+                            v-on:click="vistaAnterior"
+                            v-show="vista > limiteInferiorVista">
+                        Atrás
+                    </button>
+                </div>
+                <div class="col text-center">
+                    <button type="submit"
+                            class="btn btn-success"
+                            v-show="vista == limiteSuperiorVista">
+                        Guardar
+                    </button>
+                </div>
+                <div class="col text-right">
+                    <button type="button"
+                            class="btn btn-outline-primary"
+                            v-on:click="vistaSiguiente"
+                            v-show="vista < limiteSuperiorVista">
+                        Adelante
+                    </button>
+                </div>
+                @*<div class="col-md-1 d-none d-lg-block"></div>*@
+            </div>
+        }
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    @Scripts.Render("~/bundles/js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+
+
+    <script>
+        numeral.locale('es');
+
+        var formSerialize = '@Html.Raw(JsonConvert.SerializeObject(Model))';
+        var formDeseriali = JSON.parse(formSerialize);
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                vista: 1,
+                limiteInferiorVista: 1,
+                limiteSuperiorVista: 9,
+
+                actividades: JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ActividadesGravadas))'),
+                form: {
+                    AnticipoAnioAnterior: (@Model.AnticipoAnioAnterior),
+                    AnticipoAnioSiguiente: (@Model.AnticipoAnioSiguiente),
+                    AutoretencionesDelMunicipio: (@Model.AutoretencionesDelMunicipio),
+                    CapacidadInstalada: (@Model.CapacidadInstalada),
+                    ClasificacionContribuyenteId: @Model.ClasificacionContribuyenteId,
+                    Correo: '@Model.Correo',
+                    DepartamentoNotificacion: '@Model.DepartamentoNotificacion',
+                    DescuentoProntoPago: (@Model.DescuentoProntoPago),
+                    DigitoChequeo: '@Model.DigitoChequeo',
+                    Direccion: '@Model.Direccion',
+                    IngresosActividadesExentas: (@Model.IngresosActividadesExentas),
+                    IngresosActivosFijos: (@Model.IngresosActivosFijos),
+                    IngresosDevoluciones: (@Model.IngresosDevoluciones),
+                    IngresosEnElPais: (@Model.IngresosEnElPais),
+                    IngresosExportaciones: (@Model.IngresosExportaciones),
+                    IngresosFueraDelMunicipio: (@Model.IngresosFueraDelMunicipio),
+                    IngresosNoGravados: (@Model.IngresosNoGravados),
+                    InteresesDeMora: (@Model.InteresesDeMora),
+                    MunicipioNotificacion: '@Model.MunicipioNotificacion',
+                    NoIdentificacion: '@Model.NoIdentificacion',
+                    NombreCompleto: '@Model.NombreCompleto',
+                    NumeroEstablecimientos: (@Model.NumeroEstablecimientos),
+                    OtroTipoSancion: '@Model.OtroTipoSancion',
+                    PagoUnidadesComerciales: (@Model.PagoUnidadesComerciales),
+                    RetencionesDelMunicipio: (@Model.RetencionesDelMunicipio),
+                    SaldoFavorPeriodoAnterior: (@Model.SaldoFavorPeriodoAnterior),
+                    SobretasaBomberil: (@Model.SobretasaBomberil),
+                    SobretasaSeguridad: (@Model.SobretasaSeguridad),
+                    Telefono: ('@Model.Telefono'),
+                    TienePagoVoluntario: @Model.TienePagoVoluntario.ToString().ToLower(),
+                    TipoContribuyenteId: (@Model.TipoContribuyenteId),
+                    TipoDeclaracion: '@Model.TipoDeclaracion',
+                    TipoDocumentoId: (@Model.TipoDocumentoId),
+                    TipoSancion: '@Model.TipoSancion',
+                    ValorExoneracionImpuesto: (@Model.ValorExoneracionImpuesto),
+                    ValorPagar: (@Model.ValorPagar),
+                    ValorSancion: (@Model.ValorSancion),
+                },
+
+                // swap
+                selectActividad: 1,
+                searchActividad: ''
+            },
+            mounted() {
+                for (let i in this.actividades) {
+                    this.actividades[i].Descripcion = this.listaActividadesGravadas.find(x => x.Key === this.actividades[i].ActividadId).Value;
+                }
+            },
+            computed: {
+                listaActividadesGravadas() {
+                    return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ListaActividadesGravadas))');
+                },
+                listaClasificacionesContribuyentes() {
+                    return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ListaClasificacionesContribuyentes))');
+                },
+                TotalIngresosMunicipio() {
+                    return this.form.IngresosEnElPais - this.form.IngresosFueraDelMunicipio;
+                },
+                TotalIngresosGravables() {
+                    return (
+                        (((((this.TotalIngresosMunicipio
+                            - this.form.IngresosDevoluciones)
+                            - this.form.IngresosExportaciones)
+                            - this.form.IngresosActivosFijos)
+                            - this.form.IngresosNoGravados)
+                            - this.form.IngresosActividadesExentas)
+                    );
+                },
+                TotaImpuestoEnergiaElectrica() {
+                    return this.form.CapacidadInstalada * 5;
+                },
+                totalActividadesImpuesto() {
+                    var totalImpuesto = 0;
+                    for (var x in this.actividades) {
+                        totalImpuesto += parseInt(this.actividades[x].Impuesto);
+                    }
+                    return totalImpuesto;
+                },
+                TotalImpuestoIndustriaComercio() {
+                    return this.totalActividadesImpuesto + this.TotaImpuestoEnergiaElectrica;
+                },
+                ImpuestoAvisosTableros() {
+                    return Math.round(this.TotalImpuestoIndustriaComercio * 0.00015) * 1000;
+                },
+                TotalImpuestoCargo() {
+                    return (this.TotalImpuestoIndustriaComercio
+                        + this.ImpuestoAvisosTableros
+                        + parseInt(this.form.PagoUnidadesComerciales)
+                        + parseInt(this.form.SobretasaBomberil)
+                        + parseInt(this.form.SobretasaSeguridad));
+                },
+                TotalSaldoCargo() {
+                    return (((((((this.TotalImpuestoCargo
+                        - parseInt(this.form.ValorExoneracionImpuesto))
+                        - parseInt(this.form.RetencionesDelMunicipio))
+                        - parseInt(this.form.AutoretencionesDelMunicipio))
+                        - parseInt(this.form.AnticipoAnioAnterior))
+                        + parseInt(this.form.AnticipoAnioSiguiente))
+                        + parseInt(this.form.ValorSancion))
+                        - parseInt(this.form.SaldoFavorPeriodoAnterior));
+                },
+                TotalSaldoFavor() {
+                    return this.TotalSaldoCargo < 0 ? Math.abs(this.TotalSaldoFavor) : 0;
+                },
+                TotalPagar() {
+                    return ((parseInt(this.TotalSaldoCargo) + parseInt(this.form.InteresesDeMora))
+                        - parseInt(this.form.DescuentoProntoPago));
+                }
+            },
+            filters: {
+                formatPrecio(value) {
+
+                    var precio = numeral(value).format("$0,0");
+                    return precio;
+                }
+            },
+            methods: {
+                vistaAnterior() {
+                    if (this.vista > this.limiteInferiorVista)
+                        this.vista--;
+                },
+                vistaSiguiente() {
+                    if (this.vista < this.limiteSuperiorVista)
+                        this.vista++;
+                },
+                calcularNameActividades(x, campo) {
+                    return `ActividadesGravadas[${x}].${campo}`;
+                },
+                anadirActividades(id) {
+                    if (id === 0) {
+                        // debe seleccionar una actividad
+                        return;
+                    }
+                    this.actividades.push(
+                        {
+                            ActividadId: id,
+                            Descripcion: this.listaActividadesGravadas.find(x => x.Key === id).Value,
+                            IngresosGravados: 0,
+                            Tarifa: 0,
+                            Impuesto: 0
+                        }
+                    );
+                    $('#modalActividad').modal('hide');
+                }
+            }
+        });
+
+    </script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover({
+                trigger: 'focus'
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,270 @@
+﻿@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Declaracion</title>
+
+    <!-- Bootstrap core CSS-->
+    @Styles.Render("~/bundles/css")
+    @{
+        Layout = null;
+    }
+</head>
+
+<body id="page-top">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                &nbsp;
+
+                <center>
+                    <img src="~/Content/Images/logo-alcaldia.png">
+                </center>
+
+                &nbsp;
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-1 d-none d-lg-block"></div>
+            <div class="col auto align-self-center">
+
+                @using (Html.BeginForm())
+                {
+
+                    <div class="card">
+                        <div class="card-header">
+                            DATOS DEL CONTRIBUYENTE
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Municipio, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Municipio, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.Municipio, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Departamento, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Departamento, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.Departamento, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Año, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(Model => Model.Año, Model.Años, "Seleccionar", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Año, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.TipoDeclaracion, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(Model => Model.TipoDeclaracion, Model.TipDeclaraciones, "Seleccionar", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoDeclaracion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.TipoContribuyenteId, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(Model => Model.TipoContribuyenteId, Model.TipoContribuyentes, "Seleccionar", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoContribuyenteId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.MunicipioNotificacion, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MunicipioNotificacion, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.MunicipioNotificacion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.DepartamentoNotificacion, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.DepartamentoNotificacion, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.DepartamentoNotificacion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.TipoDocumentoId, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(Model => Model.TipoDocumentoId, Model.TipoDocumentos, "Seleccionar", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoDocumentoId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.NombreCompleto, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.NombreCompleto, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.DigitoChekeo, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.DigitoChekeo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.NumeroEstablecimientos, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.NumeroEstablecimientos, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.NumeroEstablecimientos, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.ClasificacionContribuyente, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.ClasificacionContribuyente, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.ClasificacionContribuyente, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>&nbsp;</div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            DATOS CONTADOR Y DECLARANTE
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.NombreDeclarante, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.NombreDeclarante, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.NombreDeclarante, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.TipoDocumentoDeclaranteId, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(Model => Model.TipoDocumentoDeclaranteId, Model.TipoDocumentos, "Seleccionar", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoDocumentoDeclaranteId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.NoIdentificacionDeclarante, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.NoIdentificacionDeclarante, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.NoIdentificacionDeclarante, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.NombreContador, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.NombreContador, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.NombreContador, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.TipoDocumentoContadorId, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(Model => Model.TipoDocumentoContadorId, Model.TipoDocumentos, "Seleccionar", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoDocumentoContadorId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.NoIdentificacionContador, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.NoIdentificacionContador, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.NoIdentificacionContador, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.TarjetaProfesional, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.TarjetaProfesional, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
+                                    @Html.ValidationMessageFor(model => model.TarjetaProfesional, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div>&nbsp;</div>
+
+                    <div class="form-group row text-center">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="col-md-1 d-none d-lg-block"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    @Scripts.Render("~/bundles/js")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+</body>
+
+</html>

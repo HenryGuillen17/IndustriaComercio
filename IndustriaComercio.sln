@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndustriaComercio", "IndustriaComercio\IndustriaComercio.csproj", "{38EF66D9-5458-4CB5-ADBD-237D64B72BA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{7034DAF4-518D-40B7-B965-0A2179210F57}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38EF66D9-5458-4CB5-ADBD-237D64B72BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38EF66D9-5458-4CB5-ADBD-237D64B72BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38EF66D9-5458-4CB5-ADBD-237D64B72BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38EF66D9-5458-4CB5-ADBD-237D64B72BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{38EF66D9-5458-4CB5-ADBD-237D64B72BA7} = {7034DAF4-518D-40B7-B965-0A2179210F57}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32FD9FEF-1CAD-4B24-9FA6-431673D5D04D}
+	EndGlobalSection
+EndGlobal

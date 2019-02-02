@@ -1,0 +1,62 @@
+﻿@using IndustriaComercio.Common.Helpers
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+
+<div class="card" 
+     v-show="vista === 1">
+    <div class="card-header">
+        DATOS DE LA DECLARACIÓN
+    </div>
+    <div class="card-body">
+        <!-- Año Gravable -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.Año, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-8">
+                @Html.DropDownListFor(Model => Model.Año, Model.Años, "Seleccionar", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Año, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Tipo De Declaración -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TipoDeclaracion, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-8">
+                @Html.EnumDropDownListFor(Model => Model.TipoDeclaracion, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoDeclaracion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Tipo Contribuyente -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TipoContribuyenteId, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-8">
+                @Html.DropDownListFor(Model => Model.TipoContribuyenteId, Model.TipoContribuyentes, "Seleccionar", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoContribuyenteId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- ¿Tiene Pago Voluntario? -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.TienePagoVoluntario, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.CheckBoxFor(model => model.TienePagoVoluntario,
+                new
+                {
+                    htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.TienePagoVoluntario) },
+                    { "data-placement", "top" } }
+                })
+            </div>
+        </div>
+    </div>
+</div>
