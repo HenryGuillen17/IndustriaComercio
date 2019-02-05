@@ -92,13 +92,14 @@
     @Scripts.Render("~/bundles/js")
     @Scripts.Render("~/bundles/jqueryval")
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+    @*<script src="~/Content/vendor/vue/vue-mask/vue-the-mask.js"></script>*@
+    @*<script src="~/Content/vendor/vue/vue-mask/di-vue-mask.js"></script>*@
 
 
     <script>
+        //Vue.use(VueMask);
         numeral.locale('es');
 
-        var formSerialize = '@Html.Raw(JsonConvert.SerializeObject(Model))';
-        var formDeseriali = JSON.parse(formSerialize);
 
         var vm = new Vue({
             el: '#app',
@@ -110,12 +111,12 @@
                 actividades: JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ActividadesGravadas))'),
                 form: {
                     AnticipoAnioAnterior: (@Model.AnticipoAnioAnterior),
-                    AnticipoAnioSiguiente: (@Model.AnticipoAnioSiguiente),
+                    @*AnticipoAnioSiguiente: (@Model.AnticipoAnioSiguiente),
                     AutoretencionesDelMunicipio: (@Model.AutoretencionesDelMunicipio),
                     CapacidadInstalada: (@Model.CapacidadInstalada),
                     ClasificacionContribuyenteId: @Model.ClasificacionContribuyenteId,
                     Correo: '@Model.Correo',
-                    DepartamentoNotificacion: '@Model.DepartamentoNotificacion',
+                    DepartamentoNotificacion: '@Model.Departamento',
                     DescuentoProntoPago: (@Model.DescuentoProntoPago),
                     DigitoChequeo: '@Model.DigitoChequeo',
                     Direccion: '@Model.Direccion',
@@ -127,7 +128,7 @@
                     IngresosFueraDelMunicipio: (@Model.IngresosFueraDelMunicipio),
                     IngresosNoGravados: (@Model.IngresosNoGravados),
                     InteresesDeMora: (@Model.InteresesDeMora),
-                    MunicipioNotificacion: '@Model.MunicipioNotificacion',
+                    MunicipioNotificacion: '@Model.Municipio',
                     NoIdentificacion: '@Model.NoIdentificacion',
                     NombreCompleto: '@Model.NombreCompleto',
                     NumeroEstablecimientos: (@Model.NumeroEstablecimientos),
@@ -137,7 +138,7 @@
                     SaldoFavorPeriodoAnterior: (@Model.SaldoFavorPeriodoAnterior),
                     SobretasaBomberil: (@Model.SobretasaBomberil),
                     SobretasaSeguridad: (@Model.SobretasaSeguridad),
-                    Telefono: ('@Model.Telefono'),
+                    Telefono: ('@Model.Telefono'),*@
                     TienePagoVoluntario: @Model.TienePagoVoluntario.ToString().ToLower(),
                     TipoContribuyenteId: (@Model.TipoContribuyenteId),
                     TipoDeclaracion: '@Model.TipoDeclaracion',
@@ -150,7 +151,9 @@
 
                 // swap
                 selectActividad: 1,
-                searchActividad: ''
+                searchActividad: '',
+
+                maskNumber: 0
             },
             mounted() {
                 for (let i in this.actividades) {

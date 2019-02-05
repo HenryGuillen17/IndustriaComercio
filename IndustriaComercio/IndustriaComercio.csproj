@@ -171,13 +171,20 @@
     <Compile Include="Migrations\201902010330391_Add-ClasificacionContribuyente.Designer.cs">
       <DependentUpon>201902010330391_Add-ClasificacionContribuyente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902050339566_AddModifyPagosDeclaracion.cs" />
+    <Compile Include="Migrations\201902050339566_AddModifyPagosDeclaracion.Designer.cs">
+      <DependentUpon>201902050339566_AddModifyPagosDeclaracion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoContribuyenteMapping.cs" />
-    <Compile Include="Models\Context\Mapping\Basicos\TipoDocumentoMapping - Copia.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\TipoSancionMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\TipoDocumentoMapping.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\ClasificacionContribuyenteMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\ActividadGravadaMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\ActividadGravablePorDeclaracionMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\DeclaracionPreviaMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\Descuento.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\InteresMapping.cs" />
     <Compile Include="Models\Context\Mapping\Persona\ClienteMapping.cs" />
     <Compile Include="Models\Context\Mapping\Persona\PersonaMapping.cs" />
     <Compile Include="Models\Context\Mapping\UsuarioPermiso\OpcionesMenuMapping.cs" />
@@ -197,11 +204,12 @@
     <Compile Include="Models\Entidades\Basicos\ClasificacionContribuyente.cs" />
     <Compile Include="Models\Entidades\Basicos\DeclaracionPrevia.cs" />
     <Compile Include="Models\Entidades\Basicos\TipoContribuyente.cs" />
+    <Compile Include="Models\Entidades\Basicos\TipoSancion.cs" />
     <Compile Include="Models\Entidades\Basicos\TipoDocumento.cs" />
+    <Compile Include="Models\Entidades\Declaracion\Deuda.cs" />
     <Compile Include="Models\Entidades\Declaracion\ParametroVencimiento.cs" />
     <Compile Include="Models\Entidades\Declaracion\Parametro.cs" />
     <Compile Include="Models\Entidades\Declaracion\Interes.cs" />
-    <Compile Include="Models\Entidades\Declaracion\Deuda.cs" />
     <Compile Include="Models\Entidades\Declaracion\DeclaracionDetalle.cs" />
     <Compile Include="Models\Entidades\Declaracion\Declaracion.cs" />
     <Compile Include="Models\Entidades\Declaracion\Descuento.cs" />
@@ -224,8 +232,9 @@
     <Compile Include="Models\Entidades\UsuarioPermisos\UsuarioSubMenu.cs" />
     <Compile Include="Models\Enum\TipoDeclaracion.cs" />
     <Compile Include="Models\Enum\Estado.cs" />
-    <Compile Include="Models\Enum\TipoSancion.cs" />
+    <Compile Include="Models\Model\ClienteModel.cs" />
     <Compile Include="Models\Model\DeclaracionPreviaModel.cs" />
+    <Compile Include="Models\Model\PersonaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1686,6 +1695,8 @@
     <Content Include="Content\vendor\Numeral\locales\uk-ua.min.js" />
     <Content Include="Content\vendor\Numeral\locales\vi.min.js" />
     <Content Include="Content\vendor\Numeral\numeral.min.js" />
+    <Content Include="Content\vendor\vue\vue-mask\di-vue-mask.js" />
+    <Content Include="Content\vendor\vue\vue-mask\vue-the-mask.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1823,6 +1834,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902010330391_Add-ClasificacionContribuyente.resx">
       <DependentUpon>201902010330391_Add-ClasificacionContribuyente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902050339566_AddModifyPagosDeclaracion.resx">
+      <DependentUpon>201902050339566_AddModifyPagosDeclaracion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

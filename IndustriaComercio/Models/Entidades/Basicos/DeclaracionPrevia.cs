@@ -1,4 +1,6 @@
-﻿using IndustriaComercio.Models.Enum;
+﻿using IndustriaComercio.Entidades.Basicos;
+using IndustriaComercio.Entidades.Persona;
+using IndustriaComercio.Models.Enum;
 using System.Collections.Generic;
 
 namespace IndustriaComercio.Models.Entidades.Basicos
@@ -24,6 +26,8 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         public bool TienePagoVoluntario { get; set; }
 
+        public bool PagaAvisoTablero { get; set; }
+
 
         #endregion
 
@@ -31,27 +35,8 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Datos Personales Sección "A" #2
 
-        public string NombreCompleto { get; set; }
 
-        public int TipoDocumentoId { get; set; }
-
-        public string NoIdentificacion { get; set; }
-
-        public string DigitoChequeo { get; set; }
-
-        public string Direccion { get; set; }
-
-        public string MunicipioNotificacion { get; set; }
-
-        public string DepartamentoNotificacion { get; set; }
-
-        public string Telefono { get; set; }
-
-        public string Correo { get; set; }
-
-        public int NumeroEstablecimientos { get; set; }
-
-        public int ClasificacionContribuyenteId { get; set; }
+        public int PersonaId { get; set; }
 
 
         #endregion
@@ -143,21 +128,20 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Liquidación Privada Total Sección "D" #8
 
+
         public int ValorExoneracionImpuesto { get; set; }
 
         public int RetencionesDelMunicipio { get; set; }
 
         public int AutoretencionesDelMunicipio { get; set; }
 
+        public string DocumentoRetencion { get; set; }
+
         public int AnticipoAnioAnterior { get; set; }
 
         public int AnticipoAnioSiguiente { get; set; }
 
-        public TipoSancion TipoSancion { get; set; }
-
-        public string OtroTipoSancion { get; set; }
-
-        public int ValorSancion { get; set; }
+        public int TipoSancionId { get; set; }
 
         public int SaldoFavorPeriodoAnterior { get; set; }
 
@@ -172,11 +156,16 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista De Pago Sección "E" #9
 
+
         public int ValorPagar { get; set; }
 
-        public int DescuentoProntoPago { get; set; }
+        public double PorcentajeDescuento { get; set; }
 
-        public int InteresesDeMora { get; set; }
+        public double Descuento => ValorPagar - (ValorPagar * (PorcentajeDescuento * 0.01));
+
+        public double PorcentajeIntereses { get; set; }
+
+        public double Interes => ValorPagar + (ValorPagar * (PorcentajeIntereses * 0.01));
 
         public int TotalPagar { get; set; }
 
@@ -188,6 +177,8 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         public virtual ICollection<ActividadGravablePorDeclaracion> ActividadesGravadas { get; set; }
         public virtual ClasificacionContribuyente ClasificacionContribuyente { get; set; }
+        public virtual Cliente Cliente { get; set; }
+        public TipoSancion TipoSancion { get; set; }
     }
 
 

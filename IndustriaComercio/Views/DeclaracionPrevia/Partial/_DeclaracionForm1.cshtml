@@ -8,6 +8,9 @@
         DATOS DE LA DECLARACIÓN
     </div>
     <div class="card-body">
+        @*<div class="row">
+            <input type="text" name="number" v-model="maskNumber" v-mask-number>
+        </div>*@
         <!-- Año Gravable -->
         <div class="form-group row">
             <div class="col-md-4">
@@ -19,7 +22,7 @@
             </div>
         </div>
         <!-- Tipo De Declaración -->
-        <div class="form-group row">
+        @*<div class="form-group row">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.TipoDeclaracion, htmlAttributes: new { @class = "control-label" })
             </div>
@@ -27,7 +30,7 @@
                 @Html.EnumDropDownListFor(Model => Model.TipoDeclaracion, null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TipoDeclaracion, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
         <!-- Tipo Contribuyente -->
         <div class="form-group row">
             <div class="col-md-4">

@@ -25,6 +25,7 @@ namespace IndustriaComercio.Models.Context
         public DbSet<ActividadGravablePorDeclaracion> ActividadGravablePorDeclaracion { get; set; }
         public DbSet<ActividadGravada> ActividadGravada { get; set; }
         public DbSet<ClasificacionContribuyente> ClasificacionContribuyente { get; set; }
+        public DbSet<TipoSancion> TipoSancion { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -47,11 +48,15 @@ namespace IndustriaComercio.Models.Context
             modelBuilder.Configurations.Add(new ClienteMapping());
             modelBuilder.Configurations.Add(new TipoDocumentoMapping());
             modelBuilder.Configurations.Add(new TipoContribuyenteMapping());
+            modelBuilder.Configurations.Add(new TipoSancionMapping());
 
             modelBuilder.Configurations.Add(new DeclaracionPreviaMapping());
             modelBuilder.Configurations.Add(new ActividadGravablePorDeclaracionMapping());
             modelBuilder.Configurations.Add(new ActividadGravadaMapping());
             modelBuilder.Configurations.Add(new ClasificacionContribuyenteMapping());
+
+            modelBuilder.Configurations.Add(new DescuentoMapping());
+            modelBuilder.Configurations.Add(new InteresMapping());
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);

@@ -11,7 +11,7 @@ namespace IndustriaComercio.Models.Context.mapping.Persona
             HasKey(t => t.PersonaId);
 
             // Tabla y esquema de la base de datos.
-            ToTable("Persona", "dbo");
+            ToTable("Personas", "dbo");
 
             Property(a => a.PersonaId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None); // No autoIncremental 
 

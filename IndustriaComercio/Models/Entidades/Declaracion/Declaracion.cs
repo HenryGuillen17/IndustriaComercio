@@ -20,6 +20,6 @@ namespace IndustriaComercio.Entidades.Basicos
         public virtual Establecimiento Establecimiento { get; set; }
         //public virtual Cliente Cliente { get; set; }
         public virtual ICollection<DeclaracionDetalle> DeclaracionDetalles { get; set; }
-        public virtual ICollection<Deuda> Deudas { get; set; }
+        //public virtual ICollection<Deuda> Deudas { get; set; }
     }
 }

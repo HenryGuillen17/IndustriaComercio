@@ -29,15 +29,15 @@ namespace IndustriaComercio.Models.Model
         #region Vista Encabezado #1
 
 
-        [Required(ErrorMessage = "Año Gravableo es Requerido")]
+        [Required(ErrorMessage = "Año Gravable es Requerido")]
         [Display(Name = "Año Gravable", Description = "Lorem ipsum")]
         public int Año { get; set; }
 
 
         [Required(ErrorMessage = "Clase de declaración es requerido")]
         [Display(Name = "Elija la clase de declaración", Description = "Lorem ipsum")]
-        public TipoDeclaracion TipoDeclaracion { get; set; }
-
+        public TipoDeclaracion TipoDeclaracion { get; set; } = TipoDeclaracion.DeclaracionInicial;
+        
 
         [Required(ErrorMessage = "Tipo de Documento es Requerido")]
         [Display(Name = "Tipo de Contribuyente", Description = "Lorem ipsum")]
@@ -48,6 +48,10 @@ namespace IndustriaComercio.Models.Model
         public bool TienePagoVoluntario { get; set; }
 
 
+        [Display(Name = "¿Paga Avisos y Tableros?", Description = "Lorem ipsum")]
+        public bool PagaAvisoTablero { get; set; }
+
+
         #endregion
 
         // --------------------------------------------------------------------
@@ -55,94 +59,22 @@ namespace IndustriaComercio.Models.Model
         #region Vista Datos Personales Sección "A" #2
 
 
-        [Required(ErrorMessage = "Nombre es Requerido")]
-        [Display(
-            Name = "Nombres y Apellidos o Razon social",
-            Description = "Lorem ipsum"
-        )]
-        public string NombreCompleto { get; set; }
-
-
-        [Required(ErrorMessage = "Tipo de Documento es Requerido")]
-        [Display(
-            Name = "Tipo de Documento",
-            Description = "Lorem ipsum"
-        )]
+        [Required]
         public int TipoDocumentoId { get; set; }
 
 
-        [Required(ErrorMessage = "Identificacion es Requerido")]
-        [Display(
-            Name = "Identificacion",
-            Description = "Lorem ipsum"
-        )]
+        [Required]
+        [Display(Name = "Numero Identificacion *")]
         public string NoIdentificacion { get; set; }
 
 
-        [Required(ErrorMessage = "DigitoChequeo es Requerido")]
-        [Display(
-            Name = "DigitoChequeo",
-            Description = "Lorem ipsum"
-        )]
-        public string DigitoChequeo { get; set; }
+        [Required]
+        public int ClienteId { get; set; }
 
 
-        [Required(ErrorMessage = "Direccion es Requerido")]
-        [Display(
-            Name = "Direccion",
-            Description = "Lorem ipsum"
-        )]
-        public string Direccion { get; set; }
+        [NotMapped]
+        public ClienteModel Cliente { get; set; }
 
-
-        [Required(ErrorMessage = "Municipio de notificacion es Requerido")]
-        [Display(
-            Name = "Municipio Notificacion",
-            Description = "Lorem ipsum"
-        )]
-        public string MunicipioNotificacion { get; set; }
-
-
-        [Required(ErrorMessage = "Departamento de notificacion es Requerido")]
-        [Display(
-            Name = "Departamento Notificacion",
-            Description = "Lorem ipsum"
-        )]
-        public string DepartamentoNotificacion { get; set; }
-
-
-        [Required(ErrorMessage = "Teléfono es Requerido")]
-        [Display(
-            Name = "Telefono",
-            Description = "Este es un teléfono casero"
-        )]
-        public string Telefono { get; set; }
-
-
-        [Required(ErrorMessage = "Correo es Requerido")]
-        [Display(
-            Name = "Correo",
-            Description = "Lorem ipsum"
-        )]
-        public string Correo { get; set; }
-
-
-        [Required(ErrorMessage = "Numero Establecimientos es Requerido")]
-        [Display(
-            Name = "Numero Establecimientos",
-            Description = "Lorem ipsum"
-        )]
-        [Range(1, 999)]
-        public int NumeroEstablecimientos { get; set; }
-
-
-        [Required(ErrorMessage = "Clasificacion Contribuyente es Requerido")]
-        [Display(
-            Name = "Clasificacion Contribuyente",
-            Description = "Lorem ipsum"
-        )]
-        [Range(1, 999, ErrorMessage = "Debe elegir Tipo Clasificación")]
-        public int? ClasificacionContribuyenteId { get; set; } = 0;
 
 
         #endregion
@@ -424,14 +356,6 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         public TipoSancion TipoSancion { get; set; }
-
-
-        [NotMapped]
-        [Display(
-            Name = "Otro Tipo de Sanción",
-            Description = "Lorem ipsum"
-        )]
-        public string OtroTipoSancion { get; set; }
 
 
         [Display(

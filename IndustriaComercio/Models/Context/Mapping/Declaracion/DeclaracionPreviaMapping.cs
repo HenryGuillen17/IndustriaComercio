@@ -16,6 +16,26 @@ namespace IndustriaComercio.Models.Context.Mapping.Declaracion
 
             // Tabla y esquema de la base de datos.
             ToTable("DeclaracionesPrevias", "dbo");
+
+            Property(a => a.PersonaId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None); // No autoIncremental 
+
+            Property(a => a.TipoSancionId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+
+            // Cliente
+            HasRequired(p => p.Cliente)
+                .WithMany(p => p.DeclaracionesPrevias)
+                .HasForeignKey(p => p.PersonaId)
+                .WillCascadeOnDelete(false);
+
+            // Tipo Sanción
+            HasRequired(p => p.TipoSancion)
+                .WithMany(p => p.DeclaracionesPrevias)
+                .HasForeignKey(p => p.TipoSancionId)
+                .WillCascadeOnDelete(false);
+
         }
     }
 }
