@@ -163,8 +163,8 @@
                     return this.vista > this.limiteInferiorVista;
                 },
                 verBotonAdelante() {
-                    if (this.vista === 2 && !this.tieneNoDocumento)
-                        return false;
+                    //if (this.vista === 2 && !this.tieneNoDocumento)
+                    //    return false;
                     return this.vista < this.limiteSuperiorVista;
                 },
                 verBotonGuardar() {
@@ -227,6 +227,14 @@
                         + parseInt(this.form.SobretasaBomberil)
                         + parseInt(this.form.SobretasaSeguridad));
                 },
+                totalValorSancion() {
+                    var key = this.form.TipoSancionId;
+                    var valor = this.listaTipoSanciones.find(x => x.Key == key);
+                    if (valor == null) {
+                        return 0
+                    }
+                    return this.TotalImpuestoCargo * (valor.PorcentajeSancion * 0.01)
+                },
                 TotalSaldoCargo() {
                     return (((((((this.TotalImpuestoCargo
                         - parseInt(this.form.ValorExoneracionImpuesto))
@@ -234,7 +242,7 @@
                         - parseInt(this.form.AutoretencionesDelMunicipio))
                         - parseInt(this.form.AnticipoAnioAnterior))
                         + parseInt(this.form.AnticipoAnioSiguiente))
-                        + parseInt(this.form.ValorSancion))
+                        + parseInt(this.totalValorSancion))
                         - parseInt(this.form.SaldoFavorPeriodoAnterior));
                 },
                 TotalSaldoFavor() {
@@ -255,8 +263,8 @@
                         .filter(
                         x =>
                             this.actividades
-                                .filter(y => y.ActividadId == x.ActividadId) == null
-                            && x.Descripcion.toLowerCase().indexOf(searchActividad.toLowerCase()) > -1
+                                .filter(y => y.ActividadId == x.ActividadId).length === 0
+                            && x.Descripcion.toLowerCase().indexOf(this.searchActividad.toLowerCase()) > -1
                         );
                 }
             },
@@ -301,10 +309,10 @@
                         // Mostrar Alerta
                         return;
                     }
-                    $.getJSON(
-                        `Cliente/GetClienteByNoDocumento/${tipoDocumento}/${noDocumento}`)
-                        .then((x) => {
-                            if (x.data === null) {
+                
+                    $.get(`Cliente/GetClienteByNoDocumento/${tipoDocumento}/${noDocumento}`)
+                        .done(function(x) {
+                            if (x === null) {
                                 // Mostrar Alerta
                                 Swal.fire(
                                     'Advertencia',
@@ -313,7 +321,7 @@
                                 );
                                 return;
                             }
-                            let cliente = x.data;
+                            let cliente = x;
                             // Llenar TODOS los datos de Cliente
                             this.form.PersonaId == cliente.PersonaId
                             this.cliente = {
@@ -327,7 +335,7 @@
                                 Telefono: cliente.Telefono
                             }
                         }
-                    ).catch(x => {
+                    ).fail(function (x) {
                         Swal.fire(
                             'Error',
                             "Error Irrecuperable en el sistema",

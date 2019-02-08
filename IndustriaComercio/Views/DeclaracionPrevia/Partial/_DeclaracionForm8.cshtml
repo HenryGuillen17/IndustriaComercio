@@ -134,18 +134,7 @@
                 @Html.LabelFor(model => model.ValorSancion, htmlAttributes: new { @class = "control-label " })
             </div>
             <div class="col-md-8">
-                @Html.EditorFor(model => model.ValorSancion,
-                new { htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.ValorSancion) },
-                    { "data-placement", "top" },
-                    { "v-model", "form.ValorSancion" }
-                    } })
-                @Html.ValidationMessageFor(model => model.ValorSancion, "", new { @class = "text-danger" })
+                <h4>{{ totalValorSancion }}</h4>
             </div>
         </div>
         <!-- Saldo a favor Período Anterior -->
