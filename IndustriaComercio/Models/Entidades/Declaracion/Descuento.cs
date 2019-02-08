@@ -10,7 +10,5 @@ namespace IndustriaComercio.Entidades.Basicos
         public byte Mes { get; set; }
         public double Porcentaje { get; set; }
         public int ConceptoId { get; set; }
-
-        //public virtual Concepto Concepto { get; set; }
     }
 }

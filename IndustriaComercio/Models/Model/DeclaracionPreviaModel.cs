@@ -60,16 +60,17 @@ namespace IndustriaComercio.Models.Model
 
 
         [Required]
+        [Display(Name = "Tipo Identificacion")]
         public int TipoDocumentoId { get; set; }
 
 
         [Required]
-        [Display(Name = "Numero Identificacion *")]
+        [Display(Name = "Numero Identificacion")]
         public string NoIdentificacion { get; set; }
 
 
         [Required]
-        public int ClienteId { get; set; }
+        public int PersonaId { get; set; }
 
 
         [NotMapped]
@@ -90,7 +91,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int IngresosEnElPais { get; set; }
+        public double IngresosEnElPais { get; set; }
 
 
         [Required]
@@ -99,7 +100,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int IngresosFueraDelMunicipio { get; set; }
+        public double IngresosFueraDelMunicipio { get; set; }
 
 
         [NotMapped]
@@ -108,7 +109,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int TotalIngresosMunicipio => IngresosEnElPais - IngresosFueraDelMunicipio;
+        public double TotalIngresosMunicipio => IngresosEnElPais - IngresosFueraDelMunicipio;
 
 
         #endregion
@@ -124,7 +125,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int IngresosDevoluciones { get; set; }
+        public double IngresosDevoluciones { get; set; }
 
 
         [Required]
@@ -133,7 +134,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int IngresosExportaciones { get; set; }
+        public double IngresosExportaciones { get; set; }
 
 
         [Required]
@@ -142,7 +143,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int IngresosActivosFijos { get; set; }
+        public double IngresosActivosFijos { get; set; }
 
 
         [Required]
@@ -151,7 +152,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int IngresosNoGravados { get; set; }
+        public double IngresosNoGravados { get; set; }
 
 
         [Required]
@@ -160,7 +161,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int IngresosActividadesExentas { get; set; }
+        public double IngresosActividadesExentas { get; set; }
 
 
         [NotMapped]
@@ -168,7 +169,7 @@ namespace IndustriaComercio.Models.Model
             Name = "Total Ingresos Gravables",
             Description = "Lorem ipsum"
         )]
-        public int TotalIngresosGravables => (
+        public double TotalIngresosGravables => (
             TotalIngresosMunicipio
             - IngresosDevoluciones
             - IngresosExportaciones
@@ -198,7 +199,7 @@ namespace IndustriaComercio.Models.Model
         /// Se obtiene de la sumatoria de tarifas de Actividades Gravadas
         /// </summary>
         [NotMapped]
-        public int TotalTarifa => ActividadesGravadas?.Sum(x => x.Impuesto) ?? 0;
+        public double TotalTarifa => ActividadesGravadas?.Sum(x => x.Impuesto) ?? 0;
 
 
         #endregion
@@ -214,7 +215,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int CapacidadInstalada { get; set; }
+        public double CapacidadInstalada { get; set; }
 
 
         /// <summary>
@@ -226,7 +227,7 @@ namespace IndustriaComercio.Models.Model
             Name = "Total Impuesto de Energía",
             Description = "Lorem ipsum"
         )]
-        public int TotaImpuestoEnergiaElectrica => CapacidadInstalada * 5; // No es 5$, hay que preguntar eso
+        public double TotaImpuestoEnergiaElectrica => CapacidadInstalada * 5; // No es 5$, hay que preguntar eso
 
 
         #endregion
@@ -242,7 +243,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int TotalImpuestoIndustriaComercio => TotalTarifa + TotaImpuestoEnergiaElectrica;
+        public double TotalImpuestoIndustriaComercio => TotalTarifa + TotaImpuestoEnergiaElectrica;
 
 
         /// <summary>
@@ -254,7 +255,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int ImpuestoAvisosTableros => (int)(Math.Round(TotalImpuestoIndustriaComercio * 0.00015) * 1000);
+        public double ImpuestoAvisosTableros => (int)(Math.Round(TotalImpuestoIndustriaComercio * 0.00015) * 1000);
 
 
         [Required]
@@ -263,7 +264,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int PagoUnidadesComerciales { get; set; }
+        public double PagoUnidadesComerciales { get; set; }
 
 
         [Required]
@@ -272,7 +273,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int SobretasaBomberil { get; set; }
+        public double SobretasaBomberil { get; set; }
 
 
         [Required]
@@ -281,7 +282,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int SobretasaSeguridad { get; set; }
+        public double SobretasaSeguridad { get; set; }
 
 
         [NotMapped]
@@ -289,7 +290,7 @@ namespace IndustriaComercio.Models.Model
             Name = "Total Impuesto Cargo",
             Description = "Lorem ipsum"
         )]
-        public int TotalImpuestoCargo => (
+        public double TotalImpuestoCargo => (
             TotalImpuestoIndustriaComercio
             + ImpuestoAvisosTableros
             + PagoUnidadesComerciales
@@ -311,7 +312,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int ValorExoneracionImpuesto { get; set; }
+        public double ValorExoneracionImpuesto { get; set; }
 
 
         [Required]
@@ -320,7 +321,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int RetencionesDelMunicipio { get; set; }
+        public double RetencionesDelMunicipio { get; set; }
 
 
         [Required]
@@ -329,7 +330,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int AutoretencionesDelMunicipio { get; set; }
+        public double AutoretencionesDelMunicipio { get; set; }
 
 
         [Required]
@@ -338,7 +339,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int AnticipoAnioAnterior { get; set; }
+        public double AnticipoAnioAnterior { get; set; }
 
 
         [Required]
@@ -347,7 +348,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int AnticipoAnioSiguiente { get; set; }
+        public double AnticipoAnioSiguiente { get; set; }
 
 
         [Required]
@@ -363,7 +364,7 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int ValorSancion { get; set; }
+        public double ValorSancion { get; set; }
 
 
         [Display(
@@ -371,14 +372,14 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int SaldoFavorPeriodoAnterior { get; set; }
+        public double SaldoFavorPeriodoAnterior { get; set; }
 
 
         [Display(
             Name = "Total Saldo a Cargo",
             Description = "Lorem ipsum"
         )]
-        public int TotalSaldoCargo => (
+        public double TotalSaldoCargo => (
             TotalImpuestoCargo
             - ValorExoneracionImpuesto
             - RetencionesDelMunicipio
@@ -394,7 +395,7 @@ namespace IndustriaComercio.Models.Model
             Name = "Total Saldo a Favor",
             Description = "Lorem ipsum"
         )]
-        public int TotalSaldoFavor => TotalSaldoCargo < 0 ? Math.Abs(TotalSaldoFavor) : 0;
+        public double TotalSaldoFavor => TotalSaldoCargo < 0 ? Math.Abs(TotalSaldoFavor) : 0;
 
 
         #endregion
@@ -410,7 +411,10 @@ namespace IndustriaComercio.Models.Model
             Description = "Lorem ipsum"
         )]
         [Range(0, int.MaxValue)]
-        public int ValorPagar => TotalSaldoCargo;
+        public double ValorPagar => TotalSaldoCargo;
+
+
+        public double PorcentajeDescuento { get; set; }
 
 
         [Required]
@@ -418,17 +422,17 @@ namespace IndustriaComercio.Models.Model
             Name = "Descuento Por Pronto Pago",
             Description = "Lorem ipsum"
         )]
-        [Range(0, int.MaxValue)]
-        public int DescuentoProntoPago { get; set; }
+        public double Descuento => ValorPagar - (ValorPagar * (PorcentajeDescuento * 0.01));
 
 
+        public double PorcentajeInteres { get; set; }
         [Required]
         [Display(
             Name = "Intereses de Mora",
             Description = "Lorem ipsum"
         )]
-        [Range(0, int.MaxValue)]
-        public int InteresesDeMora { get; set; }
+        public double Interes => ValorPagar + (ValorPagar * (PorcentajeInteres * 0.01));
+
 
 
         [NotMapped]
@@ -436,7 +440,7 @@ namespace IndustriaComercio.Models.Model
             Name = "Total a Pagar",
             Description = "Lorem ipsum"
         )]
-        public int TotalPagar => (ValorPagar + InteresesDeMora - DescuentoProntoPago);
+        public double TotalPagar => (ValorPagar + Interes - Descuento);
 
 
         #endregion
@@ -444,7 +448,7 @@ namespace IndustriaComercio.Models.Model
         // --------------------------------------------------------------------
 
 
-        public List<SelectListItem> TipoDocumentos { get; set; }
+        public ICollection<ComboBox> TipoDocumentos { get; set; }
         public List<SelectListItem> TipoContribuyentes { get; set; }
         public List<SelectListItem> Años
         {
@@ -463,8 +467,9 @@ namespace IndustriaComercio.Models.Model
                 return años;
             }
         }
-        public ICollection<ComboBox> ListaActividadesGravadas { get; set; }
+        public ICollection<ActividadGravadaModel> ListaActividadesGravadas { get; set; }
         public ICollection<ComboBox> ListaClasificacionesContribuyentes { get; set; }
+        public ICollection<TipoSancionModel> ListaTipoSanciones { get; internal set; }
 
 
         #endregion
@@ -473,37 +478,32 @@ namespace IndustriaComercio.Models.Model
 
     public class ActividadGravadaModel
     {
-        private int tarifa;
 
         public int ActividadId { get; set; }
 
         [NotMapped]
         public string Descripcion { get; set; }
 
-        [Required]
+
         [Display(
             Name = "Ingresos Gravados",
             Description = "Lorem ipsum"
         )]
-        public int IngresosGravados { get; set; }
+        public double IngresosGravados { get; set; }
 
-        [Required]
+
         [Display(
             Name = "Ingresos Gravados",
             Description = "Lorem ipsum"
         )]
-        public int Tarifa
-        {
-            get { return (int)(Math.Round(tarifa * 0.001) * 1000); }
-            set { tarifa = value; }
-        }
+        public double Tarifa { get; set; }
 
-        [Required]
+
         [Display(
             Name = "Impuestos Industria Comercio",
             Description = "Lorem ipsum"
         )]
-        public int Impuesto { get; set; }
+        public double Impuesto => (IngresosGravados * Tarifa) / 1000;
 
 
     }

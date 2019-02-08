@@ -12,7 +12,8 @@ namespace IndustriaComercio.Models.Context.Mapping.Declaracion
             // llave primaria.
             HasKey(t => t.DeclaracionPreviaId);
 
-            Property(a => a.DeclaracionPreviaId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None); // No autoIncremental 
+            Property(a => a.DeclaracionPreviaId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None); // No autoIncremental 
 
             // Tabla y esquema de la base de datos.
             ToTable("DeclaracionesPrevias", "dbo");

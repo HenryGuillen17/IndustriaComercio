@@ -3,6 +3,7 @@ using IndustriaComercio.Common.Extensions;
 using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Entidades.Basicos;
 using IndustriaComercio.Models.Model;
+using IndustriaComercio.Models.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,16 @@ namespace IndustriaComercio.Controllers
 {
     public class DeclaracionPreviaController : Controller
     {
+        private readonly ClienteService _clienteService;
+
+
+        public DeclaracionPreviaController()
+        {
+            var db = new ModelServidor();
+            _clienteService = new ClienteService(db);
+        }
+
+
         // GET: DeclaracionPrevia
         public ActionResult Index()
         {
@@ -47,107 +58,56 @@ namespace IndustriaComercio.Controllers
             return View();
         }
 
-        // GET: DeclaracionPrevia/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: DeclaracionPrevia/Create
-        public ActionResult Create(DeclaracionPreviaModel declaracion)
-        {
-            return View();
-        }
-
-        // POST: DeclaracionPrevia/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: DeclaracionPrevia/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: DeclaracionPrevia/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: DeclaracionPrevia/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: DeclaracionPrevia/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
         private void CalcularListasDropDown(
             ref DeclaracionPreviaModel model
             )
         {
             var db = new ModelServidor();
-            var tiposDeDocumentos = db.TipoDocumento.ToList();
+            var tiposDeDocumentos = db.TipoDocumento
+                .Select(
+                    x => new ComboBox
+                    {
+                        Key = x.TipoDocumentoId,
+                        Value = x.Descripcion
+                    })
+                .ToList();
             var tiposDeContribuyentes = db.TipoContribuyente.ToList();
-            var actividadesGravadas = db.ActividadGravada.OrderBy(x => x.Descripcion)
-                    .Select(x => new ComboBox
-                        {
-                            Key = x.ActividadId,
-                            Value = x.Descripcion
-                        })
-                    .ToList();
-            var clasificacionesContribuyentes = db.ClasificacionContribuyente.OrderBy(x => x.Descripcion)
-                    .Select(x => new ComboBox
-                        {
-                            Key = x.ClasificacionContribuyenteId,
-                            Value = x.Descripcion
-                        })
-                    .ToList();
-
-            model.TipoDocumentos = tiposDeDocumentos
-                .Select(x => new SelectListItem { Text = x.Descripcion, Value = x.TipoDocumentoId.ToString() }).ToList();
+            var actividadesGravadas = db.ActividadGravada
+                .OrderBy(x => x.Descripcion)
+                .Select(x => new ActividadGravadaModel
+                    {
+                        ActividadId = x.ActividadId,
+                        Descripcion = x.Descripcion,
+                        Tarifa = x.Tarifa
+                    })
+                .ToList();
+            var clasificacionesContribuyentes = db.ClasificacionContribuyente
+                .OrderBy(x => x.Descripcion)
+                .Select(x => new ComboBox
+                {
+                    Key = x.ClasificacionContribuyenteId,
+                    Value = x.Descripcion
+                })
+                .ToList();
+            var tipoSanciones = db.TipoSancion
+                .OrderBy(x => x.Descripcion)
+                .Select(x => new TipoSancionModel
+                {
+                    Key = x.TipoSancionId,
+                    Value = x.Descripcion,
+                    PorcentajeSancion = x.Porcentaje
+                })
+                .ToList();
+            
+            model.TipoDocumentos = tiposDeDocumentos;
             model.TipoContribuyentes = tiposDeContribuyentes
                 .Select(x => new SelectListItem { Text = x.Descripcion, Value = x.TipoContribuyenteId.ToString() }).ToList();
             model.ListaActividadesGravadas = actividadesGravadas;
             model.ListaClasificacionesContribuyentes = clasificacionesContribuyentes;
+            model.ListaTipoSanciones = tipoSanciones;
+            model.Cliente = model.TipoDocumentoId != 0 
+                ? _clienteService.FindClienteByNoDocumento(model.TipoDocumentoId, model.NoIdentificacion)
+                : new ClienteModel();
         }
 
         private void SetDeclaracionPrevia(
@@ -180,7 +140,6 @@ namespace IndustriaComercio.Controllers
                     ActividadId = x.ActividadId,
                     DeclaracionPreviaId = declaracionPreviaId,
                     IngresosGravados = x.IngresosGravados,
-                    Tarifa = x.Tarifa,
                     Impuesto = x.Impuesto
                 }).ToList();
         }
@@ -196,7 +155,7 @@ namespace IndustriaComercio.Controllers
                 TipoDeclaracion = model.TipoDeclaracion,
                 TipoContribuyenteId = model.TipoContribuyenteId,
                 TienePagoVoluntario = model.TienePagoVoluntario,
-                PersonaId = model.ClienteId,
+                PersonaId = model.PersonaId,
                 IngresosEnElPais = model.IngresosEnElPais,
                 IngresosFueraDelMunicipio = model.IngresosFueraDelMunicipio,
                 TotalIngresosMunicipio = model.TotalIngresosMunicipio,

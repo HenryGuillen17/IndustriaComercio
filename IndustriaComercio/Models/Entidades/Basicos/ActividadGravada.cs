@@ -10,6 +10,7 @@ namespace IndustriaComercio.Models.Entidades.Basicos
         public int ActividadId { get; set; }
         public string Descripcion { get; set; }
         public string Codigo { get; set; }
+        public double Tarifa { get; set; }
 
         public virtual ICollection<ActividadGravablePorDeclaracion> ActividadesGravadas { get; set; }
     }

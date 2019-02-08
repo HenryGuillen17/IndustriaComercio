@@ -158,6 +158,7 @@
     <Compile Include="Common\Extensions\SqlExtensions.cs" />
     <Compile Include="Common\Helpers\MvcHtmlHelpers.cs" />
     <Compile Include="Common\ComboBox.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DeclaracionPreviaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -174,6 +175,22 @@
     <Compile Include="Migrations\201902050339566_AddModifyPagosDeclaracion.cs" />
     <Compile Include="Migrations\201902050339566_AddModifyPagosDeclaracion.Designer.cs">
       <DependentUpon>201902050339566_AddModifyPagosDeclaracion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902060045012_ModifyDeclaracionnPreviaToDouble.cs" />
+    <Compile Include="Migrations\201902060045012_ModifyDeclaracionnPreviaToDouble.Designer.cs">
+      <DependentUpon>201902060045012_ModifyDeclaracionnPreviaToDouble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902060110238_ModifyPersonasClientesV01.cs" />
+    <Compile Include="Migrations\201902060110238_ModifyPersonasClientesV01.Designer.cs">
+      <DependentUpon>201902060110238_ModifyPersonasClientesV01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902060128554_AddTelefonoInPersonas.cs" />
+    <Compile Include="Migrations\201902060128554_AddTelefonoInPersonas.Designer.cs">
+      <DependentUpon>201902060128554_AddTelefonoInPersonas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902080109544_ModifyActividadesGravables.cs" />
+    <Compile Include="Migrations\201902080109544_ModifyActividadesGravables.Designer.cs">
+      <DependentUpon>201902080109544_ModifyActividadesGravables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoContribuyenteMapping.cs" />
@@ -235,6 +252,9 @@
     <Compile Include="Models\Model\ClienteModel.cs" />
     <Compile Include="Models\Model\DeclaracionPreviaModel.cs" />
     <Compile Include="Models\Model\PersonaModel.cs" />
+    <Compile Include="Models\Model\TipoSancionModel.cs" />
+    <Compile Include="Models\Servicios\ClienteService.cs" />
+    <Compile Include="Models\Servicios\DeclaracionPreviaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1695,8 +1715,10 @@
     <Content Include="Content\vendor\Numeral\locales\uk-ua.min.js" />
     <Content Include="Content\vendor\Numeral\locales\vi.min.js" />
     <Content Include="Content\vendor\Numeral\numeral.min.js" />
+    <Content Include="Content\vendor\SweetAlert\sweetalert2%408.js" />
     <Content Include="Content\vendor\vue\vue-mask\di-vue-mask.js" />
     <Content Include="Content\vendor\vue\vue-mask\vue-the-mask.js" />
+    <Content Include="Content\vendor\vue\vue.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1750,6 +1772,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\PoCo\" />
     <Folder Include="Views\AccionesGravables\" />
+    <Folder Include="Views\Cliente\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -1837,6 +1860,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902050339566_AddModifyPagosDeclaracion.resx">
       <DependentUpon>201902050339566_AddModifyPagosDeclaracion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902060045012_ModifyDeclaracionnPreviaToDouble.resx">
+      <DependentUpon>201902060045012_ModifyDeclaracionnPreviaToDouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902060110238_ModifyPersonasClientesV01.resx">
+      <DependentUpon>201902060110238_ModifyPersonasClientesV01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902060128554_AddTelefonoInPersonas.resx">
+      <DependentUpon>201902060128554_AddTelefonoInPersonas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902080109544_ModifyActividadesGravables.resx">
+      <DependentUpon>201902080109544_ModifyActividadesGravables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,9 +7,8 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 {
     public class ActividadGravablePorDeclaracion
     {
-        public int IngresosGravados { get; set; }
-        public int Tarifa { get; set; }
-        public int Impuesto { get; set; }
+        public double IngresosGravados { get; set; }
+        public double Impuesto { get; set; }
 
         public virtual DeclaracionPrevia DeclaracionPrevia { get; set; }
         public int DeclaracionPreviaId { get; set; }

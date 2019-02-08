@@ -40,7 +40,6 @@
                 @*<div class="col-md-1 d-none d-lg-block"></div>*@
                 <div class="col">
 
-
                     @Html.Partial("Partial/_DeclaracionForm1")
                     @Html.Partial("Partial/_DeclaracionForm2")
                     @Html.Partial("Partial/_DeclaracionForm3")
@@ -50,8 +49,6 @@
                     @Html.Partial("Partial/_DeclaracionForm7")
                     @Html.Partial("Partial/_DeclaracionForm8")
                     @Html.Partial("Partial/_DeclaracionForm9")
-
-
 
                 </div>
                 @*<div class="col-md-1 d-none d-lg-block"></div>*@
@@ -63,14 +60,14 @@
                     <button type="button"
                             class="btn btn-outline-info"
                             v-on:click="vistaAnterior"
-                            v-show="vista > limiteInferiorVista">
+                            v-show="verBotonAtras">
                         Atrás
                     </button>
                 </div>
                 <div class="col text-center">
                     <button type="submit"
                             class="btn btn-success"
-                            v-show="vista == limiteSuperiorVista">
+                            v-show="verBotonGuardar">
                         Guardar
                     </button>
                 </div>
@@ -78,7 +75,7 @@
                     <button type="button"
                             class="btn btn-outline-primary"
                             v-on:click="vistaSiguiente"
-                            v-show="vista < limiteSuperiorVista">
+                            v-show="verBotonAdelante">
                         Adelante
                     </button>
                 </div>
@@ -91,7 +88,6 @@
     <!-- Bootstrap core JavaScript-->
     @Scripts.Render("~/bundles/js")
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
     @*<script src="~/Content/vendor/vue/vue-mask/vue-the-mask.js"></script>*@
     @*<script src="~/Content/vendor/vue/vue-mask/di-vue-mask.js"></script>*@
 
@@ -109,17 +105,22 @@
                 limiteSuperiorVista: 9,
 
                 actividades: JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ActividadesGravadas))'),
+                cliente: {
+                    ClasificacionContribuyente: '@Model.Cliente.ClasificacionContribuyenteNombre',
+                    Correo: '@Model.Cliente.Correo',
+                    Departamento: '@Model.Cliente.Departamento',
+                    Direccion: '@Model.Cliente.Direccion',
+                    Municipio: '@Model.Cliente.Municipio',
+                    NombreCompleto: '@Model.Cliente.NombreCompleto',
+                    NumeroEstablecimientos: @Model.Cliente.NumeroEstablecimientos,
+                    Telefono: '@Model.Cliente.Telefono'
+                },
                 form: {
                     AnticipoAnioAnterior: (@Model.AnticipoAnioAnterior),
-                    @*AnticipoAnioSiguiente: (@Model.AnticipoAnioSiguiente),
+                    AnticipoAnioSiguiente: (@Model.AnticipoAnioSiguiente),
                     AutoretencionesDelMunicipio: (@Model.AutoretencionesDelMunicipio),
                     CapacidadInstalada: (@Model.CapacidadInstalada),
-                    ClasificacionContribuyenteId: @Model.ClasificacionContribuyenteId,
-                    Correo: '@Model.Correo',
-                    DepartamentoNotificacion: '@Model.Departamento',
-                    DescuentoProntoPago: (@Model.DescuentoProntoPago),
-                    DigitoChequeo: '@Model.DigitoChequeo',
-                    Direccion: '@Model.Direccion',
+                    DescuentoProntoPago: (@Model.Descuento),
                     IngresosActividadesExentas: (@Model.IngresosActividadesExentas),
                     IngresosActivosFijos: (@Model.IngresosActivosFijos),
                     IngresosDevoluciones: (@Model.IngresosDevoluciones),
@@ -127,18 +128,17 @@
                     IngresosExportaciones: (@Model.IngresosExportaciones),
                     IngresosFueraDelMunicipio: (@Model.IngresosFueraDelMunicipio),
                     IngresosNoGravados: (@Model.IngresosNoGravados),
-                    InteresesDeMora: (@Model.InteresesDeMora),
-                    MunicipioNotificacion: '@Model.Municipio',
+                    InteresesDeMora: (@Model.Interes),
                     NoIdentificacion: '@Model.NoIdentificacion',
-                    NombreCompleto: '@Model.NombreCompleto',
-                    NumeroEstablecimientos: (@Model.NumeroEstablecimientos),
-                    OtroTipoSancion: '@Model.OtroTipoSancion',
+                    PagaAvisoTablero: @(Model.PagaAvisoTablero ? "true" : "false"),
                     PagoUnidadesComerciales: (@Model.PagoUnidadesComerciales),
+                    PersonaId: @Model.PersonaId,
+                    PorcentajeDescuento: @Model.PorcentajeDescuento,
+                    PorcentajeInteres: @Model.PorcentajeInteres,
                     RetencionesDelMunicipio: (@Model.RetencionesDelMunicipio),
                     SaldoFavorPeriodoAnterior: (@Model.SaldoFavorPeriodoAnterior),
                     SobretasaBomberil: (@Model.SobretasaBomberil),
                     SobretasaSeguridad: (@Model.SobretasaSeguridad),
-                    Telefono: ('@Model.Telefono'),*@
                     TienePagoVoluntario: @Model.TienePagoVoluntario.ToString().ToLower(),
                     TipoContribuyenteId: (@Model.TipoContribuyenteId),
                     TipoDeclaracion: '@Model.TipoDeclaracion',
@@ -150,10 +150,8 @@
                 },
 
                 // swap
-                selectActividad: 1,
-                searchActividad: '',
-
-                maskNumber: 0
+                selectActividad: null,
+                searchActividad: ''
             },
             mounted() {
                 for (let i in this.actividades) {
@@ -161,11 +159,28 @@
                 }
             },
             computed: {
+                verBotonAtras() {
+                    return this.vista > this.limiteInferiorVista;
+                },
+                verBotonAdelante() {
+                    if (this.vista === 2 && !this.tieneNoDocumento)
+                        return false;
+                    return this.vista < this.limiteSuperiorVista;
+                },
+                verBotonGuardar() {
+                    return this.vista == this.limiteSuperiorVista;
+                },
+                tieneNoDocumento() {
+                    return this.form.PersonaId !== 0;
+                },
                 listaActividadesGravadas() {
                     return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ListaActividadesGravadas))');
                 },
-                listaClasificacionesContribuyentes() {
-                    return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ListaClasificacionesContribuyentes))');
+                listaTipoSanciones() {
+                    return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ListaTipoSanciones))');
+                },
+                listaTipoDocumento() {
+                    return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.TipoDocumentos))');
                 },
                 TotalIngresosMunicipio() {
                     return this.form.IngresosEnElPais - this.form.IngresosFueraDelMunicipio;
@@ -190,11 +205,20 @@
                     }
                     return totalImpuesto;
                 },
+                TotalIngresosGravablesPorActividades() {
+                    var totalImpuesto = 0;
+                    for (var x in this.actividades) {
+                        totalImpuesto += parseInt(this.actividades[x].IngresosGravados);
+                    }
+                    return totalImpuesto;
+                },
                 TotalImpuestoIndustriaComercio() {
                     return this.totalActividadesImpuesto + this.TotaImpuestoEnergiaElectrica;
                 },
                 ImpuestoAvisosTableros() {
-                    return Math.round(this.TotalImpuestoIndustriaComercio * 0.00015) * 1000;
+                    if (this.form.PagaAvisoTablero)
+                        return Math.round(this.TotalImpuestoIndustriaComercio * 0.00015) * 1000;
+                    return this.TotalImpuestoIndustriaComercio;
                 },
                 TotalImpuestoCargo() {
                     return (this.TotalImpuestoIndustriaComercio
@@ -216,9 +240,24 @@
                 TotalSaldoFavor() {
                     return this.TotalSaldoCargo < 0 ? Math.abs(this.TotalSaldoFavor) : 0;
                 },
+                TotalDescuentoSaldo() {
+                    return this.TotalSaldoCargo * this.form.PorcentajeDescuento;
+                },
+                TotalInteresSaldo() {
+                    return this.TotalSaldoCargo * this.form.PorcentajeInteres;
+                },
                 TotalPagar() {
-                    return ((parseInt(this.TotalSaldoCargo) + parseInt(this.form.InteresesDeMora))
-                        - parseInt(this.form.DescuentoProntoPago));
+                    return ((parseInt(this.TotalSaldoCargo) + this.TotalDescuentoSaldo)
+                        - this.TotalInteresSaldo);
+                },
+                listaActividadesASeleccionar() {
+                    return this.listaActividadesGravadas
+                        .filter(
+                        x =>
+                            this.actividades
+                                .filter(y => y.ActividadId == x.ActividadId) == null
+                            && x.Descripcion.toLowerCase().indexOf(searchActividad.toLowerCase()) > -1
+                        );
                 }
             },
             filters: {
@@ -240,21 +279,62 @@
                 calcularNameActividades(x, campo) {
                     return `ActividadesGravadas[${x}].${campo}`;
                 },
-                anadirActividades(id) {
-                    if (id === 0) {
+                anadirActividades(objActividad) {
+                    if (objActividad.ActividadId === 0) {
                         // debe seleccionar una actividad
                         return;
                     }
                     this.actividades.push(
                         {
-                            ActividadId: id,
-                            Descripcion: this.listaActividadesGravadas.find(x => x.Key === id).Value,
-                            IngresosGravados: 0,
-                            Tarifa: 0,
-                            Impuesto: 0
+                            ActividadId: objActividad.ActividadId,
+                            Descripcion: objActividad.Descripcion,
+                            IngresosGravados: this.TotalIngresosGravables - this.totalActividadesImpuesto,
+                            Tarifa: objActividad.Tarifa,
+                            Impuesto: ((this.TotalIngresosGravables - this.totalActividadesImpuesto)
+                                * objActividad.Tarifa) / 1000
                         }
                     );
                     $('#modalActividad').modal('hide');
+                },
+                getClienteByNoDocumento(tipoDocumento, noDocumento) {
+                    if (tipoDocumento === 0 || noDocumento.lenght === 0) {
+                        // Mostrar Alerta
+                        return;
+                    }
+                    $.getJSON(
+                        `Cliente/GetClienteByNoDocumento/${tipoDocumento}/${noDocumento}`)
+                        .then((x) => {
+                            if (x.data === null) {
+                                // Mostrar Alerta
+                                Swal.fire(
+                                    'Advertencia',
+                                    "El No. Documento Ingresado no se encuentra en el sistema",
+                                    'warning'
+                                );
+                                return;
+                            }
+                            let cliente = x.data;
+                            // Llenar TODOS los datos de Cliente
+                            this.form.PersonaId == cliente.PersonaId
+                            this.cliente = {
+                                ClasificacionContribuyente: cliente.ClasificacionContribuyenteNombre,
+                                Correo: cliente.Correo,
+                                Departamento: cliente.Departamento,
+                                Direccion: cliente.Direccion,
+                                Municipio: cliente.Municipio,
+                                NombreCompleto: cliente.NombreCompleto,
+                                NumeroEstablecimientos: cliente.NumeroEstablecimientos,
+                                Telefono: cliente.Telefono
+                            }
+                        }
+                    ).catch(x => {
+                        Swal.fire(
+                            'Error',
+                            "Error Irrecuperable en el sistema",
+                            'error'
+                        );
+                        console.error(x);
+                    });
                 }
             }
         });

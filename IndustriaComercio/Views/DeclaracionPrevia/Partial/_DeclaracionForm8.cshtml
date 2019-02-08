@@ -114,26 +114,18 @@
                 @Html.LabelFor(model => model.TipoSancion, htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="col-md-8">
-                @Html.EnumDropDownListFor(Model => Model.TipoSancion, null, new { @class = "form-control" })
-            </div>
-        </div>
-        <!-- Otro Tipo de Sanción -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.OtroTipoSancion, htmlAttributes: new { @class = "control-label " })
-            </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.OtroTipoSancion,
-                new { htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.OtroTipoSancion) },
-                    { "data-placement", "top" }
-                    } })
-                @Html.ValidationMessageFor(model => model.OtroTipoSancion, "", new { @class = "text-danger" })
+                <select class="form-control"
+                        v-model="form.TipoSancionId">
+                    <option v-bind:selected="form.TipoSancionId === 0"
+                            v-bind:value="0">
+                        -- Sin Sanción --
+                    </option>
+                    <option v-for="item in listaTipoSanciones"
+                            v-bind:selected="form.TipoSancionId === item.Key"
+                            v-bind:value="item.Key">
+                        {{ item.Value }}
+                    </option>
+                </select>
             </div>
         </div>
         <!-- Valor de la Sanción -->

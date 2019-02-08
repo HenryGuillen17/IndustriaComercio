@@ -10,7 +10,5 @@ namespace IndustriaComercio.Entidades.Basicos
         public short Anio { get; set; }
         public byte Mes { get; set; }
         public double Porcentaje { get; set; }
-
-        public ICollection<DeclaracionPrevia> DeclaracionesPrevias { get; set; }
     }
 }

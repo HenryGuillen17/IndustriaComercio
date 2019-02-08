@@ -23,7 +23,9 @@ namespace IndustriaComercio
                         "~/Content/vendor/jquery-easing/jquery.easing.min.js",
                         // Numeral.js
                         "~/Content/vendor/Numeral/numeral.min.js",
-                        "~/Content/vendor/Numeral/locales.min.js"
+                        "~/Content/vendor/Numeral/locales.min.js",
+                        "~/Content/vendor/vue/vue.min.js",
+                        "~/Content/vendor/SweetAlert/sweetalert2@8.js"
                         //"~/Content/vendor/chart.js/Chart.min.js",
                         //"~/Content/vendor/datatables/jquery.dataTables.js",
                         //"~/Content/vendor/datatables/dataTables.bootstrap4.js",

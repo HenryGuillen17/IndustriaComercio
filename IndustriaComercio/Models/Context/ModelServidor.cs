@@ -11,6 +11,7 @@ namespace IndustriaComercio.Models.Context
     using IndustriaComercio.Entidades.Basicos;
     using IndustriaComercio.Models.Context.Mapping.Declaracion;
     using IndustriaComercio.Models.Entidades.Basicos;
+    using IndustriaComercio.Entidades.Persona;
 
     public partial class ModelServidor : DbContext
     {
@@ -26,6 +27,9 @@ namespace IndustriaComercio.Models.Context
         public DbSet<ActividadGravada> ActividadGravada { get; set; }
         public DbSet<ClasificacionContribuyente> ClasificacionContribuyente { get; set; }
         public DbSet<TipoSancion> TipoSancion { get; set; }
+        public DbSet<Persona> Persona { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
