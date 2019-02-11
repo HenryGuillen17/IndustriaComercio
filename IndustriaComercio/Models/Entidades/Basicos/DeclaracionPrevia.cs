@@ -141,7 +141,7 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         public double AnticipoAnioSiguiente { get; set; }
 
-        public int TipoSancionId { get; set; }
+        public int? TipoSancionId { get; set; }
 
         public double SaldoFavorPeriodoAnterior { get; set; }
 

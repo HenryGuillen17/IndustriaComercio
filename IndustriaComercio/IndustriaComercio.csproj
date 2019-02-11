@@ -158,6 +158,7 @@
     <Compile Include="Common\Extensions\SqlExtensions.cs" />
     <Compile Include="Common\Helpers\MvcHtmlHelpers.cs" />
     <Compile Include="Common\ComboBox.cs" />
+    <Compile Include="Common\Tools\FileSave.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DeclaracionPreviaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -191,6 +192,10 @@
     <Compile Include="Migrations\201902080109544_ModifyActividadesGravables.cs" />
     <Compile Include="Migrations\201902080109544_ModifyActividadesGravables.Designer.cs">
       <DependentUpon>201902080109544_ModifyActividadesGravables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902110630354_ModifyDeclaracionPreviaV01.cs" />
+    <Compile Include="Migrations\201902110630354_ModifyDeclaracionPreviaV01.Designer.cs">
+      <DependentUpon>201902110630354_ModifyDeclaracionPreviaV01.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoContribuyenteMapping.cs" />
@@ -1731,6 +1736,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\scss\_main.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1872,6 +1878,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902080109544_ModifyActividadesGravables.resx">
       <DependentUpon>201902080109544_ModifyActividadesGravables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902110630354_ModifyDeclaracionPreviaV01.resx">
+      <DependentUpon>201902110630354_ModifyDeclaracionPreviaV01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

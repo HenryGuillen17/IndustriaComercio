@@ -34,7 +34,7 @@
                 &nbsp;
             </div>
         </div>
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Index", "DeclaracionPrevia", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div class="row " style="height:50vh;overflow:auto;">
                 @*<div class="col-md-1 d-none d-lg-block"></div>*@
@@ -60,13 +60,15 @@
                     <button type="button"
                             class="btn btn-outline-info"
                             v-on:click="vistaAnterior"
-                            v-show="verBotonAtras">
+                            v-show="vista != 1"
+                            v-bind:disabled="!verBotonAtras">
                         Atrás
                     </button>
                 </div>
                 <div class="col text-center">
                     <button type="submit"
                             class="btn btn-success"
+                            v-on:keypress.13="$event.prevent"
                             v-show="verBotonGuardar">
                         Guardar
                     </button>
@@ -75,7 +77,8 @@
                     <button type="button"
                             class="btn btn-outline-primary"
                             v-on:click="vistaSiguiente"
-                            v-show="verBotonAdelante">
+                            v-show="vista != 9"
+                            v-bind:disabled="!verBotonAdelante">
                         Adelante
                     </button>
                 </div>
@@ -93,7 +96,6 @@
 
 
     <script>
-        //Vue.use(VueMask);
         numeral.locale('es');
 
 
@@ -116,8 +118,10 @@
                     Telefono: '@Model.Cliente.Telefono'
                 },
                 form: {
+                    Anio: (@Model.Año == 0 ? "" : @Model.Año),
                     AnticipoAnioAnterior: (@Model.AnticipoAnioAnterior),
                     AnticipoAnioSiguiente: (@Model.AnticipoAnioSiguiente),
+                    ArchivoRetencion: null,
                     AutoretencionesDelMunicipio: (@Model.AutoretencionesDelMunicipio),
                     CapacidadInstalada: (@Model.CapacidadInstalada),
                     DescuentoProntoPago: (@Model.Descuento),
@@ -141,9 +145,9 @@
                     SobretasaSeguridad: (@Model.SobretasaSeguridad),
                     TienePagoVoluntario: @Model.TienePagoVoluntario.ToString().ToLower(),
                     TipoContribuyenteId: (@Model.TipoContribuyenteId),
-                    TipoDeclaracion: '@Model.TipoDeclaracion',
+                    TipoDeclaracion: '@((int)Model.TipoDeclaracion)',
                     TipoDocumentoId: (@Model.TipoDocumentoId),
-                    TipoSancion: '@Model.TipoSancion',
+                    TipoSancionId: '@Model.TipoSancion',
                     ValorExoneracionImpuesto: (@Model.ValorExoneracionImpuesto),
                     ValorPagar: (@Model.ValorPagar),
                     ValorSancion: (@Model.ValorSancion),
@@ -155,7 +159,8 @@
             },
             mounted() {
                 for (let i in this.actividades) {
-                    this.actividades[i].Descripcion = this.listaActividadesGravadas.find(x => x.Key === this.actividades[i].ActividadId).Value;
+                    this.actividades[i].Descripcion = this.listaActividadesGravadas
+                            .find(x => x.ActividadId === this.actividades[i].ActividadId).Descripcion;
                 }
             },
             computed: {
@@ -163,8 +168,18 @@
                     return this.vista > this.limiteInferiorVista;
                 },
                 verBotonAdelante() {
-                    //if (this.vista === 2 && !this.tieneNoDocumento)
-                    //    return false;
+                    // valida vista 1
+                    if (this.vista === 1 && this.form.Anio === "")
+                        return false;
+                    // valida vista 2
+                    if (this.vista === 2 && !this.tieneNoDocumento)
+                        return false;
+                    // valida vista 3
+                    if (this.vista === 3 && this.TotalIngresosMunicipio === 0)
+                        return false;
+                    // valida vista 5
+                    if (this.vista === 5 && this.TotalIngresosGravables !== this.TotalIngresosGravablesPorActividades)
+                        return false;
                     return this.vista < this.limiteSuperiorVista;
                 },
                 verBotonGuardar() {
@@ -183,32 +198,33 @@
                     return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.TipoDocumentos))');
                 },
                 TotalIngresosMunicipio() {
-                    return this.form.IngresosEnElPais - this.form.IngresosFueraDelMunicipio;
+                    return (parseInt(this.form.IngresosEnElPais) || 0) - (parseInt(this.form.IngresosFueraDelMunicipio) || 0);
                 },
                 TotalIngresosGravables() {
                     return (
                         (((((this.TotalIngresosMunicipio
-                            - this.form.IngresosDevoluciones)
-                            - this.form.IngresosExportaciones)
-                            - this.form.IngresosActivosFijos)
-                            - this.form.IngresosNoGravados)
-                            - this.form.IngresosActividadesExentas)
+                            - (parseInt(this.form.IngresosDevoluciones) || 0))
+                            - (parseInt(this.form.IngresosExportaciones) || 0))
+                            - (parseInt(this.form.IngresosActivosFijos) || 0))
+                            - (parseInt(this.form.IngresosNoGravados) || 0))
+                            - (parseInt(this.form.IngresosActividadesExentas) || 0)
+                        )
                     );
                 },
                 TotaImpuestoEnergiaElectrica() {
                     return this.form.CapacidadInstalada * 5;
                 },
-                totalActividadesImpuesto() {
-                    var totalImpuesto = 0;
-                    for (var x in this.actividades) {
-                        totalImpuesto += parseInt(this.actividades[x].Impuesto);
-                    }
-                    return totalImpuesto;
-                },
                 TotalIngresosGravablesPorActividades() {
                     var totalImpuesto = 0;
                     for (var x in this.actividades) {
-                        totalImpuesto += parseInt(this.actividades[x].IngresosGravados);
+                        totalImpuesto += (parseInt(this.actividades[x].IngresosGravados) || 0);
+                    }
+                    return totalImpuesto;
+                },
+                totalActividadesImpuesto() {
+                    var totalImpuesto = 0;
+                    for (var x in this.actividades) {
+                        totalImpuesto += (parseInt(this.actividades[x].Impuesto) || 0);
                     }
                     return totalImpuesto;
                 },
@@ -218,14 +234,15 @@
                 ImpuestoAvisosTableros() {
                     if (this.form.PagaAvisoTablero)
                         return Math.round(this.TotalImpuestoIndustriaComercio * 0.00015) * 1000;
-                    return this.TotalImpuestoIndustriaComercio;
+                    return 0;
                 },
                 TotalImpuestoCargo() {
                     return (this.TotalImpuestoIndustriaComercio
                         + this.ImpuestoAvisosTableros
-                        + parseInt(this.form.PagoUnidadesComerciales)
-                        + parseInt(this.form.SobretasaBomberil)
-                        + parseInt(this.form.SobretasaSeguridad));
+                        + (parseInt(this.form.PagoUnidadesComerciales) || 0)
+                        + (parseInt(this.form.SobretasaBomberil) || 0)
+                        + (parseInt(this.form.SobretasaSeguridad) || 0)
+                    );
                 },
                 totalValorSancion() {
                     var key = this.form.TipoSancionId;
@@ -237,16 +254,17 @@
                 },
                 TotalSaldoCargo() {
                     return (((((((this.TotalImpuestoCargo
-                        - parseInt(this.form.ValorExoneracionImpuesto))
-                        - parseInt(this.form.RetencionesDelMunicipio))
-                        - parseInt(this.form.AutoretencionesDelMunicipio))
-                        - parseInt(this.form.AnticipoAnioAnterior))
-                        + parseInt(this.form.AnticipoAnioSiguiente))
-                        + parseInt(this.totalValorSancion))
-                        - parseInt(this.form.SaldoFavorPeriodoAnterior));
+                        - (parseInt(this.form.ValorExoneracionImpuesto) || 0))
+                        - (parseInt(this.form.RetencionesDelMunicipio) || 0))
+                        - (parseInt(this.form.AutoretencionesDelMunicipio) || 0))
+                        - (parseInt(this.form.AnticipoAnioAnterior) || 0))
+                        + (parseInt(this.form.AnticipoAnioSiguiente) || 0))
+                        + (parseInt(this.totalValorSancion) || 0))
+                        - (parseInt(this.form.SaldoFavorPeriodoAnterior) || 0));
                 },
                 TotalSaldoFavor() {
-                    return this.TotalSaldoCargo < 0 ? Math.abs(this.TotalSaldoFavor) : 0;
+                    let total = this.TotalSaldoCargo;
+                    return total < 0 ? Math.abs(total) : 0;
                 },
                 TotalDescuentoSaldo() {
                     return this.TotalSaldoCargo * this.form.PorcentajeDescuento;
@@ -270,7 +288,6 @@
             },
             filters: {
                 formatPrecio(value) {
-
                     var precio = numeral(value).format("$0,0");
                     return precio;
                 }
@@ -296,23 +313,29 @@
                         {
                             ActividadId: objActividad.ActividadId,
                             Descripcion: objActividad.Descripcion,
-                            IngresosGravados: this.TotalIngresosGravables - this.totalActividadesImpuesto,
+                            IngresosGravados: this.TotalIngresosGravables - this.TotalIngresosGravablesPorActividades,
                             Tarifa: objActividad.Tarifa,
-                            Impuesto: ((this.TotalIngresosGravables - this.totalActividadesImpuesto)
+                            Impuesto: ((this.TotalIngresosGravables - this.TotalIngresosGravablesPorActividades)
                                 * objActividad.Tarifa) / 1000
                         }
                     );
                     $('#modalActividad').modal('hide');
                 },
                 getClienteByNoDocumento(tipoDocumento, noDocumento) {
-                    if (tipoDocumento === 0 || noDocumento.lenght === 0) {
+                    if (tipoDocumento === 0 || noDocumento.length === 0) {
                         // Mostrar Alerta
+                        Swal.fire(
+                            'Advertencia',
+                            "Ingrese No. Documento",
+                            'warning'
+                        );
                         return;
                     }
+                    var url = `/Cliente/GetClienteByNoDocumento/${tipoDocumento}/${noDocumento}`
                 
-                    $.get(`Cliente/GetClienteByNoDocumento/${tipoDocumento}/${noDocumento}`)
-                        .done(function(x) {
-                            if (x === null) {
+                    axios.get(url)
+                        .then(x => {
+                            if (x.data === '') {
                                 // Mostrar Alerta
                                 Swal.fire(
                                     'Advertencia',
@@ -321,9 +344,9 @@
                                 );
                                 return;
                             }
-                            let cliente = x;
+                            let cliente = x.data;
                             // Llenar TODOS los datos de Cliente
-                            this.form.PersonaId == cliente.PersonaId
+                            this.form.PersonaId = cliente.PersonaId
                             this.cliente = {
                                 ClasificacionContribuyente: cliente.ClasificacionContribuyenteNombre,
                                 Correo: cliente.Correo,
@@ -334,16 +357,46 @@
                                 NumeroEstablecimientos: cliente.NumeroEstablecimientos,
                                 Telefono: cliente.Telefono
                             }
-                        }
-                    ).fail(function (x) {
-                        Swal.fire(
-                            'Error',
-                            "Error Irrecuperable en el sistema",
-                            'error'
-                        );
-                        console.error(x);
-                    });
-                }
+                        }).catch(function (x) {
+                            Swal.fire(
+                                'Error',
+                                "Error Irrecuperable en el sistema",
+                                'error'
+                            );
+                            console.error(x);
+                        });
+                },
+
+                getFile(event) {
+
+                    var archivo = event.target.files[0];
+                    var lector;
+
+                    if (typeof archivo === "undefined" || archivo === null)
+                        return;
+
+                    //Para navegadores antiguos
+                    if (typeof FileReader !== "function") {
+                        alert('[Vista previa no disponible] - (su navegador no soporta vista previa!)');
+                        return;
+                    }
+
+                    if (archivo.size > 2048000) {
+                        Swal.fire("Advertencia", "Imagen no puede ser mayor a 2Mb", "warning");
+                        return;
+                    }
+                    lector = new FileReader();
+                    lector.onloadend = (e) => {
+                        this.form.ArchivoRetencion = archivo;
+                    };
+                    lector.onerror = (e) => {
+                        Swal.fire("Error", "Error cargando imagen", "error");
+                        console.error(e);
+                        return;
+                    };
+                    lector.readAsDataURL(archivo);
+
+                },
             }
         });
 

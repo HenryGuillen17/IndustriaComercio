@@ -268,3 +268,11 @@ body.sidebar-toggled footer.sticky-footer {
 @media (min-width: 768px) {
   body.sidebar-toggled footer.sticky-footer {
     width: calc(100% - 90px); } }
+
+.upload-image-label {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 6px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center; }

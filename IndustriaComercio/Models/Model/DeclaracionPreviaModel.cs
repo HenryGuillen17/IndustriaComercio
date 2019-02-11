@@ -323,6 +323,16 @@ namespace IndustriaComercio.Models.Model
         [Range(0, int.MaxValue)]
         public double RetencionesDelMunicipio { get; set; }
 
+        
+        [Display(
+            Name = "Archivo Retención Practicada Por El Municipio",
+            Description = "Lorem ipsum"
+        )]
+        public HttpPostedFileBase ArchivoRetencion { get; set; }
+
+        [NotMapped]
+        public string RutaArchivoRetencion { get; set; }
+
 
         [Required]
         [Display(
@@ -350,13 +360,12 @@ namespace IndustriaComercio.Models.Model
         [Range(0, int.MaxValue)]
         public double AnticipoAnioSiguiente { get; set; }
 
-
-        [Required]
+        
         [Display(
             Name = "Tipo de Sanción",
             Description = "Lorem ipsum"
         )]
-        public TipoSancion TipoSancion { get; set; }
+        public int? TipoSancion { get; set; }
 
 
         [Display(

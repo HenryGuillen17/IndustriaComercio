@@ -2,35 +2,39 @@
 
 @model IndustriaComercio.Models.Model.DeclaracionPreviaModel
 
-<div class="card" 
+<div class="card"
      v-show="vista === 1">
     <div class="card-header">
         DATOS DE LA DECLARACIÓN
     </div>
     <div class="card-body">
         @*<div class="row">
-            <input type="text" name="number" v-model="maskNumber" v-mask-number>
-        </div>*@
+                <input type="text" name="number" v-model="maskNumber" v-mask-number>
+            </div>*@
         <!-- Año Gravable -->
         <div class="form-group row">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.Año, htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="col-md-8">
-                @Html.DropDownListFor(Model => Model.Año, Model.Años, "Seleccionar", new { @class = "form-control" })
+                @Html.DropDownListFor(Model => Model.Año, Model.Años, "Seleccionar",
+                htmlAttributes: new Dictionary<string, object>() {
+                    { "class", "form-control" },
+                    { "v-model", "form.Anio" }
+                })
                 @Html.ValidationMessageFor(model => model.Año, "", new { @class = "text-danger" })
             </div>
         </div>
         <!-- Tipo De Declaración -->
         @*<div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.TipoDeclaracion, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-8">
-                @Html.EnumDropDownListFor(Model => Model.TipoDeclaracion, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TipoDeclaracion, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.TipoDeclaracion, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-8">
+                    @Html.EnumDropDownListFor(Model => Model.TipoDeclaracion, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TipoDeclaracion, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
         <!-- ¿Tiene Pago Voluntario? -->
         <div class="form-group row">
             <div class="col-md-4">

@@ -14,6 +14,9 @@
                 class="btn btn-outline-primary">
             Añadir
         </button>
+        <span v-bind:class="{ 'text-danger' : TotalIngresosGravables < TotalIngresosGravablesPorActividades }">
+            El total del impuesto debe ser hasta <b>{{ TotalIngresosGravables | formatPrecio }}</b>
+        </span>
         <div class="row">
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -26,47 +29,58 @@
                             <th class="w-10">(Acciones)</th>
                         </tr>
                     </thead>
-                    <tr v-for="(item, x) in actividades">
-                        <td>
-                            <h5>{{ item.Descripcion }}</h5>
-                            <input type="hidden"
-                                   v-model="item.ActividadId"
-                                   v-bind:name="calcularNameActividades(x, 'ActividadId')" />
-                        </td>
-                        <td>
-                            <input type="number"
-                                   class="form-control"
-                                   v-bind:name="calcularNameActividades(x, 'IngresosGravados')"
-                                   min="1"
-                                   v-on:keyup="TotalIngresosGravables < TotalIngresosGravablesPorActividades ? (TotalIngresosGravablesPorActividades - TotalIngresosGravables) : actividades[x].IngresosGravados"
-                                   v-bind:max="TotalIngresosGravables - TotalIngresosGravablesPorActividades"
-                                   v-model="actividades[x].IngresosGravados" />
-                            <span v-show="TotalIngresosGravables < TotalIngresosGravablesPorActividades">
-                                El total del impuesto debe ser hasta <b>{{ TotalIngresosGravables }}</b> 
-                            </span>
-                        </td>
-                        <td>
-                            <input type="number"
-                                   class="form-control"
-                                   readonly
-                                   v-bind:name="calcularNameActividades(x, 'Tarifa')"
-                                   v-model="actividades[x].Tarifa" />
-                        </td>
-                        <td>
-                            <input type="number"
-                                   class="form-control"
-                                   v-bind:name="calcularNameActividades(x, 'Impuesto')"
-                                   readonly
-                                   v-model="actividades[x].Impuesto" />
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-danger"
-                                    type="button"
-                                    v-on:click="actividades.splice(x, 1)">
-                                <i class="fa fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr v-for="(item, x) in actividades">
+                            <td>
+                                <h5>{{ item.Descripcion }}</h5>
+                                <input type="hidden"
+                                       v-model="item.ActividadId"
+                                       v-bind:name="calcularNameActividades(x, 'ActividadId')" />
+                            </td>
+                            <td>
+                                <input type="number"
+                                       class="form-control"
+                                       v-bind:name="calcularNameActividades(x, 'IngresosGravados')"
+                                       min="1" 
+                                       v-on:keyup="actividades[x].Impuesto = ((parseInt(actividades[x].IngresosGravados) * parseInt(actividades[x].Tarifa)) / 1000)"
+                                       v-model="actividades[x].IngresosGravados" />
+                            </td>
+                            <td>
+                                <input type="number"
+                                       class="form-control"
+                                       readonly
+                                       v-bind:name="calcularNameActividades(x, 'Tarifa')"
+                                       v-model="actividades[x].Tarifa" />
+                            </td>
+                            <td>
+                                <input type="number"
+                                       class="form-control"
+                                       v-bind:name="calcularNameActividades(x, 'Impuesto')"
+                                       readonly
+                                       v-bind:value="actividades[x].Impuesto" />
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-danger"
+                                        type="button"
+                                        v-on:click="actividades.splice(x, 1)">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td v-bind:class="{ 'text-danger' : TotalIngresosGravablesPorActividades > TotalIngresosGravables }">
+                                {{ TotalIngresosGravablesPorActividades | formatPrecio }}
+                            </td>
+                            <td></td>
+                            <td>
+                                <h4>{{ totalActividadesImpuesto | formatPrecio }}</h4>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div> <!-- TotalIngresosGravables -->

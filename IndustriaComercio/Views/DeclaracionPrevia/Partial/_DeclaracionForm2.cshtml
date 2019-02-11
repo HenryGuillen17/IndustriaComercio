@@ -28,6 +28,9 @@
                     </option>
                 </select>
                 @Html.ValidationMessageFor(model => model.TipoDocumentoId, "", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.PersonaId, new Dictionary<string, object>() {
+                    { "v-model", "form.PersonaId" }
+                })
             </div>
             <!-- Identificación -->
             <div class="col-md-5 input-group">
@@ -42,7 +45,9 @@
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" 
                             type="button"
-                            v-on:click="getClienteByNoDocumento(form.TipoDocumentoId, form.NoIdentificacion)">
+                            v-on:click="getClienteByNoDocumento(form.TipoDocumentoId, form.NoIdentificacion)"
+                            v-on:keypress.enter="getClienteByNoDocumento(form.TipoDocumentoId, form.NoIdentificacion)"
+                            >
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
@@ -56,7 +61,7 @@
                     <label class="control-label">Nombre Completo</label>
                 </div>
                 <div class="col-md-8">
-                    <h4 v-html="cliente.NombreCompleto"></h4>
+                    <h5 v-html="cliente.NombreCompleto"></h5>
                 </div>
             </div>
             <!-- Dirección completa de residencia -->
@@ -65,7 +70,7 @@
                     <label class="control-label">Dirección</label>
                 </div>
                 <div class="col-md-8">
-                    <h4 v-html="cliente.Direccion"></h4>
+                    <h5 v-html="cliente.Direccion"></h5>
                 </div>
             </div>
             <!-- Municipio de residencia (Deberia ser Piedecuesta) -->
@@ -74,7 +79,7 @@
                     <label class="control-label">Municipio</label>
                 </div>
                 <div class="col-md-8">
-                    <h4 v-html="cliente.Municipio"></h4>
+                    <h5 v-html="cliente.Municipio"></h5>
                 </div>
             </div>
             <!-- Deaprtamento de residencia (debería ser Santander) -->
@@ -83,7 +88,7 @@
                     <label class="control-label">Departamento</label>
                 </div>
                 <div class="col-md-8">
-                    <h4 v-html="cliente.Departamento"></h4>
+                    <h5 v-html="cliente.Departamento"></h5>
                 </div>
             </div>
             <!-- Teléfono -->
@@ -92,7 +97,7 @@
                     <label class="control-label">Teléfono</label>
                 </div>
                 <div class="col-md-8">
-                    <h4 v-html="cliente.Telefono"></h4>
+                    <h5 v-html="cliente.Telefono"></h5>
                 </div>
             </div>
             <!-- Correo Electrónico -->
@@ -101,16 +106,16 @@
                     <label class="control-label">Correo</label>
                 </div>
                 <div class="col-md-8">
-                    <h4 v-html="cliente.Correo"></h4>
+                    <h5 v-html="cliente.Correo"></h5>
                 </div>
             </div>
             <!-- Numero Establecimientos -->
             <div class="form-group row">
                 <div class="col-md-4">
-                    <label class="control-label">Correo</label>
+                    <label class="control-label">Número de Establecimientos</label>
                 </div>
                 <div class="col-md-8">
-                    <h4 v-html="cliente.Correo"></h4>
+                    <h5 v-html="cliente.NumeroEstablecimientos"></h5>
                 </div>
             </div>
             <!-- Clasificación Contribuyente -->
@@ -119,7 +124,7 @@
                     <label class="control-label">Clasificación Contribuyente</label>
                 </div>
                 <div class="col-md-8">
-                    <h4 v-html="cliente.ClasificacionContribuyente"></h4>
+                    <h5 v-html="cliente.ClasificacionContribuyente"></h5>
                 </div>
             </div>
         </template>

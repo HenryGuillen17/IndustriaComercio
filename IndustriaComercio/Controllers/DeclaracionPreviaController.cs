@@ -1,5 +1,6 @@
 ﻿using IndustriaComercio.Common;
 using IndustriaComercio.Common.Extensions;
+using IndustriaComercio.Common.Tools;
 using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Entidades.Basicos;
 using IndustriaComercio.Models.Model;
@@ -105,8 +106,8 @@ namespace IndustriaComercio.Controllers
             model.ListaActividadesGravadas = actividadesGravadas;
             model.ListaClasificacionesContribuyentes = clasificacionesContribuyentes;
             model.ListaTipoSanciones = tipoSanciones;
-            model.Cliente = model.TipoDocumentoId != 0 
-                ? _clienteService.FindClienteByNoDocumento(model.TipoDocumentoId, model.NoIdentificacion)
+            model.Cliente = model.PersonaId != 0 
+                ? _clienteService.FindClienteByPersonaId(model.PersonaId)
                 : new ClienteModel();
         }
 
@@ -117,6 +118,13 @@ namespace IndustriaComercio.Controllers
             var db = new ModelServidor();
 
             var declaracionPreviaId = db.DeclaracionPrevia.Consecutivo(x => x.DeclaracionPreviaId);
+
+            // guardarArchivo
+            model.RutaArchivoRetencion = FileSave.GuardarArchivo(
+                model.ArchivoRetencion,
+                $"{AppDomain.CurrentDomain.BaseDirectory}/Uploads/{DateTime.Now:yyyy}/{DateTime.Now:MM}",
+                "ArchivoRetencion"
+                );
 
             var declaracionPrevia = ToDeclaracionPrevia(model, declaracionPreviaId);
             var actividadesGravadas = ToActividadesGravadas(
@@ -176,10 +184,11 @@ namespace IndustriaComercio.Controllers
                 TotalImpuestoCargo = model.TotalImpuestoCargo,
                 ValorExoneracionImpuesto = model.ValorExoneracionImpuesto,
                 RetencionesDelMunicipio = model.RetencionesDelMunicipio,
+                DocumentoRetencion = model.RutaArchivoRetencion,
                 AutoretencionesDelMunicipio = model.AutoretencionesDelMunicipio,
                 AnticipoAnioAnterior = model.AnticipoAnioAnterior,
                 AnticipoAnioSiguiente = model.AnticipoAnioSiguiente,
-                TipoSancion = model.TipoSancion,
+                TipoSancionId = model.TipoSancion,
                 SaldoFavorPeriodoAnterior = model.SaldoFavorPeriodoAnterior,
                 TotalSaldoCargo = model.TotalSaldoCargo,
                 TotalSaldoFavor = model.TotalSaldoFavor,

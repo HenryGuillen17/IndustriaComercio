@@ -3,7 +3,7 @@ using System.Web.Optimization;
 
 namespace IndustriaComercio
 {
-    public class BundleConfig
+    public static class BundleConfig
     {
         // Para obtener más información sobre las uniones, visite https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
@@ -21,6 +21,7 @@ namespace IndustriaComercio
                         // "~/Scripts/jquery.validate*",
                         "~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js",
                         "~/Content/vendor/jquery-easing/jquery.easing.min.js",
+                        "~/Content/vendor/axios/axios.min.js",
                         // Numeral.js
                         "~/Content/vendor/Numeral/numeral.min.js",
                         "~/Content/vendor/Numeral/locales.min.js",
