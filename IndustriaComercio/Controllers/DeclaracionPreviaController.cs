@@ -53,7 +53,7 @@ namespace IndustriaComercio.Controllers
                 }
                 var declaracionPreviaId = SetDeclaracionPrevia(model);
 
-                return RedirectToAction("Exito", declaracionPreviaId);
+                return RedirectToAction("Exito", new { declaracionPreviaId = declaracionPreviaId });
             }
             catch (Exception e)
             {
@@ -159,11 +159,12 @@ namespace IndustriaComercio.Controllers
             var declaracionPreviaId = db.DeclaracionPrevia.Consecutivo(x => x.DeclaracionPreviaId);
 
             // guardarArchivo
-            model.RutaArchivoRetencion = FileSave.GuardarArchivo(
-                model.ArchivoRetencion,
-                $"{AppDomain.CurrentDomain.BaseDirectory}/Uploads/{DateTime.Now:yyyy}/{DateTime.Now:MM}",
-                "ArchivoRetencion"
-                );
+            if (model.ArchivoRetencion != null)
+                model.RutaArchivoRetencion = FileSave.GuardarArchivo(
+                    model.ArchivoRetencion,
+                    $"{AppDomain.CurrentDomain.BaseDirectory}/Uploads/{DateTime.Now:yyyy}/{DateTime.Now:MM}",
+                    "ArchivoRetencion"
+                    );
 
 
             var declaracionPrevia = ToDeclaracionPrevia(model, declaracionPreviaId);
@@ -201,6 +202,7 @@ namespace IndustriaComercio.Controllers
             return new DeclaracionPrevia
             {
                 DeclaracionPreviaId = consecutivo,
+                FechaDeclaracion = DateTime.Now,
                 Año = model.Año,
                 TipoDeclaracion = model.TipoDeclaracion,
                 TipoContribuyenteId = model.TipoContribuyenteId,
