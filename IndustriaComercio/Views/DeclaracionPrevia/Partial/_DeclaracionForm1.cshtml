@@ -26,17 +26,8 @@
             </div>
         </div>
         <!-- Tipo De Declaración -->
+        <!-- ¿Tiene Pago Voluntario? --> <!-- DEBE DEFINIRSE SI SE VA A INCLUIR O NO -->
         @*<div class="form-group row">
-                <div class="col-md-4">
-                    @Html.LabelFor(model => model.TipoDeclaracion, htmlAttributes: new { @class = "control-label" })
-                </div>
-                <div class="col-md-8">
-                    @Html.EnumDropDownListFor(Model => Model.TipoDeclaracion, null, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.TipoDeclaracion, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-        <!-- ¿Tiene Pago Voluntario? -->
-        <div class="form-group row">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.TienePagoVoluntario, htmlAttributes: new { @class = "control-label " })
             </div>
@@ -54,9 +45,9 @@
                     { "data-placement", "top" } }
                     })
             </div>
-        </div>
-        <!-- ¿Paga Avisos Y Tableros? -->
-        <div class="form-group row">
+        </div>*@
+        <!-- ¿Paga Avisos Y Tableros? --> <!-- INCLUIR EN TABLA CLIENTES CUANDO SE TRAE -->
+        @*<div class="form-group row">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.PagaAvisoTablero, htmlAttributes: new { @class = "control-label " })
             </div>
@@ -75,6 +66,6 @@
                     { "v-model", "form.PagaAvisoTablero" } }
                 })
             </div>
-        </div>
+        </div>*@
     </div>
 </div>

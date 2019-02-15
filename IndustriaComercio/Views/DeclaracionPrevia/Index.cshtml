@@ -382,7 +382,7 @@
                     }
 
                     if (archivo.size > 2048000) {
-                        Swal.fire("Advertencia", "Imagen no puede ser mayor a 2Mb", "warning");
+                        Swal.fire("Advertencia", "Documento no puede ser mayor a 2Mb", "warning");
                         return;
                     }
                     lector = new FileReader();
@@ -390,7 +390,7 @@
                         this.form.ArchivoRetencion = archivo;
                     };
                     lector.onerror = (e) => {
-                        Swal.fire("Error", "Error cargando imagen", "error");
+                        Swal.fire("Error", "Error cargando Documento", "error");
                         console.error(e);
                         return;
                     };

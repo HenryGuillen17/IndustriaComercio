@@ -1,12 +1,17 @@
-﻿using IndustriaComercio.Common;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using IndustriaComercio.Common;
 using IndustriaComercio.Common.Extensions;
 using IndustriaComercio.Common.Tools;
 using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Entidades.Basicos;
 using IndustriaComercio.Models.Model;
+using IndustriaComercio.Models.Reportes.Model;
 using IndustriaComercio.Models.Servicios;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -15,12 +20,14 @@ namespace IndustriaComercio.Controllers
     public class DeclaracionPreviaController : Controller
     {
         private readonly ClienteService _clienteService;
+        private readonly DeclaracionPreviaService _declaracionPreviaService;
 
 
         public DeclaracionPreviaController()
         {
             var db = new ModelServidor();
             _clienteService = new ClienteService(db);
+            _declaracionPreviaService = new DeclaracionPreviaService(db);
         }
 
 
@@ -44,9 +51,9 @@ namespace IndustriaComercio.Controllers
                     CalcularListasDropDown(ref model);
                     return View(model);
                 }
-                SetDeclaracionPrevia(model);
+                var declaracionPreviaId = SetDeclaracionPrevia(model);
 
-                return RedirectToAction("Exito");
+                return RedirectToAction("Exito", declaracionPreviaId);
             }
             catch (Exception e)
             {
@@ -54,9 +61,41 @@ namespace IndustriaComercio.Controllers
             }
         }
 
-        public ActionResult Exito()
+        public ActionResult Exito(int declaracionPreviaId)
         {
+            ViewBag.DeclaracionPreviaId = declaracionPreviaId;
             return View();
+        }
+
+        public ActionResult ExportarReporteDeclaracionPrevia(int declaracionPreviaId)
+        {
+            ReportDocument model = _declaracionPreviaService.GetReportByDeclaracionPreviaId(declaracionPreviaId);
+            return Export(model, $"DeclaracionPrevia_{declaracionPreviaId}_${DateTime.Now:yyyyMMdd}");
+        }
+
+
+        private ActionResult Export(
+            ReportDocument report, string fileName
+            )
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var type = ExportFormatType.PortableDocFormat;
+            var tipoArchivo = "application/pdf";
+            var ext = ".pdf";
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            var stream = report.ExportToStream(type);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            sw.Stop();
+            Debug.WriteLine($" ***************************   {sw.Elapsed}");
+
+            return File(stream, tipoArchivo, fileName + ext);
         }
 
         private void CalcularListasDropDown(
@@ -76,11 +115,11 @@ namespace IndustriaComercio.Controllers
             var actividadesGravadas = db.ActividadGravada
                 .OrderBy(x => x.Descripcion)
                 .Select(x => new ActividadGravadaModel
-                    {
-                        ActividadId = x.ActividadId,
-                        Descripcion = x.Descripcion,
-                        Tarifa = x.Tarifa
-                    })
+                {
+                    ActividadId = x.ActividadId,
+                    Descripcion = x.Descripcion,
+                    Tarifa = x.Tarifa
+                })
                 .ToList();
             var clasificacionesContribuyentes = db.ClasificacionContribuyente
                 .OrderBy(x => x.Descripcion)
@@ -99,19 +138,19 @@ namespace IndustriaComercio.Controllers
                     PorcentajeSancion = x.Porcentaje
                 })
                 .ToList();
-            
+
             model.TipoDocumentos = tiposDeDocumentos;
             model.TipoContribuyentes = tiposDeContribuyentes
                 .Select(x => new SelectListItem { Text = x.Descripcion, Value = x.TipoContribuyenteId.ToString() }).ToList();
             model.ListaActividadesGravadas = actividadesGravadas;
             model.ListaClasificacionesContribuyentes = clasificacionesContribuyentes;
             model.ListaTipoSanciones = tipoSanciones;
-            model.Cliente = model.PersonaId != 0 
+            model.Cliente = model.PersonaId != 0
                 ? _clienteService.FindClienteByPersonaId(model.PersonaId)
                 : new ClienteModel();
         }
 
-        private void SetDeclaracionPrevia(
+        private int SetDeclaracionPrevia(
             DeclaracionPreviaModel model
             )
         {
@@ -126,6 +165,7 @@ namespace IndustriaComercio.Controllers
                 "ArchivoRetencion"
                 );
 
+
             var declaracionPrevia = ToDeclaracionPrevia(model, declaracionPreviaId);
             var actividadesGravadas = ToActividadesGravadas(
                 model.ActividadesGravadas, declaracionPreviaId
@@ -135,6 +175,8 @@ namespace IndustriaComercio.Controllers
             db.ActividadGravablePorDeclaracion.AddRange(actividadesGravadas);
 
             db.SaveChanges();
+
+            return declaracionPreviaId;
         }
 
         private IEnumerable<ActividadGravablePorDeclaracion> ToActividadesGravadas(

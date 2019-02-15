@@ -1,14 +1,13 @@
-﻿using IndustriaComercio.Entidades.Basicos;
-using IndustriaComercio.Entidades.Persona;
-using IndustriaComercio.Models.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace IndustriaComercio.Models.Entidades.Basicos
+namespace IndustriaComercio.Models.Reportes.Model
 {
-    public class DeclaracionPrevia
+    public class DeclaracionPreviaReport
     {
-        
+
         #region Propiedades
 
 
@@ -18,11 +17,13 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         public int DeclaracionPreviaId { get; set; }
 
-        public int Año { get; set; }
+        public int Anio { get; set; }
 
-        public TipoDeclaracion TipoDeclaracion { get; set; }
+        public string DepartamentoReporte { get; set; }
 
-        public int TipoContribuyenteId { get; set; }
+        public string MunicipioReporte { get; set; }
+
+        public string TipoDeclaracion { get; set; }
 
         public bool TienePagoVoluntario { get; set; }
 
@@ -39,6 +40,29 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
 
         public int PersonaId { get; set; }
+
+        public string NombreRazonSocial { get; set; }
+
+        public string TipoDocumentoNombre { get; set; }
+
+        public string NoIdentificacion { get; set; }
+
+        public string DigitoChequeo { get; set; }
+
+        public string DireccionNegocio { get; set; }
+
+        public string MunicipioNegocio { get; set; }
+
+        public string DepartamentoNegocio { get; set; }
+
+        public string Telefono { get; set; }
+
+        public string CorreoElectronico { get; set; }
+
+        public string TipoContribuyenteNombre { get; set; }
+
+        public int NoEstablecimientos { get; set; }
+
 
 
         #endregion
@@ -78,11 +102,11 @@ namespace IndustriaComercio.Models.Entidades.Basicos
         // --------------------------------------------------------------------
 
         #region Vista Actividades Gravadas Sección "C" #5
-            
+
         /// <summary>
         /// Se obtiene de la sumatoria de tarifas de Actividades Gravadas
         /// </summary>
-        public double TotalTarifa { get; set; }
+        public double TotalImpuestrosGravados { get; set; }
 
 
         #endregion
@@ -107,12 +131,9 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Liquidación Privada Sección "D" #7
 
+
         public double TotalImpuestoIndustriaComercio { get; set; }
 
-
-        /// <summary>
-        /// A TotalImpuestoIndustriaComercio se le saca el 15% y se redondea por múltiplo de 1000
-        /// </summary
         public double ImpuestoAvisosTableros { get; set; }
 
         public double PagoUnidadesComerciales { get; set; }
@@ -143,7 +164,7 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         public double AnticipoAnioSiguiente { get; set; }
 
-        public int? TipoSancionId { get; set; }
+        public string TipoSancionNombre { get; set; }
 
         public double ValorSancion { get; set; }
 
@@ -163,26 +184,20 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         public double ValorPagar { get; set; }
 
-        public double PorcentajeDescuento { get; set; }
-
         public double Descuento { get; set; }
-
-        public double PorcentajeIntereses { get; set; }
 
         public double Interes { get; set; }
 
         public double TotalPagar { get; set; }
 
+        public ICollection<ActividadGravada> ActividadesGravadas { get; set; }
+
 
         #endregion
 
 
         #endregion
 
-        public virtual ICollection<ActividadGravablePorDeclaracion> ActividadesGravadas { get; set; }
-        public virtual Cliente Cliente { get; set; }
-        public TipoSancion TipoSancion { get; set; }
+
     }
-
-
 }

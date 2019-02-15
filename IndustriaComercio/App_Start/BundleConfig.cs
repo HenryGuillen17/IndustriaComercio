@@ -12,6 +12,7 @@ namespace IndustriaComercio
                       "~/Content/vendor/bootstrap/css/bootstrap.min.css",
                       "~/Content/vendor/fontawesome-free/css/all.min.css",
                       "~/Content/vendor/datatables/dataTables.bootstrap4.css",
+                      "~/Content/vendor/printjs/print.min.css",
                       "~/Content/css/sb-admin.css",
                       "~/Content/css/main.css"
                       ));
@@ -26,7 +27,8 @@ namespace IndustriaComercio
                         "~/Content/vendor/Numeral/numeral.min.js",
                         "~/Content/vendor/Numeral/locales.min.js",
                         "~/Content/vendor/vue/vue.min.js",
-                        "~/Content/vendor/SweetAlert/sweetalert2@8.js"
+                        "~/Content/vendor/SweetAlert/sweetalert2@8.js",
+                        "~/Content/vendor/printjs/print.min.js"
                         //"~/Content/vendor/chart.js/Chart.min.js",
                         //"~/Content/vendor/datatables/jquery.dataTables.js",
                         //"~/Content/vendor/datatables/dataTables.bootstrap4.js",

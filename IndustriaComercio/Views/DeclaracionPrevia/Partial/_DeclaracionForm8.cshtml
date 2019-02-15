@@ -159,6 +159,9 @@
             </div>
             <div class="col-md-8">
                 <h4>{{ totalValorSancion | formatPrecio }}</h4>
+                @Html.HiddenFor(x => x.ValorSancion, new Dictionary<string, object>() {
+                    { "v-bind:value", "totalValorSancion" }
+                })
             </div>
         </div>
         <!-- Saldo a favor Período Anterior -->

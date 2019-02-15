@@ -45,6 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win32_x86\dotnet\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win32_x86\dotnet\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -197,6 +209,18 @@
     <Compile Include="Migrations\201902110630354_ModifyDeclaracionPreviaV01.Designer.cs">
       <DependentUpon>201902110630354_ModifyDeclaracionPreviaV01.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902141110477_AddDeclaracionPreviaFechaDeclaracion.cs" />
+    <Compile Include="Migrations\201902141110477_AddDeclaracionPreviaFechaDeclaracion.Designer.cs">
+      <DependentUpon>201902141110477_AddDeclaracionPreviaFechaDeclaracion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902141116207_ModifyDeclaracionPrevia_InteresesDescuentos.cs" />
+    <Compile Include="Migrations\201902141116207_ModifyDeclaracionPrevia_InteresesDescuentos.Designer.cs">
+      <DependentUpon>201902141116207_ModifyDeclaracionPrevia_InteresesDescuentos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902141119583_ModifyDeclaracionPrevia_AddValorSancion.cs" />
+    <Compile Include="Migrations\201902141119583_ModifyDeclaracionPrevia_AddValorSancion.Designer.cs">
+      <DependentUpon>201902141119583_ModifyDeclaracionPrevia_AddValorSancion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoContribuyenteMapping.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoSancionMapping.cs" />
@@ -258,6 +282,14 @@
     <Compile Include="Models\Model\DeclaracionPreviaModel.cs" />
     <Compile Include="Models\Model\PersonaModel.cs" />
     <Compile Include="Models\Model\TipoSancionModel.cs" />
+    <Compile Include="Models\Reportes\Model\ActividadGravada.cs" />
+    <Compile Include="Models\Reportes\Model\DeclaracionPreviaReport.cs" />
+    <Compile Include="Models\Reportes\Pdf\CRDeclaracionPrevia.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRDeclaracionPrevia.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Models\Servicios\ClienteService.cs" />
     <Compile Include="Models\Servicios\DeclaracionPreviaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -279,6 +311,7 @@
     <Content Include="Content\scss\sb-admin.min.css">
       <DependentUpon>sb-admin.css</DependentUpon>
     </Content>
+    <Content Include="Content\vendor\axios\axios.min.js" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.min.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-reboot.css" />
@@ -1720,6 +1753,8 @@
     <Content Include="Content\vendor\Numeral\locales\uk-ua.min.js" />
     <Content Include="Content\vendor\Numeral\locales\vi.min.js" />
     <Content Include="Content\vendor\Numeral\numeral.min.js" />
+    <Content Include="Content\vendor\printjs\print.min.css" />
+    <Content Include="Content\vendor\printjs\print.min.js" />
     <Content Include="Content\vendor\SweetAlert\sweetalert2%408.js" />
     <Content Include="Content\vendor\vue\vue-mask\di-vue-mask.js" />
     <Content Include="Content\vendor\vue\vue-mask\vue-the-mask.js" />
@@ -1882,6 +1917,22 @@
     <EmbeddedResource Include="Migrations\201902110630354_ModifyDeclaracionPreviaV01.resx">
       <DependentUpon>201902110630354_ModifyDeclaracionPreviaV01.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902141110477_AddDeclaracionPreviaFechaDeclaracion.resx">
+      <DependentUpon>201902141110477_AddDeclaracionPreviaFechaDeclaracion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902141116207_ModifyDeclaracionPrevia_InteresesDescuentos.resx">
+      <DependentUpon>201902141116207_ModifyDeclaracionPrevia_InteresesDescuentos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902141119583_ModifyDeclaracionPrevia_AddValorSancion.resx">
+      <DependentUpon>201902141119583_ModifyDeclaracionPrevia_AddValorSancion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\Reportes\Pdf\CRDeclaracionPrevia.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRDeclaracionPrevia.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
