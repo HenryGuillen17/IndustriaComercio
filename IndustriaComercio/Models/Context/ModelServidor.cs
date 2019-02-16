@@ -29,6 +29,7 @@ namespace IndustriaComercio.Models.Context
         public DbSet<TipoSancion> TipoSancion { get; set; }
         public DbSet<Persona> Persona { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<ListaCorreo> ListaCorreo { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

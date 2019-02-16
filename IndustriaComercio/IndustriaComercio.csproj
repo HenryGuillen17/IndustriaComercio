@@ -170,6 +170,7 @@
     <Compile Include="Common\Extensions\SqlExtensions.cs" />
     <Compile Include="Common\Helpers\MvcHtmlHelpers.cs" />
     <Compile Include="Common\ComboBox.cs" />
+    <Compile Include="Common\Tools\EnviarCorreo.cs" />
     <Compile Include="Common\Tools\FileSave.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DeclaracionPreviaController.cs" />
@@ -221,7 +222,12 @@
     <Compile Include="Migrations\201902141119583_ModifyDeclaracionPrevia_AddValorSancion.Designer.cs">
       <DependentUpon>201902141119583_ModifyDeclaracionPrevia_AddValorSancion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902160137229_AddTableListasCorreos.cs" />
+    <Compile Include="Migrations\201902160137229_AddTableListasCorreos.Designer.cs">
+      <DependentUpon>201902160137229_AddTableListasCorreos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\ListaCorreoMapping.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoContribuyenteMapping.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoSancionMapping.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoDocumentoMapping.cs" />
@@ -249,6 +255,7 @@
     <Compile Include="Models\Entidades\Basicos\ActividadGravablePorDeclaracion.cs" />
     <Compile Include="Models\Entidades\Basicos\ClasificacionContribuyente.cs" />
     <Compile Include="Models\Entidades\Basicos\DeclaracionPrevia.cs" />
+    <Compile Include="Models\Entidades\Basicos\ListaCorreo.cs" />
     <Compile Include="Models\Entidades\Basicos\TipoContribuyente.cs" />
     <Compile Include="Models\Entidades\Basicos\TipoSancion.cs" />
     <Compile Include="Models\Entidades\Basicos\TipoDocumento.cs" />
@@ -1925,6 +1932,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902141119583_ModifyDeclaracionPrevia_AddValorSancion.resx">
       <DependentUpon>201902141119583_ModifyDeclaracionPrevia_AddValorSancion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902160137229_AddTableListasCorreos.resx">
+      <DependentUpon>201902160137229_AddTableListasCorreos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\Reportes\Pdf\CRDeclaracionPrevia.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

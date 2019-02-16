@@ -1,5 +1,8 @@
 ﻿using IndustriaComercio.Models.Context;
+using IndustriaComercio.Models.Entidades.Basicos;
 using IndustriaComercio.Models.Model;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -95,6 +98,11 @@ namespace IndustriaComercio.Models.Servicios
                 .FirstOrDefault();
 
             return model;
+        }
+
+        internal IEnumerable<ListaCorreo> GetListaCorreos()
+        {
+            return _db.ListaCorreo.ToList();
         }
     }
 }

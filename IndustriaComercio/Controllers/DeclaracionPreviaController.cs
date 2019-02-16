@@ -53,13 +53,14 @@ namespace IndustriaComercio.Controllers
                 }
                 var declaracionPreviaId = SetDeclaracionPrevia(model);
 
-                return RedirectToAction("Exito", new { declaracionPreviaId = declaracionPreviaId });
+                return RedirectToAction("Exito", new { declaracionPreviaId });
             }
             catch (Exception e)
             {
                 throw;
             }
         }
+
 
         public ActionResult Exito(int declaracionPreviaId)
         {
@@ -69,8 +70,25 @@ namespace IndustriaComercio.Controllers
 
         public ActionResult ExportarReporteDeclaracionPrevia(int declaracionPreviaId)
         {
-            ReportDocument model = _declaracionPreviaService.GetReportByDeclaracionPreviaId(declaracionPreviaId);
-            return Export(model, $"DeclaracionPrevia_{declaracionPreviaId}_${DateTime.Now:yyyyMMdd}");
+            var model = _declaracionPreviaService.GetReportByDeclaracionPreviaId(declaracionPreviaId);
+            IEnumerable<string> listaCorreos = _clienteService.GetListaCorreos().Select(x => x.Correo).ToList();
+            var informesPdf = new List<Tuple<Stream, string>>
+            {
+                new Tuple<Stream, string> (model.ExportToStream(ExportFormatType.PortableDocFormat), "declaracion.pdf")
+            };
+            // Si vas a utilizar tu cuenta de gmail. primero ve al link y activa el switch que te va a aparecer
+            // https://myaccount.google.com/lesssecureapps?pli=1
+            EnviarCorreo.EnviarEmail(
+                "{tucorreo}",
+                "{tucontraseña}",
+                listaCorreos,
+                $"DeclaracionPrevia_{declaracionPreviaId}_{DateTime.Now:yyyyMMdd}",
+                "Declaración Previa",
+                null,
+                informesPdf,
+                null
+                );
+            return Export(model, $"DeclaracionPrevia_{declaracionPreviaId}_{DateTime.Now:yyyyMMdd}");
         }
 
 
