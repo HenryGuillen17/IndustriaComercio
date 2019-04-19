@@ -16,7 +16,11 @@ namespace IndustriaComercio.Models.Context.Mapping.Declaracion
             // Tabla y esquema de la base de datos.
             ToTable("ActividadesGravadas", "dbo");
 
-            
+            // Tipo Actividad
+            HasRequired(p => p.TipoActividad)
+                .WithMany(p => p.ActividadesGravadas)
+                .HasForeignKey(p => p.TipoActividadId)
+                .WillCascadeOnDelete(false);
         }
     }
 }

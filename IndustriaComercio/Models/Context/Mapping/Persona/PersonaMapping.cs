@@ -14,17 +14,13 @@ namespace IndustriaComercio.Models.Context.mapping.Persona
             ToTable("Personas", "dbo");
 
             Property(a => a.PersonaId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(a => a.ClasificacionContribuyenteId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             HasRequired(x => x.TipoDocumento)
                 .WithMany(x => x.Personas)
                 .HasForeignKey(x => x.TipoDocumentoId)
                 .WillCascadeOnDelete(false);
 
-            HasRequired(x => x.ClasificacionContribuyente)
-                .WithMany(x => x.Personas)
-                .HasForeignKey(x => x.ClasificacionContribuyenteId)
-                .WillCascadeOnDelete(false);
+            
 
 
         }

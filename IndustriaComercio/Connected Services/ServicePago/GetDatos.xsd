@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://200.122.221.193:8995/GetDatos.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WCFDatos" />
+  <xs:element name="InsertTransaction">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/WCFDatos" minOccurs="0" name="Transaction" nillable="true" type="q1:CLSTransaction" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WCFDatos" minOccurs="0" name="TaxPaers" nillable="true" type="q2:CLSTaxPaers" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertTransactionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="InsertTransactionResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertTransactionJson">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Transaction" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TaxPaers" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertTransactionJsonResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="InsertTransactionJsonResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertTransactionMultiCredit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Transaction" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="TaxPaers" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertTransactionMultiCreditResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="InsertTransactionMultiCreditResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StateTickedID">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TickedID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdProcess" type="xs:int" />
+        <xs:element minOccurs="0" name="MunicipalityCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StateTickedIDResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="StateTickedIDResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTransactionInformation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TickedID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IdProcess" type="xs:int" />
+        <xs:element minOccurs="0" name="MunicipalityCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTransactionInformationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/WCFDatos" minOccurs="0" name="GetTransactionInformationResult" nillable="true" type="q3:TransactionInformation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

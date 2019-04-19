@@ -9,7 +9,6 @@ namespace IndustriaComercio.Entidades.Basicos
     {
         public int DeclaracionId { get; set; }
         public byte NoCuota { get; set; }
-        public short Año { get; set; }
         public double TotalCuota { get; set; }
         public DateTime FechaVencimiento { get; set; }
         

@@ -1,0 +1,37 @@
+﻿@using IndustriaComercio.Models.Model;
+@{
+    Layout = null;
+
+    var menu = this.Session["menu"] as IEnumerable<UsuarioMenuModel>;
+}
+<ul class="sidebar navbar-nav">
+
+    @if (menu == null)
+    {
+
+    }
+    else
+    {
+        foreach (var item in menu)
+        {
+            if (!item.Permiso) { continue; }
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="@item.Imagen"></i>
+                    <span>@item.Descripcion</span>
+                </a>
+                <ul class="dropdown-menu">
+                    @foreach (var subitem in item.UsuarioSubMenus)
+                    {
+                        if (!subitem.Permiso) { continue; }
+                        <li><a class="dropdown-item" href="@subitem.Url">@subitem.Descripcion</a></li>
+                    }
+
+                </ul>
+            </li>
+        }
+    }
+
+</ul>
+

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<IndustriaComercio.Models.Entidades.Basicos.ActividadGravada>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="form-group row">
+    <div class="col-md-4">
+        <h3>Actividades</h3>
+    </div>
+    <div class="col-md-8">
+        <div class="float-right">
+            <a class="btn btn-primary" href="@Url.Action("Create")" role="button">Crear</a>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Codigo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tarifa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Valor)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Codigo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tarifa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Valor)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ActividadId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,7 +1,5 @@
 ﻿@using IndustriaComercio.Common.Helpers
-
 @model IndustriaComercio.Models.Model.DeclaracionPreviaModel
-
 <div class="card"
      v-show="vista === 7">
     <div class="card-header">
@@ -17,13 +15,37 @@
                 <h4>{{ TotalImpuestoIndustriaComercio | formatPrecio }}</h4>
             </div>
         </div>
+        <!-- Paga avisos y tableros -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(m => m.PagaAvisoTablero, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <div class="custom-control custom-checkbox">
+                    @Html.CheckBoxFor(m => m.PagaAvisoTablero, new { @class = "custom-control-input", id = "defaultUnchecked", v_model = "form.PagaAvisoTablero" })
+                    <label class="custom-control-label" for="defaultUnchecked">Esta casilla esta sujeta a revision, si la informacion suministrada no es correcta, se podrian aplicar sanciones</label>
+                </div>
+            </div>
+        </div>
         <!-- Total Impuesto Avisos Tableros -->
         <div class="form-group row">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.ImpuestoAvisosTableros, htmlAttributes: new { @class = "control-label " })
             </div>
             <div class="col-md-8">
-                <h4>{{ ImpuestoAvisosTableros | formatPrecio }}</h4>
+                @Html.EditorFor(model => model.ImpuestoAvisosTableros,
+                new { htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.ImpuestoAvisosTableros) },
+                    { "data-placement", "top" },
+                    { "v-model", "form.ImpuestoAvisosTableros" },
+                    { "readonly", "readonly" }
+                    } })
+                @Html.ValidationMessageFor(model => model.ImpuestoAvisosTableros, "", new { @class = "text-danger" })
             </div>
         </div>
         <!-- Pago Unidades Comerciales -->
@@ -61,7 +83,8 @@
                     { "data-trigger", "focus" },
                     { "data-content", @Html.DescriptionFor(model => model.SobretasaBomberil) },
                     { "data-placement", "top" },
-                    { "v-model", "form.SobretasaBomberil" }
+                    { "v-model", "form.SobretasaBomberil" },
+                    { "readonly", "readonly" }
                     } })
                 @Html.ValidationMessageFor(model => model.SobretasaBomberil, "", new { @class = "text-danger" })
             </div>
@@ -81,12 +104,12 @@
                     { "data-trigger", "focus" },
                     { "data-content", @Html.DescriptionFor(model => model.SobretasaSeguridad) },
                     { "data-placement", "top" },
-                    { "v-model", "form.SobretasaSeguridad" }
+                    { "v-model", "form.SobretasaSeguridad" },
+                    { "readonly", "readonly" }
                     } })
                 @Html.ValidationMessageFor(model => model.SobretasaSeguridad, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <!-- Total Impuesto Cargo -->
         <div class="form-group row">
             <div class="col-md-4">

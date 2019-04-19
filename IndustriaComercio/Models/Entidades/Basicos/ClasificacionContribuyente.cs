@@ -11,8 +11,6 @@ namespace IndustriaComercio.Models.Entidades.Basicos
         public int ClasificacionContribuyenteId { get; set; }
         public string Descripcion { get; set; }
 
-
-
-        public virtual ICollection<Persona> Personas { get; set; }
+        public virtual ICollection<Cliente> Clientes { get; set; }
     }
 }

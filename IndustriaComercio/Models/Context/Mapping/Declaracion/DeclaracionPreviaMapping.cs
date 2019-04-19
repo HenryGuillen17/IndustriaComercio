@@ -18,11 +18,7 @@ namespace IndustriaComercio.Models.Context.Mapping.Declaracion
             // Tabla y esquema de la base de datos.
             ToTable("DeclaracionesPrevias", "dbo");
 
-            Property(a => a.PersonaId)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None); // No autoIncremental 
-
-            Property(a => a.TipoSancionId)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(a => a.TipoSancionId).IsOptional();
 
 
             // Cliente

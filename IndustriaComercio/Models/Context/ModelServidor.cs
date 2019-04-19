@@ -12,6 +12,9 @@ namespace IndustriaComercio.Models.Context
     using IndustriaComercio.Models.Context.Mapping.Declaracion;
     using IndustriaComercio.Models.Entidades.Basicos;
     using IndustriaComercio.Entidades.Persona;
+    using IndustriaComercio.Entidades.UsuarioPermisos;
+    using System.Linq.Expressions;
+    using System.Data.Entity.Core;
 
     public partial class ModelServidor : DbContext
     {
@@ -21,7 +24,7 @@ namespace IndustriaComercio.Models.Context
         }
 
         public DbSet<TipoDocumento> TipoDocumento { get; set; }
-        public DbSet<TipoContribuyente> TipoContribuyente { get; set; }
+        public DbSet<TipoActividad> TipoActividad { get; set; }
         public DbSet<DeclaracionPrevia> DeclaracionPrevia { get; set; }
         public DbSet<ActividadGravablePorDeclaracion> ActividadGravablePorDeclaracion { get; set; }
         public DbSet<ActividadGravada> ActividadGravada { get; set; }
@@ -29,6 +32,7 @@ namespace IndustriaComercio.Models.Context
         public DbSet<TipoSancion> TipoSancion { get; set; }
         public DbSet<Persona> Persona { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
         public DbSet<ListaCorreo> ListaCorreo { get; set; }
 
 
@@ -52,7 +56,7 @@ namespace IndustriaComercio.Models.Context
             modelBuilder.Configurations.Add(new PersonaMapping());
             modelBuilder.Configurations.Add(new ClienteMapping());
             modelBuilder.Configurations.Add(new TipoDocumentoMapping());
-            modelBuilder.Configurations.Add(new TipoContribuyenteMapping());
+            modelBuilder.Configurations.Add(new TipoActividadMapping());
             modelBuilder.Configurations.Add(new TipoSancionMapping());
 
             modelBuilder.Configurations.Add(new DeclaracionPreviaMapping());
@@ -63,8 +67,13 @@ namespace IndustriaComercio.Models.Context
             modelBuilder.Configurations.Add(new DescuentoMapping());
             modelBuilder.Configurations.Add(new InteresMapping());
 
+            modelBuilder.Configurations.Add(new EstablecimientoMapping());
+            modelBuilder.Configurations.Add(new EstablecimientoActividadMapping());
+
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
         }
+
+        public System.Data.Entity.DbSet<IndustriaComercio.Entidades.Basicos.Establecimiento> Establecimientoes { get; set; }
     }
 }

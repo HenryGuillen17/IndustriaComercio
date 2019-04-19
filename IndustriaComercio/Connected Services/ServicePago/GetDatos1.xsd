@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/WCFDatos" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WCFDatos" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="CLSTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Color" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EntityCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EntityValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IdProcess" type="xs:int" />
+      <xs:element minOccurs="0" name="MunicipalityCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MunicipalityValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PayValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Reference" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ruta" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TickedID" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CLSTransaction" nillable="true" type="tns:CLSTransaction" />
+  <xs:complexType name="CLSTaxPaers">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Document" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DocumentType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Phone" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CLSTaxPaers" nillable="true" type="tns:CLSTaxPaers" />
+  <xs:complexType name="TransactionInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Amount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BankResponseDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CodService" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Codbank" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Document" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IP" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Reference" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TransactionDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TransactionState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="cus" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="transactionCycle" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionInformation" nillable="true" type="tns:TransactionInformation" />
+</xs:schema>

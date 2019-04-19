@@ -15,8 +15,11 @@ namespace IndustriaComercio.Models.Context.mapping.Persona
             ToTable("Clientes", "dbo");
             
             HasRequired(x => x.Persona).WithOptional(x => x.Cliente);
-            
 
+            HasRequired(x => x.ClasificacionContribuyente)
+                .WithMany(x => x.Clientes)
+                .HasForeignKey(x => x.ClasificacionContribuyenteId)
+                .WillCascadeOnDelete(false);
         } 
     }
 }

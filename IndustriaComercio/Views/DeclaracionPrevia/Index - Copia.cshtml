@@ -1,6 +1,8 @@
-﻿@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
+﻿@using Newtonsoft.Json;
+
+@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-co">
 <head>
 
     <meta charset="utf-8">
@@ -19,7 +21,7 @@
 </head>
 
 <body id="page-top">
-    <div class="container">
+    <div class="container" id="app">
         <div class="row">
             <div class="col">
 
@@ -32,239 +34,394 @@
                 &nbsp;
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-1 d-none d-lg-block"></div>
-            <div class="col auto align-self-center">
+        @using (Html.BeginForm("Index", "DeclaracionPrevia", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row ">
+                @*<div class="col-md-1 d-none d-lg-block"></div>*@
+                <div class="col">
 
-                @using (Html.BeginForm())
-                {
+                    @Html.Partial("Partial/_DeclaracionForm1")
+                    @Html.Partial("Partial/_DeclaracionForm2")
+                    @Html.Partial("Partial/_DeclaracionForm3")
+                    @Html.Partial("Partial/_DeclaracionForm4")
+                    @Html.Partial("Partial/_DeclaracionForm5")
+                    @Html.Partial("Partial/_DeclaracionForm6")
+                    @Html.Partial("Partial/_DeclaracionForm7")
+                    @Html.Partial("Partial/_DeclaracionForm8")
+                    @Html.Partial("Partial/_DeclaracionForm9")
 
-                    <div class="card">
-                        <div class="card-header">
-                            DATOS DEL CONTRIBUYENTE
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.Municipio, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.Municipio, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.Municipio, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.Departamento, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.Departamento, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.Departamento, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.Año, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.DropDownListFor(Model => Model.Año, Model.Años, "Seleccionar", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Año, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.TipoDeclaracion, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.DropDownListFor(Model => Model.TipoDeclaracion, Model.TipDeclaraciones, "Seleccionar", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TipoDeclaracion, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.TipoContribuyenteId, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.DropDownListFor(Model => Model.TipoContribuyenteId, Model.TipoContribuyentes, "Seleccionar", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TipoContribuyenteId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.MunicipioNotificacion, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.MunicipioNotificacion, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.MunicipioNotificacion, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.DepartamentoNotificacion, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.DepartamentoNotificacion, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.DepartamentoNotificacion, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.TipoDocumentoId, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.DropDownListFor(Model => Model.TipoDocumentoId, Model.TipoDocumentos, "Seleccionar", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TipoDocumentoId, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => model.NombreCompleto, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.NombreCompleto, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.EditorFor(model => model.DigitoChekeo, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.DigitoChekeo, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.NumeroEstablecimientos, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.NumeroEstablecimientos, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.NumeroEstablecimientos, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.ClasificacionContribuyente, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.ClasificacionContribuyente, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.ClasificacionContribuyente, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>&nbsp;</div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            DATOS CONTADOR Y DECLARANTE
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.NombreDeclarante, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.NombreDeclarante, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.NombreDeclarante, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.TipoDocumentoDeclaranteId, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.DropDownListFor(Model => Model.TipoDocumentoDeclaranteId, Model.TipoDocumentos, "Seleccionar", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TipoDocumentoDeclaranteId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.NoIdentificacionDeclarante, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.NoIdentificacionDeclarante, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.NoIdentificacionDeclarante, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.NombreContador, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.NombreContador, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.NombreContador, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.TipoDocumentoContadorId, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.DropDownListFor(Model => Model.TipoDocumentoContadorId, Model.TipoDocumentos, "Seleccionar", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TipoDocumentoContadorId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.NoIdentificacionContador, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.NoIdentificacionContador, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.NoIdentificacionContador, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.TarjetaProfesional, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-8">
-                                    @Html.EditorFor(model => model.TarjetaProfesional, new { htmlAttributes = new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Requerido" } } })
-                                    @Html.ValidationMessageFor(model => model.TarjetaProfesional, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div>&nbsp;</div>
-
-                    <div class="form-group row text-center">
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </div>
-                }
-
+                </div>
+                @*<div class="col-md-1 d-none d-lg-block"></div>*@
             </div>
-            <div class="col-md-1 d-none d-lg-block"></div>
-        </div>
+
+            <div class="form-group row mt-3">
+                @*<div class="col-md-1 d-none d-lg-block"></div>*@
+                <div class="col text-left">
+                    <button type="button"
+                            class="btn btn-outline-info"
+                            v-on:click="vistaAnterior"
+                            v-show="vista != 1"
+                            v-bind:disabled="!verBotonAtras">
+                        Atrás
+                    </button>
+                </div>
+                <div class="col text-center">
+                    <button type="submit"
+                            class="btn btn-success"
+                            v-on:keypress.13="$event.prevent"
+                            v-show="verBotonGuardar">
+                        Guardar
+                    </button>
+                </div>
+                <div class="col text-right">
+                    <button type="button"
+                            class="btn btn-outline-primary"
+                            v-on:click="vistaSiguiente"
+                            v-show="vista != 9"
+                            v-bind:disabled="!verBotonAdelante">
+                        Adelante
+                    </button>
+                </div>
+                @*<div class="col-md-1 d-none d-lg-block"></div>*@
+            </div>
+        }
+
     </div>
 
     <!-- Bootstrap core JavaScript-->
     @Scripts.Render("~/bundles/js")
     @Scripts.Render("~/bundles/jqueryval")
 
+    <script>
+        numeral.locale('es');
 
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                vista: 1,
+                limiteInferiorVista: 1,
+                limiteSuperiorVista: 9,
+
+                actividades: JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ActividadesGravadas))'),
+                cliente: {
+                    ClasificacionContribuyente: '@Model.Cliente.ClasificacionContribuyenteNombre',
+                    Correo: '@Model.Cliente.Correo',
+                    Departamento: '@Model.Cliente.Departamento',
+                    Direccion: '@Model.Cliente.Direccion',
+                    Municipio: '@Model.Cliente.Municipio',
+                    NombreCompleto: '@Model.Cliente.NombreCompleto',
+                    NumeroEstablecimientos: @Model.Cliente.NumeroEstablecimientos,
+                    Telefono: '@Model.Cliente.Telefono'
+                },
+                form: {
+                    Anio: (@Model.Año == 0 ? "" : @Model.Año),
+                    AnticipoAnioAnterior: (@Model.AnticipoAnioAnterior),
+                    AnticipoAnioSiguiente: (@Model.AnticipoAnioSiguiente),
+                    ArchivoRetencion: null,
+                    AutoretencionesDelMunicipio: (@Model.AutoretencionesDelMunicipio),
+                    CapacidadInstalada: (@Model.CapacidadInstalada),
+                    DescuentoProntoPago: (@Model.Descuento),
+                    IngresosActividadesExentas: (@Model.IngresosActividadesExentas),
+                    IngresosActivosFijos: (@Model.IngresosActivosFijos),
+                    IngresosDevoluciones: (@Model.IngresosDevoluciones),
+                    IngresosEnElPais: (@Model.IngresosEnElPais),
+                    IngresosExportaciones: (@Model.IngresosExportaciones),
+                    IngresosFueraDelMunicipio: (@Model.IngresosFueraDelMunicipio),
+                    IngresosNoGravados: (@Model.IngresosNoGravados),
+                    InteresesDeMora: (@Model.Interes),
+                    ImpuestoAvisosTableros: (@Model.ImpuestoAvisosTableros),
+                    NoIdentificacion: '@Model.NoIdentificacion',
+                    PagaAvisoTablero: @(Model.PagaAvisoTablero ? "true" : "false"),
+                    PagoUnidadesComerciales: (@Model.PagoUnidadesComerciales),
+                    PersonaId: @Model.PersonaId,
+                    PorcentajeDescuento: @Model.PorcentajeDescuento,
+                    PorcentajeInteres: @Model.PorcentajeInteres,
+                    RetencionesDelMunicipio: (@Model.RetencionesDelMunicipio),
+                    SaldoFavorPeriodoAnterior: (@Model.SaldoFavorPeriodoAnterior),
+                    SobretasaBomberil: (@Model.SobretasaBomberil),
+                    SobretasaSeguridad: (@Model.SobretasaSeguridad),
+                    TienePagoVoluntario: @Model.TienePagoVoluntario.ToString().ToLower(),
+                    TipoContribuyenteId: (@Model.TipoContribuyenteId),
+                    TipoDeclaracion: '@((int)Model.TipoDeclaracion)',
+                    TipoDocumentoId: (@Model.TipoDocumentoId),
+                    TipoSancionId: '@Model.TipoSancion',
+                    ValorExoneracionImpuesto: (@Model.ValorExoneracionImpuesto),
+                    ValorPagar: (@Model.ValorPagar),
+                    ValorSancion: (@Model.ValorSancion),
+                },
+
+                // swap
+                selectActividad: null,
+                searchActividad: ''
+            },
+            mounted() {
+                for (let i in this.actividades) {
+                    this.actividades[i].Descripcion = this.listaActividadesGravadas
+                            .find(x => x.ActividadId === this.actividades[i].ActividadId).Descripcion;
+                }
+            },
+            computed: {
+                verBotonAtras() {
+                    return this.vista > this.limiteInferiorVista;
+                },
+                verBotonAdelante() {
+                    // valida vista 1
+                    if (this.vista === 1 && this.form.Anio === "")
+                        return false;
+                    // valida vista 2
+                    if (this.vista === 2 && !this.tieneNoDocumento)
+                        return false;
+                    // valida vista 3
+                    if (this.vista === 3 && this.TotalIngresosMunicipio === 0)
+                        return false;
+                    // valida vista 5
+                    if (this.vista === 5 && this.TotalIngresosGravables !== this.TotalIngresosGravablesPorActividades)
+                        return false;
+                    return this.vista < this.limiteSuperiorVista;
+                },
+                verBotonGuardar() {
+                    return this.vista == this.limiteSuperiorVista;
+                },
+                tieneNoDocumento() {
+                    return this.form.PersonaId !== 0;
+                },
+                listaActividadesGravadas() {
+                    return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ListaActividadesGravadas))');
+                },
+                listaTipoSanciones() {
+                    return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ListaTipoSanciones))');
+                },
+                listaTipoDocumento() {
+                    return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.TipoDocumentos))');
+                },
+                DiferenciaMeses() {
+                    if (this.form.Anio == null || this.form.Anio === "" || this.form.Anio == 0) {
+                        return 0
+                    }
+                    var fechaDesde = new Date(parseInt(this.form.Anio) + 1, 02, 01);
+                    var fechaHasta = new Date();
+                    var noMeses = (fechaHasta.getMonth() - fechaDesde.getMonth()) + 12 * (fechaHasta.getFullYear() - fechaDesde.getFullYear());
+                    return parseInt(noMeses);
+                },
+                MensajeSancion() {
+                    if (this.DiferenciaMeses <= 0) {
+                        return '';
+                    }
+                    var fechaDesde = new Date(parseInt(this.form.Anio) + 1, 02, 01);
+                    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    return 'Usted posee una sancion de extemporaneida de ' + this.DiferenciaMeses + ' meses, que va desde el ' + fechaDesde.getDate() + ' de ' + months[fechaDesde.getMonth() + 1] + ' del ' + fechaDesde.getFullYear();
+                },
+                TotalIngresosMunicipio() {
+                    return (parseInt(this.form.IngresosEnElPais) || 0) - (parseInt(this.form.IngresosFueraDelMunicipio) || 0);
+                },
+                TotalIngresosGravables() {
+                    return (
+                        (((((this.TotalIngresosMunicipio
+                            - (parseInt(this.form.IngresosDevoluciones) || 0))
+                            - (parseInt(this.form.IngresosExportaciones) || 0))
+                            - (parseInt(this.form.IngresosActivosFijos) || 0))
+                            - (parseInt(this.form.IngresosNoGravados) || 0))
+                            - (parseInt(this.form.IngresosActividadesExentas) || 0)
+                        )
+                    );
+                },
+                TotaImpuestoEnergiaElectrica() {
+                    return this.form.CapacidadInstalada * 5;
+                },
+                TotalIngresosGravablesPorActividades() {
+                    var totalImpuesto = 0;
+                    for (var x in this.actividades) {
+                        totalImpuesto += (parseInt(this.actividades[x].IngresosGravados) || 0);
+                    }
+                    return totalImpuesto;
+                },
+                totalActividadesImpuesto() {
+                    var totalImpuesto = 0;
+                    for (var x in this.actividades) {
+                        totalImpuesto += (parseInt(this.actividades[x].Impuesto) || 0);
+                    }
+                    return Math.round(totalImpuesto / 1000) * 1000;
+                },
+                TotalImpuestoIndustriaComercio() {
+                    var total = this.totalActividadesImpuesto + this.TotaImpuestoEnergiaElectrica;
+                    this.form.ImpuestoAvisosTableros = this.form.PagaAvisoTablero === true ?
+                            Math.round(total * 0.00015) * 1000 : 0;
+                    return total;
+                },  
+                TotalImpuestoCargo() {
+                    return (this.TotalImpuestoIndustriaComercio
+                        + (parseInt(this.form.ImpuestoAvisosTableros) || 0)
+                        + (parseInt(this.form.PagoUnidadesComerciales) || 0)
+                        + (parseInt(this.form.SobretasaBomberil) || 0)
+                        + (parseInt(this.form.SobretasaSeguridad) || 0)
+                    );
+                },                
+                TotalValorSancion() {
+                    var key = this.form.TipoSancionId;
+                    var valor = this.listaTipoSanciones.find(x => x.Key == key);
+                    if (this.DiferenciaMeses <= 0 || valor == null) {
+                        return 0
+                    }
+                    return (this.TotalImpuestoIndustriaComercio + this.form.ImpuestoAvisosTableros) * this.DiferenciaMeses * (valor.PorcentajeSancion /100.0)
+                },
+                TotalSaldoCargo() {
+                    return (((((((this.TotalImpuestoCargo
+                        - (parseInt(this.form.ValorExoneracionImpuesto) || 0))
+                        - (parseInt(this.form.RetencionesDelMunicipio) || 0))
+                        - (parseInt(this.form.AutoretencionesDelMunicipio) || 0))
+                        - (parseInt(this.form.AnticipoAnioAnterior) || 0))
+                        + (parseInt(this.form.AnticipoAnioSiguiente) || 0))
+                        + (parseInt(this.TotalValorSancion) || 0))
+                        - (parseInt(this.form.SaldoFavorPeriodoAnterior) || 0));
+                },
+                TotalSaldoFavor() {
+                    let total = this.TotalSaldoCargo;
+                    return total < 0 ? Math.abs(total) : 0;
+                },
+                TotalDescuentoSaldo() {
+                    return this.TotalSaldoCargo * this.form.PorcentajeDescuento;
+                },
+                TotalInteresSaldo() {
+                    return this.TotalSaldoCargo * this.form.PorcentajeInteres;
+                },
+                TotalPagar() {
+                    return ((parseInt(this.TotalSaldoCargo) + this.TotalDescuentoSaldo)
+                        - this.TotalInteresSaldo);
+                },
+                listaActividadesASeleccionar() {
+                    return this.listaActividadesGravadas
+                        .filter(
+                        x =>
+                            this.actividades.filter(y => y.ActividadId == x.ActividadId).length === 0 &&
+                            (x.Descripcion.toLowerCase().indexOf(this.searchActividad.toLowerCase()) > -1 ||
+                             x.Codigo.toLowerCase().indexOf(this.searchActividad.toLowerCase()) > -1) 
+                        );
+                }
+            },
+            filters: {
+                formatPrecio(value) {
+                    var precio = numeral(value).format("$0,0");
+                    return precio;
+                }
+            },
+            methods: {
+                vistaAnterior() {
+                    if (this.vista > this.limiteInferiorVista)
+                        this.vista--;
+                },
+                vistaSiguiente() {
+                    if (this.vista < this.limiteSuperiorVista)
+                        this.vista++;
+                },
+                calcularNameActividades(x, campo) {
+                    return `ActividadesGravadas[${x}].${campo}`;
+                },
+                anadirActividades(objActividad) {
+                    if (objActividad.ActividadId === 0) {
+                        // debe seleccionar una actividad
+                        return;
+                    }
+                    this.actividades.push(
+                        {
+                            ActividadId: objActividad.ActividadId,
+                            Descripcion: objActividad.Descripcion,
+                            IngresosGravados: this.TotalIngresosGravables - this.TotalIngresosGravablesPorActividades,
+                            Tarifa: objActividad.Tarifa,
+                            Impuesto: ((this.TotalIngresosGravables - this.TotalIngresosGravablesPorActividades)
+                                * objActividad.Tarifa) / objActividad.Valor
+                        }
+                    );
+                    $('#modalActividad').modal('hide');
+                },
+                getClienteByNoDocumento(tipoDocumento, noDocumento) {
+                    if (tipoDocumento === 0 || noDocumento.length === 0) {
+                        // Mostrar Alerta
+                        Swal.fire(
+                            'Advertencia',
+                            "Ingrese No. Documento",
+                            'warning'
+                        );
+                        return;
+                    }
+                    var url = `/Cliente/GetClienteByNoDocumento/${tipoDocumento}/${noDocumento}`
+                
+                    axios.get(url)
+                        .then(x => {
+                            if (x.data === '') {
+                                // Mostrar Alerta
+                                Swal.fire(
+                                    'Advertencia',
+                                    "El No. Documento Ingresado no se encuentra en el sistema",
+                                    'warning'
+                                );
+                                return;
+                            }
+                            let cliente = x.data;
+                            // Llenar TODOS los datos de Cliente
+                            this.form.PersonaId = cliente.PersonaId
+                            this.cliente = {
+                                ClasificacionContribuyente: cliente.ClasificacionContribuyenteNombre,
+                                Correo: cliente.Correo,
+                                Departamento: cliente.Departamento,
+                                Direccion: cliente.Direccion,
+                                Municipio: cliente.Municipio,
+                                NombreCompleto: cliente.NombreCompleto,
+                                NumeroEstablecimientos: cliente.NumeroEstablecimientos,
+                                Telefono: cliente.Telefono
+                            }
+                        }).catch(function (x) {
+                            Swal.fire(
+                                'Error',
+                                "Error Irrecuperable en el sistema",
+                                'error'
+                            );
+                            console.error(x);
+                        });
+                },
+
+                getFile(event) {
+
+                    var archivo = event.target.files[0];
+                    var lector;
+
+                    if (typeof archivo === "undefined" || archivo === null)
+                        return;
+
+                    //Para navegadores antiguos
+                    if (typeof FileReader !== "function") {
+                        alert('[Vista previa no disponible] - (su navegador no soporta vista previa!)');
+                        return;
+                    }
+
+                    if (archivo.size > 2048000) {
+                        Swal.fire("Advertencia", "Documento no puede ser mayor a 2Mb", "warning");
+                        return;
+                    }
+                    lector = new FileReader();
+                    lector.onloadend = (e) => {
+                        this.form.ArchivoRetencion = archivo;
+                    };
+                    lector.onerror = (e) => {
+                        Swal.fire("Error", "Error cargando Documento", "error");
+                        console.error(e);
+                        return;
+                    };
+                    lector.readAsDataURL(archivo);
+
+                },
+            }
+        });
+
+    </script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover({
+                trigger: 'focus'
+            })
+        })
+    </script>
 </body>
 
 </html>

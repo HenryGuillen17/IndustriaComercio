@@ -67,7 +67,7 @@ namespace IndustriaComercio.Models.Servicios
                     DepartamentoNegocio = x.Cliente.Persona.Departamento,
                     Telefono = x.Cliente.Persona.Telefono,
                     CorreoElectronico = x.Cliente.Persona.Correo,
-                    TipoContribuyenteNombre = x.Cliente.Persona.ClasificacionContribuyente.Descripcion,
+                    TipoContribuyenteNombre = x.Cliente.ClasificacionContribuyente.Descripcion,
                     NoEstablecimientos = x.Cliente.NumeroEstablecimientos,
                     IngresosEnElPais = x.IngresosEnElPais,
                     IngresosFueraDelMunicipio = x.IngresosFueraDelMunicipio,

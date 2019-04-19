@@ -61,8 +61,6 @@ namespace IndustriaComercio.Models.Model
         public string Departamento { get; set; }
         public string Telefono { get; set; }
         
-
-        public ClasificacionContribuyente ClasificacionContribuyente { get; set; }
         public int ClasificacionContribuyenteId { get; set; }
         public string ClasificacionContribuyenteNombre { get; set; }
     }

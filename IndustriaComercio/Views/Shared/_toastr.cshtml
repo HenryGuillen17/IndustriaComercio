@@ -1,0 +1,24 @@
+﻿@{
+    var var = @ViewData["success"];
+}
+@if (@TempData.ContainsKey("success"))
+{
+    <script> toastr.success('@TempData["success"]')</script>
+}
+else if (@TempData.ContainsKey("warning"))
+{
+    <script> toastr.warning('@TempData["warning"]')</script>
+}
+else if (@TempData.ContainsKey("error"))
+{
+    <script> toastr.error('@TempData["error"]')</script>
+}
+else if (@TempData.ContainsKey("info"))
+{
+    <script> toastr.info('@TempData["info"]')</script>
+}
+@*
+    TempData["success"]="Datos guardados con éxito";
+    TempData["error"]= err.Message;
+    TempData["info"] ="Corrija errores de formulario";
+*@

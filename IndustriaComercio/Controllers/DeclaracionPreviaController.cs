@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using IndustriaComercio.ServicePago;
 
 namespace IndustriaComercio.Controllers
 {
@@ -28,6 +29,9 @@ namespace IndustriaComercio.Controllers
             var db = new ModelServidor();
             _clienteService = new ClienteService(db);
             _declaracionPreviaService = new DeclaracionPreviaService(db);
+
+            //var cliente = new GetDatosClient();
+            
         }
 
 
@@ -43,22 +47,15 @@ namespace IndustriaComercio.Controllers
         [HttpPost]
         public ActionResult Index(DeclaracionPreviaModel model)
         {
-            try
+            // Si no es válido, se regresa a corregir
+            if (!ModelState.IsValid || !model.ActividadesGravadas.Any())
             {
-                // Si no es válido, se regresa a corregir
-                if (!ModelState.IsValid || !model.ActividadesGravadas.Any())
-                {
-                    CalcularListasDropDown(ref model);
-                    return View(model);
-                }
-                var declaracionPreviaId = SetDeclaracionPrevia(model);
+                CalcularListasDropDown(ref model);
+                return View(model);
+            }
+            var declaracionPreviaId = SetDeclaracionPrevia(model);
 
-                return RedirectToAction("Exito", new { declaracionPreviaId });
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            return RedirectToAction("Exito", new { declaracionPreviaId });
         }
 
 
@@ -79,8 +76,8 @@ namespace IndustriaComercio.Controllers
             // Si vas a utilizar tu cuenta de gmail. primero ve al link y activa el switch que te va a aparecer
             // https://myaccount.google.com/lesssecureapps?pli=1
             EnviarCorreo.EnviarEmail(
-                "{tucorreo}",
-                "{tucontraseña}",
+                "richardjacomeg@gmail.com",
+                "rijako9004",
                 listaCorreos,
                 $"DeclaracionPrevia_{declaracionPreviaId}_{DateTime.Now:yyyyMMdd}",
                 "Declaración Previa",
@@ -129,14 +126,16 @@ namespace IndustriaComercio.Controllers
                         Value = x.Descripcion
                     })
                 .ToList();
-            var tiposDeContribuyentes = db.TipoContribuyente.ToList();
+            var tiposDeContribuyentes = db.TipoActividad.ToList();
             var actividadesGravadas = db.ActividadGravada
                 .OrderBy(x => x.Descripcion)
                 .Select(x => new ActividadGravadaModel
                 {
                     ActividadId = x.ActividadId,
                     Descripcion = x.Descripcion,
-                    Tarifa = x.Tarifa
+                    Codigo = x.Codigo,
+                    Tarifa = x.Tarifa,
+                    Valor = x.Valor
                 })
                 .ToList();
             var clasificacionesContribuyentes = db.ClasificacionContribuyente
@@ -157,12 +156,14 @@ namespace IndustriaComercio.Controllers
                 })
                 .ToList();
 
+            model.PagaAvisoTablero = true;
             model.TipoDocumentos = tiposDeDocumentos;
             model.TipoContribuyentes = tiposDeContribuyentes
-                .Select(x => new SelectListItem { Text = x.Descripcion, Value = x.TipoContribuyenteId.ToString() }).ToList();
+                .Select(x => new SelectListItem { Text = x.Descripcion, Value = x.TipoActividadId.ToString() }).ToList();
             model.ListaActividadesGravadas = actividadesGravadas;
             model.ListaClasificacionesContribuyentes = clasificacionesContribuyentes;
             model.ListaTipoSanciones = tipoSanciones;
+            model.TipoSancion = tipoSanciones?.FirstOrDefault()?.Key;
             model.Cliente = model.PersonaId != 0
                 ? _clienteService.FindClienteByPersonaId(model.PersonaId)
                 : new ClienteModel();

@@ -104,7 +104,8 @@
                     { "data-trigger", "focus" },
                     { "data-content", @Html.DescriptionFor(model => model.AnticipoAnioAnterior) },
                     { "data-placement", "top" },
-                    { "v-model", "form.AnticipoAnioAnterior" }
+                    { "v-model", "form.AnticipoAnioAnterior" },
+                    { "readonly", "readonly" }
                     } })
                 @Html.ValidationMessageFor(model => model.AnticipoAnioAnterior, "", new { @class = "text-danger" })
             </div>
@@ -124,7 +125,8 @@
                     { "data-trigger", "focus" },
                     { "data-content", @Html.DescriptionFor(model => model.AnticipoAnioSiguiente) },
                     { "data-placement", "top" },
-                    { "v-model", "form.AnticipoAnioSiguiente" }
+                    { "v-model", "form.AnticipoAnioSiguiente" },
+                    { "readonly", "readonly" }
                     } })
                 @Html.ValidationMessageFor(model => model.AnticipoAnioSiguiente, "", new { @class = "text-danger" })
             </div>
@@ -137,10 +139,6 @@
             <div class="col-md-8">
                 <select class="form-control"
                         v-model="form.TipoSancionId">
-                    <option v-bind:selected="form.TipoSancionId == ''"
-                            v-bind:value="''">
-                        -- Sin Sanción --
-                    </option>
                     <option v-for="item in listaTipoSanciones"
                             v-bind:selected="form.TipoSancionId === item.Key"
                             v-bind:value="item.Key">
@@ -158,9 +156,10 @@
                 @Html.LabelFor(model => model.ValorSancion, htmlAttributes: new { @class = "control-label " })
             </div>
             <div class="col-md-8">
-                <h4>{{ totalValorSancion | formatPrecio }}</h4>
+                <h4>{{ TotalValorSancion | formatPrecio }}</h4>
+                <font size="3" color="#FF0000">{{ MensajeSancion }}</font>
                 @Html.HiddenFor(x => x.ValorSancion, new Dictionary<string, object>() {
-                    { "v-bind:value", "totalValorSancion" }
+                    { "v-bind:value", "TotalValorSancion" }
                 })
             </div>
         </div>

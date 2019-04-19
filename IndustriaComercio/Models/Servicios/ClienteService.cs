@@ -26,9 +26,8 @@ namespace IndustriaComercio.Models.Servicios
         )
         {
             var model = _db.Persona
-                .Include(x => x.Cliente)
+                .Include(x => x.Cliente.ClasificacionContribuyente)
                 .Include(x => x.TipoDocumento)
-                .Include(x => x.ClasificacionContribuyente)
                 .Where(
                     x =>
                     x.TipoDocumentoId == tipoDocumento
@@ -52,8 +51,8 @@ namespace IndustriaComercio.Models.Servicios
                     Departamento = x.Departamento,
                     Nota = x.Cliente.Nota,
                     NumeroEstablecimientos = x.Cliente.NumeroEstablecimientos,
-                    ClasificacionContribuyenteId = x.ClasificacionContribuyenteId,
-                    ClasificacionContribuyenteNombre = x.ClasificacionContribuyente.Descripcion,
+                    ClasificacionContribuyenteId = (int)x.Cliente.ClasificacionContribuyenteId,
+                    ClasificacionContribuyenteNombre = x.Cliente.ClasificacionContribuyente.Descripcion,
                     Telefono = x.Telefono,
                     Estado = x.Cliente.Estado
                 })
@@ -67,9 +66,8 @@ namespace IndustriaComercio.Models.Servicios
         )
         {
             var model = _db.Persona
-                .Include(x => x.Cliente)
+                .Include(x => x.Cliente.ClasificacionContribuyente)
                 .Include(x => x.TipoDocumento)
-                .Include(x => x.ClasificacionContribuyente)
                 .Where(x => x.PersonaId == personaId)
                 .Select(x => new ClienteModel
                 {
@@ -90,8 +88,8 @@ namespace IndustriaComercio.Models.Servicios
                     Departamento = x.Departamento,
                     Nota = x.Cliente.Nota,
                     NumeroEstablecimientos = x.Cliente.NumeroEstablecimientos,
-                    ClasificacionContribuyenteId = x.ClasificacionContribuyenteId,
-                    ClasificacionContribuyenteNombre = x.ClasificacionContribuyente.Descripcion,
+                    ClasificacionContribuyenteId = (int)x.Cliente.ClasificacionContribuyenteId,
+                    ClasificacionContribuyenteNombre = x.Cliente.ClasificacionContribuyente.Descripcion,
                     Telefono = x.Telefono,
                     Estado = x.Cliente.Estado
                 })

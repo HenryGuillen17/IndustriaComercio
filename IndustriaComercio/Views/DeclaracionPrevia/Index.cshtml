@@ -1,103 +1,73 @@
 ﻿@using Newtonsoft.Json;
 
 @model IndustriaComercio.Models.Model.DeclaracionPreviaModel
-<!DOCTYPE html>
-<html lang="es-co">
-<head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<div class="container" id="app">
+    <div class="row">
+        <div class="col">
 
-    <title>Declaracion</title>
+            &nbsp;
 
-    <!-- Bootstrap core CSS-->
-    @Styles.Render("~/bundles/css")
-    @{
-        Layout = null;
-    }
-</head>
+            <center>
+                <img src="~/Content/Images/logo-alcaldia.png">
+            </center>
 
-<body id="page-top">
-    <div class="container" id="app">
-        <div class="row">
-            <div class="col">
-
-                &nbsp;
-
-                <center>
-                    <img src="~/Content/Images/logo-alcaldia.png">
-                </center>
-
-                &nbsp;
+            &nbsp;
+        </div>
+    </div>
+    @using (Html.BeginForm("Index", "DeclaracionPrevia", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="form-group row mt-3">
+            <div class="col text-left">
+                <button type="button"
+                        class="btn btn-outline-info"
+                        v-on:click="vistaAnterior"
+                        v-show="vista != 1"
+                        v-bind:disabled="!verBotonAtras">
+                    Atrás
+                </button>
+            </div>
+            <div class="col text-center">
+                <button type="submit"
+                        class="btn btn-success"
+                        v-on:keypress.13="$event.prevent"
+                        v-show="verBotonGuardar">
+                    Guardar
+                </button>
+            </div>
+            <div class="col text-right">
+                <button type="button"
+                        class="btn btn-outline-primary"
+                        v-on:click="vistaSiguiente"
+                        v-show="vista != 9"
+                        v-bind:disabled="!verBotonAdelante">
+                    Adelante
+                </button>
             </div>
         </div>
-        @using (Html.BeginForm("Index", "DeclaracionPrevia", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="row " style="height:50vh;overflow:auto;">
-                @*<div class="col-md-1 d-none d-lg-block"></div>*@
-                <div class="col">
 
-                    @Html.Partial("Partial/_DeclaracionForm1")
-                    @Html.Partial("Partial/_DeclaracionForm2")
-                    @Html.Partial("Partial/_DeclaracionForm3")
-                    @Html.Partial("Partial/_DeclaracionForm4")
-                    @Html.Partial("Partial/_DeclaracionForm5")
-                    @Html.Partial("Partial/_DeclaracionForm6")
-                    @Html.Partial("Partial/_DeclaracionForm7")
-                    @Html.Partial("Partial/_DeclaracionForm8")
-                    @Html.Partial("Partial/_DeclaracionForm9")
+        <div class="row ">
+            <div class="col">
 
-                </div>
-                @*<div class="col-md-1 d-none d-lg-block"></div>*@
-            </div>
+                @Html.Partial("Partial/_DeclaracionForm1")
+                @Html.Partial("Partial/_DeclaracionForm2")
+                @Html.Partial("Partial/_DeclaracionForm3")
+                @Html.Partial("Partial/_DeclaracionForm4")
+                @Html.Partial("Partial/_DeclaracionForm5")
+                @Html.Partial("Partial/_DeclaracionForm6")
+                @Html.Partial("Partial/_DeclaracionForm7")
+                @Html.Partial("Partial/_DeclaracionForm8")
+                @Html.Partial("Partial/_DeclaracionForm9")
 
-            <div class="form-group row mt-3">
-                @*<div class="col-md-1 d-none d-lg-block"></div>*@
-                <div class="col text-left">
-                    <button type="button"
-                            class="btn btn-outline-info"
-                            v-on:click="vistaAnterior"
-                            v-show="vista != 1"
-                            v-bind:disabled="!verBotonAtras">
-                        Atrás
-                    </button>
-                </div>
-                <div class="col text-center">
-                    <button type="submit"
-                            class="btn btn-success"
-                            v-on:keypress.13="$event.prevent"
-                            v-show="verBotonGuardar">
-                        Guardar
-                    </button>
-                </div>
-                <div class="col text-right">
-                    <button type="button"
-                            class="btn btn-outline-primary"
-                            v-on:click="vistaSiguiente"
-                            v-show="vista != 9"
-                            v-bind:disabled="!verBotonAdelante">
-                        Adelante
-                    </button>
-                </div>
-                @*<div class="col-md-1 d-none d-lg-block"></div>*@
-            </div>
-        }
+            </div>           
+        </div>
+    }
 
-    </div>
+</div>
 
-    <!-- Bootstrap core JavaScript-->
-    @Scripts.Render("~/bundles/js")
-    @Scripts.Render("~/bundles/jqueryval")
-    @*<script src="~/Content/vendor/vue/vue-mask/vue-the-mask.js"></script>*@
-    @*<script src="~/Content/vendor/vue/vue-mask/di-vue-mask.js"></script>*@
-
-
+@section scripts{
     <script>
         numeral.locale('es');
-
 
         var vm = new Vue({
             el: '#app',
@@ -133,6 +103,7 @@
                     IngresosFueraDelMunicipio: (@Model.IngresosFueraDelMunicipio),
                     IngresosNoGravados: (@Model.IngresosNoGravados),
                     InteresesDeMora: (@Model.Interes),
+                    ImpuestoAvisosTableros: (@Model.ImpuestoAvisosTableros),
                     NoIdentificacion: '@Model.NoIdentificacion',
                     PagaAvisoTablero: @(Model.PagaAvisoTablero ? "true" : "false"),
                     PagoUnidadesComerciales: (@Model.PagoUnidadesComerciales),
@@ -197,6 +168,23 @@
                 listaTipoDocumento() {
                     return JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.TipoDocumentos))');
                 },
+                DiferenciaMeses() {
+                    if (this.form.Anio == null || this.form.Anio === "" || this.form.Anio == 0) {
+                        return 0
+                    }
+                    var fechaDesde = new Date(parseInt(this.form.Anio) + 1, 02, 01);
+                    var fechaHasta = new Date();
+                    var noMeses = (fechaHasta.getMonth() - fechaDesde.getMonth()) + 12 * (fechaHasta.getFullYear() - fechaDesde.getFullYear());
+                    return parseInt(noMeses);
+                },
+                MensajeSancion() {
+                    if (this.DiferenciaMeses <= 0) {
+                        return '';
+                    }
+                    var fechaDesde = new Date(parseInt(this.form.Anio) + 1, 02, 01);
+                    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    return 'Usted posee una sancion de extemporaneida de ' + this.DiferenciaMeses + ' meses, que va desde el ' + fechaDesde.getDate() + ' de ' + months[fechaDesde.getMonth() + 1] + ' del ' + fechaDesde.getFullYear();
+                },
                 TotalIngresosMunicipio() {
                     return (parseInt(this.form.IngresosEnElPais) || 0) - (parseInt(this.form.IngresosFueraDelMunicipio) || 0);
                 },
@@ -226,31 +214,29 @@
                     for (var x in this.actividades) {
                         totalImpuesto += (parseInt(this.actividades[x].Impuesto) || 0);
                     }
-                    return totalImpuesto;
+                    return Math.round(totalImpuesto / 1000) * 1000;
                 },
                 TotalImpuestoIndustriaComercio() {
-                    return this.totalActividadesImpuesto + this.TotaImpuestoEnergiaElectrica;
-                },
-                ImpuestoAvisosTableros() {
-                    if (this.form.PagaAvisoTablero)
-                        return Math.round(this.TotalImpuestoIndustriaComercio * 0.00015) * 1000;
-                    return 0;
+                    var total = this.totalActividadesImpuesto + this.TotaImpuestoEnergiaElectrica;
+                    this.form.ImpuestoAvisosTableros = this.form.PagaAvisoTablero === true ?
+                            Math.round(total * 0.00015) * 1000 : 0;
+                    return total;
                 },
                 TotalImpuestoCargo() {
                     return (this.TotalImpuestoIndustriaComercio
-                        + this.ImpuestoAvisosTableros
+                        + (parseInt(this.form.ImpuestoAvisosTableros) || 0)
                         + (parseInt(this.form.PagoUnidadesComerciales) || 0)
                         + (parseInt(this.form.SobretasaBomberil) || 0)
                         + (parseInt(this.form.SobretasaSeguridad) || 0)
                     );
                 },
-                totalValorSancion() {
+                TotalValorSancion() {
                     var key = this.form.TipoSancionId;
                     var valor = this.listaTipoSanciones.find(x => x.Key == key);
-                    if (valor == null) {
+                    if (this.DiferenciaMeses <= 0 || valor == null) {
                         return 0
                     }
-                    return this.TotalImpuestoCargo * (valor.PorcentajeSancion * 0.01)
+                    return (this.TotalImpuestoIndustriaComercio + this.form.ImpuestoAvisosTableros) * this.DiferenciaMeses * (valor.PorcentajeSancion /100.0)
                 },
                 TotalSaldoCargo() {
                     return (((((((this.TotalImpuestoCargo
@@ -259,7 +245,7 @@
                         - (parseInt(this.form.AutoretencionesDelMunicipio) || 0))
                         - (parseInt(this.form.AnticipoAnioAnterior) || 0))
                         + (parseInt(this.form.AnticipoAnioSiguiente) || 0))
-                        + (parseInt(this.totalValorSancion) || 0))
+                        + (parseInt(this.TotalValorSancion) || 0))
                         - (parseInt(this.form.SaldoFavorPeriodoAnterior) || 0));
                 },
                 TotalSaldoFavor() {
@@ -280,9 +266,9 @@
                     return this.listaActividadesGravadas
                         .filter(
                         x =>
-                            this.actividades
-                                .filter(y => y.ActividadId == x.ActividadId).length === 0
-                            && x.Descripcion.toLowerCase().indexOf(this.searchActividad.toLowerCase()) > -1
+                            this.actividades.filter(y => y.ActividadId == x.ActividadId).length === 0 &&
+                            (x.Descripcion.toLowerCase().indexOf(this.searchActividad.toLowerCase()) > -1 ||
+                             x.Codigo.toLowerCase().indexOf(this.searchActividad.toLowerCase()) > -1)
                         );
                 }
             },
@@ -316,7 +302,7 @@
                             IngresosGravados: this.TotalIngresosGravables - this.TotalIngresosGravablesPorActividades,
                             Tarifa: objActividad.Tarifa,
                             Impuesto: ((this.TotalIngresosGravables - this.TotalIngresosGravablesPorActividades)
-                                * objActividad.Tarifa) / 1000
+                                * objActividad.Tarifa) / objActividad.Valor
                         }
                     );
                     $('#modalActividad').modal('hide');
@@ -332,7 +318,7 @@
                         return;
                     }
                     var url = `/Cliente/GetClienteByNoDocumento/${tipoDocumento}/${noDocumento}`
-                
+
                     axios.get(url)
                         .then(x => {
                             if (x.data === '') {
@@ -409,6 +395,4 @@
             })
         })
     </script>
-</body>
-
-</html>
+}

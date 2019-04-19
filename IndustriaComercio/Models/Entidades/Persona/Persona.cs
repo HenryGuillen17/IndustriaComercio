@@ -13,7 +13,7 @@ namespace IndustriaComercio.Entidades.Persona
    public class Persona
     {
      
-       public int PersonaId{get; set;}
+       public int PersonaId {get; set;}
 
         public int TipoDocumentoId { get; set; }
 
@@ -48,13 +48,13 @@ namespace IndustriaComercio.Entidades.Persona
         public bool IsCliente { get; set; }
  
         public bool IsUsuario { get; set; }
+        
 
-
+        //_____________Propiedades
         public virtual Cliente Cliente { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
-
-        public virtual ClasificacionContribuyente ClasificacionContribuyente { get; set; }
-        public int ClasificacionContribuyenteId { get; set; }
+       
+        
     }
 }
