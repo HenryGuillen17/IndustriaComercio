@@ -1,12 +1,11 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
-using IndustriaComercio.Common;
 using IndustriaComercio.Common.Extensions;
 using IndustriaComercio.Common.Tools;
+using IndustriaComercio.Common.Utils;
 using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Entidades.Basicos;
 using IndustriaComercio.Models.Model;
-using IndustriaComercio.Models.Reportes.Model;
 using IndustriaComercio.Models.Servicios;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using IndustriaComercio.ServicePago;
 
 namespace IndustriaComercio.Controllers
 {

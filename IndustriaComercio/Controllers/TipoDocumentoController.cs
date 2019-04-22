@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using IndustriaComercio.Common.Utils;
 using IndustriaComercio.Entidades.Basicos;
 using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Servicios;
@@ -82,6 +83,20 @@ namespace IndustriaComercio.Controllers
             }
             return View(tipoDocumento);
         }
+
+
+        public JsonResult FindAllCb()
+        {
+            return Json(
+                _db.TipoDocumento
+                .Select(x => new ComboBox
+                {
+                    Key = x.TipoDocumentoId,
+                    Value = x.Descripcion
+                }).ToList(), 
+                JsonRequestBehavior.AllowGet);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

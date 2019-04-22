@@ -1,7 +1,10 @@
-﻿using IndustriaComercio.Models.Context;
+﻿using IndustriaComercio.Common.Extensions;
+using IndustriaComercio.Common.Utils;
+using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Entidades.Basicos;
+using IndustriaComercio.Models.Enum;
 using IndustriaComercio.Models.Model;
-using System;
+using PagedList;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,13 +15,99 @@ namespace IndustriaComercio.Models.Servicios
     {
         private readonly ModelServidor _db;
 
-        public ClienteService(
-            ModelServidor db
+        public ClienteService(ModelServidor db) { _db = db; }
+
+        public Paginacion<ClienteModel> GetListClientePaginado(
+            ApiFilter<ClienteModel> apiFilter
             )
         {
-            _db = db;
+            var filtros = apiFilter.Filtros != null;
+
+            var list =
+                from a in _db.Cliente.Include(x => x.ClasificacionContribuyente)
+                join b in _db.Persona
+                .Include(x => x.TipoDocumento)
+                .Include(x => x.Municipio)
+                .Include(x => x.Municipio.Departamento)
+                on a.PersonaId equals b.PersonaId
+                where
+                    filtros &&
+                    (
+                        apiFilter.Filtros.PersonaId == 0 || b.PersonaId == apiFilter.Filtros.PersonaId
+                    )
+                select new ClienteModel
+                {
+                    PersonaId = b.PersonaId,
+                    TipoDocumentoId = b.TipoDocumentoId,
+                    TipoDocumentoNombre = b.TipoDocumento.Descripcion,
+                    NoIdentificacion = b.NoIdentificacion,
+                    PrimerNombre = b.PrimerNombre,
+                    SegundoNombre = b.SegundoNombre,
+                    PrimerApellido = b.PrimerApellido,
+                    SegundoApellido = b.SegundoApellido,
+                    NombreCompleto = b.NombreCompleto,
+                    FotoPerfil = b.FotoPerfil,
+                    Correo = b.Correo,
+                    Celular = b.Celular,
+                    Direccion = b.Direccion,
+                    MunicipioId = b.MunicipioId,
+                    Municipio = b.Municipio.Descripcion,
+                    DepartamentoId = b.Municipio.DepartamentoId,
+                    Departamento = b.Municipio.Departamento.Descripcion,
+                    Telefono = b.Telefono,
+                    ClasificacionContribuyenteId = a.ClasificacionContribuyenteId,
+                    ClasificacionContribuyenteNombre = a.ClasificacionContribuyente.Descripcion,
+                    // Cliente
+                    Nota = a.Nota,
+                    NumeroEstablecimientos = a.NumeroEstablecimientos,
+                    Estado = a.Estado,
+                };
+
+            return list.OrderBy(apiFilter.OrdenarPor, apiFilter.EsAscendente)
+                .ToPagedList(apiFilter.PaginaNo, apiFilter.PorPagina).Paginar();
         }
 
+        public IEnumerable<ComboBox> GetListClienteAutocomplete(int limit, string value, TipoBusqueda tipoBusqueda)
+        {
+            return (
+                from a in _db.Cliente
+                join b in _db.Persona.Include(x => x.TipoDocumento) on a.PersonaId equals b.PersonaId
+                where
+                       b.NombreCompleto != null && b.NombreCompleto.Trim() != ""
+                    && tipoBusqueda == TipoBusqueda.PorNombreCompleto
+                        ? b.NombreCompleto.StartsWith(value)
+                        : (tipoBusqueda == TipoBusqueda.PorCedula && b.NoIdentificacion.Contains(value))
+                let noIdentificacionCompleto = b.TipoDocumento.Descripcion + "-" + b.NoIdentificacion
+                orderby b.NombreCompleto
+                select new ComboBox
+                {
+                    Key = a.PersonaId,
+                    Value = b.NombreCompleto,
+                    Label = noIdentificacionCompleto
+                }).Take(limit).ToList();
+        }
+
+        public IEnumerable<ComboBox> GetListPersonaSinClienteAutocomplete(int limit, string value, TipoBusqueda tipoBusqueda)
+        {
+            return (
+                from b in _db.Persona
+                join a in _db.Cliente on b.PersonaId equals a.PersonaId into ljc
+                from a in ljc.DefaultIfEmpty()
+                where
+                       a == null
+                    && b.NombreCompleto != null && b.NombreCompleto.Trim() != ""
+                    && tipoBusqueda == TipoBusqueda.PorNombreCompleto
+                        ? b.NombreCompleto.StartsWith(value)
+                        : (tipoBusqueda == TipoBusqueda.PorCedula && b.NoIdentificacion.Contains(value))
+                let noIdentificacionCompleto = b.TipoDocumento.Descripcion + "-" + b.NoIdentificacion
+                orderby b.NombreCompleto
+                select new ComboBox
+                {
+                    Key = b.PersonaId,
+                    Value = b.NombreCompleto,
+                    Label = noIdentificacionCompleto
+                }).Take(limit).ToList();
+        }
 
         public ClienteModel FindClienteByNoDocumento(
             int tipoDocumento,
@@ -28,6 +117,8 @@ namespace IndustriaComercio.Models.Servicios
             var model = _db.Persona
                 .Include(x => x.Cliente.ClasificacionContribuyente)
                 .Include(x => x.TipoDocumento)
+                .Include(x => x.Municipio)
+                .Include(x => x.Municipio.Departamento)
                 .Where(
                     x =>
                     x.TipoDocumentoId == tipoDocumento
@@ -47,11 +138,13 @@ namespace IndustriaComercio.Models.Servicios
                     Correo = x.Correo,
                     Celular = x.Celular,
                     Direccion = x.Direccion,
-                    Municipio = x.Municipio,
-                    Departamento = x.Departamento,
+                    MunicipioId = x.MunicipioId,
+                    Municipio = x.Municipio.Descripcion,
+                    DepartamentoId = x.Municipio.DepartamentoId,
+                    Departamento = x.Municipio.Departamento.Descripcion,
                     Nota = x.Cliente.Nota,
                     NumeroEstablecimientos = x.Cliente.NumeroEstablecimientos,
-                    ClasificacionContribuyenteId = (int)x.Cliente.ClasificacionContribuyenteId,
+                    ClasificacionContribuyenteId = x.Cliente.ClasificacionContribuyenteId,
                     ClasificacionContribuyenteNombre = x.Cliente.ClasificacionContribuyente.Descripcion,
                     Telefono = x.Telefono,
                     Estado = x.Cliente.Estado
@@ -68,6 +161,8 @@ namespace IndustriaComercio.Models.Servicios
             var model = _db.Persona
                 .Include(x => x.Cliente.ClasificacionContribuyente)
                 .Include(x => x.TipoDocumento)
+                .Include(x => x.Municipio)
+                .Include(x => x.Municipio.Departamento)
                 .Where(x => x.PersonaId == personaId)
                 .Select(x => new ClienteModel
                 {
@@ -84,21 +179,40 @@ namespace IndustriaComercio.Models.Servicios
                     Correo = x.Correo,
                     Celular = x.Celular,
                     Direccion = x.Direccion,
-                    Municipio = x.Municipio,
-                    Departamento = x.Departamento,
+                    MunicipioId = x.MunicipioId,
+                    Municipio = x.Municipio.Descripcion,
+                    DepartamentoId = x.Municipio.DepartamentoId,
+                    Departamento = x.Municipio.Departamento.Descripcion,
                     Nota = x.Cliente.Nota,
-                    NumeroEstablecimientos = x.Cliente.NumeroEstablecimientos,
-                    ClasificacionContribuyenteId = (int)x.Cliente.ClasificacionContribuyenteId,
+                    NoPlaca = x.Cliente.NoPlaca,
+                    RetieneImpIndustriaComercio = x.Cliente == null && x.Cliente.RetieneImpIndustriaComercio,
+                    NumeroEstablecimientos = x.Cliente != null ? x.Cliente.NumeroEstablecimientos : 1,
+                    ClasificacionContribuyenteId = x.Cliente.ClasificacionContribuyenteId,
                     ClasificacionContribuyenteNombre = x.Cliente.ClasificacionContribuyente.Descripcion,
                     Telefono = x.Telefono,
-                    Estado = x.Cliente.Estado
+                    Estado = x.Cliente != null ? x.Cliente.Estado : 0
                 })
                 .FirstOrDefault();
 
             return model;
         }
 
-        internal IEnumerable<ListaCorreo> GetListaCorreos()
+        public int Save(ClienteModel model)
+        {
+            var cliente = _db.Cliente.Find(model.PersonaId);
+
+            if (cliente == null)
+            {
+                _db.Cliente.Add(model.ClienteFactory());
+            }
+            else
+                _db.Entry(model.ClienteFactory()).State = EntityState.Modified;
+
+            _db.SaveChanges();
+            return model.PersonaId;
+        }
+
+        public IEnumerable<ListaCorreo> GetListaCorreos()
         {
             return _db.ListaCorreo.ToList();
         }

@@ -1,6 +1,4 @@
 ﻿using IndustriaComercio.Entidades.Basicos;
-using IndustriaComercio.Models.Entidades.Basicos;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace IndustriaComercio.Models.Context.Mapping.Declaracion

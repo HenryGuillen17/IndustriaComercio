@@ -1,5 +1,4 @@
-﻿using IndustriaComercio.Common;
-using IndustriaComercio.Entidades.Basicos;
+﻿using IndustriaComercio.Common.Utils;
 using IndustriaComercio.Models.Enum;
 using System;
 using System.Collections.Generic;

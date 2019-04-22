@@ -15,9 +15,17 @@ namespace IndustriaComercio.Models.Context.mapping.Persona
 
             Property(a => a.PersonaId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
+            
+            // -- FK
+
             HasRequired(x => x.TipoDocumento)
                 .WithMany(x => x.Personas)
                 .HasForeignKey(x => x.TipoDocumentoId)
+                .WillCascadeOnDelete(false);
+
+            HasRequired(x => x.Municipio)
+                .WithMany(x => x.Personas)
+                .HasForeignKey(x => x.MunicipioId)
                 .WillCascadeOnDelete(false);
 
             

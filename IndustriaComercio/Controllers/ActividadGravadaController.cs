@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using IndustriaComercio.Models.Context;
+using IndustriaComercio.Models.Entidades.Basicos;
+using IndustriaComercio.Models.Servicios;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using IndustriaComercio.Models.Context;
-using IndustriaComercio.Models.Entidades.Basicos;
-using IndustriaComercio.Models.Servicios;
 
 namespace IndustriaComercio.Controllers
 {
     public class ActividadGravadaController : Controller
     {
-        private ModelServidor _db;
-        private ActividadGravadaService _actividadGravadaService;
+        private readonly ModelServidor _db;
+        private readonly ActividadGravadaService _actividadGravadaService;
 
         public ActividadGravadaController()
         {

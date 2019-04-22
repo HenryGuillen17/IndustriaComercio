@@ -1,31 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using IndustriaComercio.Entidades.Persona;
+using IndustriaComercio.Models.Context;
+using IndustriaComercio.Models.Model;
+using IndustriaComercio.Models.Servicios;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using IndustriaComercio.Entidades.Persona;
-using IndustriaComercio.Models.Context;
 
 namespace IndustriaComercio.Controllers
 {
     public class PersonasController : Controller
     {
-        private ModelServidor db = new ModelServidor();
+        private readonly ModelServidor _db;
+        private readonly PersonaService _personaService;
+
+        public PersonasController()
+        {
+            _db = new ModelServidor();
+            _personaService = new PersonaService(_db);
+        }
 
         // GET: Personas
         public ActionResult Index()
         {
-            var persona = db.Persona.Include(p => p.Cliente).Include(p => p.TipoDocumento).Include(p => p.Usuario);
+            var persona = _db.Persona.Include(p => p.Cliente).Include(p => p.TipoDocumento).Include(p => p.Usuario);
             return View(persona.ToList());
         }
 
         // GET: Personas/Create
         public ActionResult Create()
         {
-            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento, "TipoDocumentoId", "Descripcion");
+            ViewBag.TipoDocumentoId = new SelectList(_db.TipoDocumento, "TipoDocumentoId", "Descripcion");
             return View();
         }
 
@@ -38,12 +43,12 @@ namespace IndustriaComercio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Persona.Add(persona);
-                db.SaveChanges();
+                _db.Persona.Add(persona);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento, "TipoDocumentoId", "Descripcion", persona.TipoDocumentoId);
+            ViewBag.TipoDocumentoId = new SelectList(_db.TipoDocumento, "TipoDocumentoId", "Descripcion", persona.TipoDocumentoId);
             return View(persona);
         }
 
@@ -54,12 +59,12 @@ namespace IndustriaComercio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Persona persona = db.Persona.Find(id);
+            Persona persona = _db.Persona.Find(id);
             if (persona == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento, "TipoDocumentoId", "Descripcion", persona.TipoDocumentoId);
+            ViewBag.TipoDocumentoId = new SelectList(_db.TipoDocumento, "TipoDocumentoId", "Descripcion", persona.TipoDocumentoId);
             return View(persona);
         }
 
@@ -72,20 +77,35 @@ namespace IndustriaComercio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(persona).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(persona).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento, "TipoDocumentoId", "Descripcion", persona.TipoDocumentoId);
+            ViewBag.TipoDocumentoId = new SelectList(_db.TipoDocumento, "TipoDocumentoId", "Descripcion", persona.TipoDocumentoId);
             return View(persona);
         }
 
+
+        [HttpGet]
+        [Route("~/Persona/FindById/{id:int}")]
+        public JsonResult GetById(int id)
+        {
+            return Json(_personaService.FindById(id), JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        [Route("~/Persona/Save")]
+        public JsonResult Save(PersonaModel model)
+        {
+            return Json(_personaService.Save(model), JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

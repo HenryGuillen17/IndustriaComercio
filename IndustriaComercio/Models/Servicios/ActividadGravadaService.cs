@@ -1,11 +1,5 @@
-﻿using IndustriaComercio.Entidades.UsuarioPermisos;
-using IndustriaComercio.Models.Context;
+﻿using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Entidades.Basicos;
-using IndustriaComercio.Models.Model;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 
 namespace IndustriaComercio.Models.Servicios
 {
