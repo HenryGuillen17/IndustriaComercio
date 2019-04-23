@@ -1,20 +1,30 @@
-﻿using IndustriaComercio.Entidades.Basicos;
+﻿using System.Collections.Generic;
+using IndustriaComercio.Entidades.UsuarioPermisos;
 using IndustriaComercio.Models.Enum;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace IndustriaComercio.Models.Model
 {
-   public class UsuarioModel : PersonaModel
+    public class UsuarioModel : PersonaModel
     {
-        public string Perfil { get; set; }
-        public byte PerfilId { get; set; }
+        public byte? PerfilId { get; set; }
         public string Login { get; set; }
-        public string Contraseña { get; set; }
+        public string Contrasenia { get; set; }
         public Estado Estado { get; set; }
+        public string Perfil { get; internal set; }
+        public List<UsuarioMenuModel> UsuarioMenus { get; internal set; }
 
-        //_____________Propiedades 
-        public virtual ICollection<UsuarioMenuModel> UsuarioMenus { get; set; }
+        internal Usuario UsuarioFactory()
+        {
+            return new Usuario
+            {
+                PersonaId = PersonaId,
+                Login = Login,
+                Contrasenia = Contrasenia,
+                Estado = Estado,
+                PerfilId = PerfilId
+            };
+
+        }
     }
 }

@@ -73,6 +73,39 @@ namespace IndustriaComercio.Models.Servicios
             return model;
         }
 
+        public PersonaModel FindByEmail(string email)
+        {
+            var model = _db.Persona
+                .Include(x => x.TipoDocumento)
+                .Include(x => x.Municipio)
+                .Include(x => x.Municipio.Departamento)
+                .Where(x => x.Correo == email)
+                .Select(x => new PersonaModel
+                {
+                    PersonaId = x.PersonaId,
+                    TipoDocumentoId = x.TipoDocumentoId,
+                    TipoDocumentoNombre = x.TipoDocumento.Descripcion,
+                    NoIdentificacion = x.NoIdentificacion,
+                    PrimerNombre = x.PrimerNombre,
+                    SegundoNombre = x.SegundoNombre,
+                    PrimerApellido = x.PrimerApellido,
+                    SegundoApellido = x.SegundoApellido,
+                    NombreCompleto = x.NombreCompleto,
+                    FotoPerfil = x.FotoPerfil,
+                    Correo = x.Correo,
+                    Celular = x.Celular,
+                    Direccion = x.Direccion,
+                    MunicipioId = x.MunicipioId,
+                    Municipio = x.Municipio.Descripcion,
+                    DepartamentoId = x.Municipio.DepartamentoId,
+                    Departamento = x.Municipio.Departamento.Descripcion,
+                    Telefono = x.Telefono
+                })
+                .FirstOrDefault();
+
+            return model;
+        }
+
         public int Save(PersonaModel model)
         {
             if (model.PersonaId == 0)

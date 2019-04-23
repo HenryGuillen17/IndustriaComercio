@@ -125,7 +125,7 @@
 
                         <div class="form-group">
                             <label class="control-label" for="Correo">Correo</label>
-                            <input class="form-control text-box single-line" id="Correo" name="Correo" type="email" v-model="form.Correo" v-validate="'required|email'">
+                            <input class="form-control text-box single-line" id="Correo" name="Correo" type="email" v-model="form.Correo" v-validate="'required|email|unique_email'">
                             <div class="invalid-feedback">{{ errors.first('Correo') }}</div>
                         </div>
 
@@ -149,6 +149,12 @@
 </template>
 
 <script>
+
+    VeeValidate.Validator.extend('unique_email', {
+        validate: (value) => axios.post('/Persona/FindByEmail', { Correo: value }).then((x) => { return { valid: x.data == "" }; }),
+        getMessage: () => `El email ya está registrado en el sistema.`
+    });
+
 
     Vue.component("editar-persona", {
         template: "#editar-persona-template",

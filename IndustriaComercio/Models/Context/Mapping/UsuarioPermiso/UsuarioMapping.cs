@@ -13,9 +13,11 @@ namespace IndustriaComercio.Context.mapping.UsuarioPermiso
             HasKey(x => x.PersonaId);
 
             // Propiedades  
-            Property(x => x.Contraseña).IsRequired().HasMaxLength(100);
+            Property(x => x.Contrasenia).IsRequired().HasMaxLength(500);
+            Property(x => x.Login).IsRequired().HasMaxLength(100);
+            Property(x => x.PerfilId).IsOptional();
 
-            HasRequired(x => x.Perfil)
+            HasOptional(x => x.Perfil)
             .WithMany(x => x.Usuarios)
             .HasForeignKey(x => x.PerfilId)
             .WillCascadeOnDelete(false);

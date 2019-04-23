@@ -5,6 +5,7 @@
         Vacio,
         PorNombreCompleto,
         PorCedula,
-        PorNombreUsuario
+        PorNombreUsuario,
+        PorUsuario
     }
 }

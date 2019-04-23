@@ -95,6 +95,14 @@ namespace IndustriaComercio.Controllers
 
 
         [HttpPost]
+        [Route("~/Persona/FindByEmail")]
+        public JsonResult FindByEmail(PersonaModel model)
+        {
+            return Json(_personaService.FindByEmail(model.Correo), JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
         [Route("~/Persona/Save")]
         public JsonResult Save(PersonaModel model)
         {

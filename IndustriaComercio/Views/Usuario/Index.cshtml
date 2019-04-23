@@ -3,7 +3,7 @@
 <div id="app">
     <div class="form-group row">
         <div class="col-md-4">
-            <h2>Listado de Clientes</h2>
+            <h2>Listado de Usuarios</h2>
         </div>
         <div class="col-md-8">
             <div class="float-right">
@@ -24,9 +24,7 @@
                       v-on:search="getData"
                       v-on:input="setSelected"
                       v-bind:options="options">
-                <template slot="no-options">
-                    -- Sin Opciones --
-                </template>
+                <template slot="no-options">-- Sin Opciones --</template>
             </v-select>
         </div>
         <div class="col-sm">
@@ -39,12 +37,16 @@
                 <input class="form-check-input" type="radio" id="cedula" name="tipo-busqueda" value="@((int)TipoBusqueda.PorCedula)" v-model="tipoBusqueda">
                 <label class="form-check-label" for="cedula">Cédula</label>
             </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="login" name="tipo-busqueda" value="@((int)TipoBusqueda.PorUsuario)" v-model="tipoBusqueda">
+                <label class="form-check-label" for="login">Usuario</label>
+            </div>
         </div>
     </div>
 
     <!-- tabla -->
     <vuetable ref="vuetable"
-              api-url="~/Cliente/GetListClientePaginado"
+              api-url="~/Usuario/GetListUsuarioPaginado"
               v-bind:fields="fields"
               pagination-path=""
               v-bind:sort-order="sortOrder"
@@ -94,16 +96,16 @@
                         dataClass: 'center aligned'
                     },
                     {
-                        name: 'Direccion',
-                        title: 'Direccion',
-                        sortField: 'Direccion',
+                        name: 'Login',
+                        title: 'Login',
+                        sortField: 'Login',
                         titleClass: 'center aligned',
                         dataClass: 'center aligned'
                     },
                     {
-                        name: 'Telefono',
-                        title: 'Teléfono',
-                        sortField: 'Telefono',
+                        name: 'Correo',
+                        title: 'Correo',
+                        sortField: 'Correo',
                         titleClass: 'center aligned',
                         dataClass: 'center aligned'
                     },
@@ -159,7 +161,7 @@
                 },
                 editRow(rowData) {
                     // alert("You clicked edit on" + JSON.stringify(rowData))
-                    window.location.href = `/Cliente/Edit/${rowData.PersonaId}`;
+                    window.location.href = `/Usuario/Edit/${rowData.PersonaId}`;
                 },
                 deleteRow(rowData) {
                     alert("You clicked delete on" + JSON.stringify(rowData))
@@ -175,7 +177,7 @@
                         return;
                     }
                     let paramsAutocomplete = `limit=5&tipoBusqueda=${vm.tipoBusqueda}&value=`;
-                    axios.get(`/Cliente/GetListClienteAutocomplete?${paramsAutocomplete}${search}`)
+                    axios.get(`/Usuario/GetListUsuarioAutocomplete?${paramsAutocomplete}${search}`)
                         .then(res => {
                             vm.options = res.data;
                             loading(false);

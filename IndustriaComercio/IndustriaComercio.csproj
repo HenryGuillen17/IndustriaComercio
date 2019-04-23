@@ -183,6 +183,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ActividadGravadaController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DeclaracionPreviaController.cs" />
     <Compile Include="Controllers\MunicipioController.cs" />
@@ -198,6 +199,14 @@
     <Compile Include="Migrations\201904212018300_Inicial.cs" />
     <Compile Include="Migrations\201904212018300_Inicial.Designer.cs">
       <DependentUpon>201904212018300_Inicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904230242570_CambioUsuario.cs" />
+    <Compile Include="Migrations\201904230242570_CambioUsuario.Designer.cs">
+      <DependentUpon>201904230242570_CambioUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904230322570_CambioUsuarioPerfilId.cs" />
+    <Compile Include="Migrations\201904230322570_CambioUsuarioPerfilId.Designer.cs">
+      <DependentUpon>201904230322570_CambioUsuarioPerfilId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context\GenericRepository.cs" />
@@ -1858,6 +1867,8 @@
     <Content Include="Views\Cliente\Index.cshtml" />
     <Content Include="Views\Cliente\Edit.cshtml" />
     <Content Include="Views\Personas\_Create.cshtml" />
+    <Content Include="Views\Usuario\Edit.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1938,6 +1949,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904212018300_Inicial.resx">
       <DependentUpon>201904212018300_Inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904230242570_CambioUsuario.resx">
+      <DependentUpon>201904230242570_CambioUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904230322570_CambioUsuarioPerfilId.resx">
+      <DependentUpon>201904230322570_CambioUsuarioPerfilId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\Reportes\Pdf\CRDeclaracionPrevia.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

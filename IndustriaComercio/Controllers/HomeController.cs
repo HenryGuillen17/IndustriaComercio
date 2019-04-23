@@ -35,13 +35,13 @@ namespace IndustriaComercio.Controllers
         {
             try
             {
-                if (model.Login == null && model.Contraseña == null)
+                if (model.Login == null && model.Contrasenia == null)
                 {
                     return View();
                 }
 
                 // Initialization.  
-                var loginInfo = _usuarioService.Login(model.Login, model.Contraseña);
+                var loginInfo = _usuarioService.Login(model.Login, model.Contrasenia);
                 if (loginInfo == null)
                 {
                     // Setting.  
