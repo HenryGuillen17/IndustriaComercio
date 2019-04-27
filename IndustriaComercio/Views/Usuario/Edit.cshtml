@@ -27,6 +27,11 @@
                         <template slot="no-options">
                             -- Sin Opciones --
                         </template>
+                        <template slot="option" slot-scope="option">
+                            <span class="font-weight-bold">{{ option.Value }}</span>
+                            <br />
+                            <span>{{ option.Label }}</span>
+                        </template>
                     </v-select>
                 </div>
                 <div class="col-sm">
@@ -44,7 +49,7 @@
         </div>
         <div class="col-sm-4">
             <h3>O Crear en Base de datos</h3>
-            <button type="button" class="btn btn-primary" v-on:click="editarPersona">Crear</button>
+            <button type="button" class="btn btn-primary" v-on:click="crearPersona">Crear</button>
         </div>
     </div>
 
@@ -115,7 +120,7 @@
         });
 
         VeeValidate.Validator.extend('unique_login', {
-            validate: (value) => axios.get('/Usuario/FindByLogin/' + encodeURI(value)).then((x) => { return { valid: x.data === "" }; }),
+            validate: (value) => axios.get('/Usuario/FindByLogin/' + encodeURI(value)).then((x) => { return { valid: x.data === "" || vm.nombreUsuario === value }; }),
             getMessage: () => `El Nombre de Usuario ya está registrado en el sistema.`
         });
 
@@ -134,6 +139,7 @@
                 tipoBusqueda: @((int)TipoBusqueda.PorNombreCompleto),
                 personaId: @(Model.PersonaId),
                 form: {},
+                nombreUsuario: ""
             },
             computed: {
                 /*httpOptions(){
@@ -156,7 +162,7 @@
                         return;
 
                     axios.get(`/Usuario/FindById/${this.personaId}`)
-                        .then(res => this.form = res.data)
+                        .then(res => { this.form = res.data; this.nombreUsuario = this.form.Login; })
                         .catch(e => console.error(e));
                 },
                 getData(search, loading) {
@@ -203,6 +209,9 @@
                 },
                 editarPersona() {
                     eventHub.$emit("editar-persona:init", this.personaId);
+                },
+                crearPersona() {
+                    eventHub.$emit("editar-persona:init", 0);
                 },
                 responsePersona(obj) {
                     // Buscar persona y la monta en el formulario

@@ -9,8 +9,9 @@
 
 <div id="app">
 
-    <h2>Editar Cliente</h2>
+    <h2>@(isCreated ? "Crear" : "Editar") Cliente</h2>
     <editar-persona ref="editar-persona"></editar-persona>
+    <editar-establecimiento ref="editar-establecimiento"></editar-establecimiento>
 
     <div class="row mt-5 mb-5" v-if="@(isCreated ? "true" : "false")">
         <div class="col-sm-8">
@@ -26,6 +27,11 @@
                               v-bind:options="options">
                         <template slot="no-options">
                             -- Sin Opciones --
+                        </template>
+                        <template slot="option" slot-scope="option">
+                            <span class="font-weight-bold">{{ option.Value }}</span>
+                            <br />
+                            <span>{{ option.Label }}</span>
                         </template>
                     </v-select>
                 </div>
@@ -44,7 +50,7 @@
         </div>
         <div class="col-sm-4">
             <h3>O Crear en Base de datos</h3>
-            <button type="button" class="btn btn-primary" v-on:click="editarPersona">Crear</button>
+            <button type="button" class="btn btn-primary" v-on:click="crearPersona">Crear</button>
         </div>
     </div>
 
@@ -96,11 +102,58 @@
                     </select>
                     <div class="invalid-feedback">{{ errors.first('ClasificacionContribuyenteId') }}</div>
                 </div>
-                <div class="form-group col-md-6 d-flex justify-content-center align-items-end">
-                    <button type="button" class="btn btn-primary" v-on:click="guardarCliente">Guardar</button>
+            </div>
+        </div>
+
+        <!-- -->
+
+        <div class="form-group row">
+            <div class="col-md-4">
+                <h4>Listado de Establecimientos</h4>
+            </div>
+            <div class="col-md-8">
+                <div class="float-right">
+                    <button class="btn btn-primary" v-on:click="crearEstablecimiento">Crear Establecimiento</button>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="">Descripcion</th>
+                            <th class="">Direccion</th>
+                            <th class="">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, x) in form.Establecimientos">
+                            <td>
+                                <span>{{ item.Descripcion }}</span>
+                            </td>
+                            <td>
+                                <span>{{ item.Direccion }}</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-link btn-sm" v-on:click="editarEstablecimiento(item.EstablecimientoId)">
+                                    Editar
+                                </button>
+                                <button type="button" class="btn btn-link btn-sm" v-on:click="form.Establecimientos.splice(x, 1)">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="form-group d-flex justify-content-center align-items-end">
+            <button type="button" class="btn btn-primary" v-on:click="guardarCliente">Guardar</button>
+        </div>
+
     </template>
 
 </div>
@@ -109,6 +162,7 @@
 @section scripts{
 
     @Html.Partial("../Personas/_Create")
+    @Html.Partial("../Establecimiento/_Edit")
 
     <script>
         Vue.use(VeeValidate, {
@@ -127,6 +181,7 @@
             },
             created() {
                 eventHub.$on('editar-persona:response', this.responsePersona);
+                eventHub.$on('editar-establecimiento:response', this.responseEstablecimiento);
             },
             data: {
                 options: [],
@@ -200,8 +255,14 @@
                         if (valid) {
                             // guardamos con ajax
                             axios.post(`/Cliente/Save`, this.form)
-                                .then(res =>
-                                    Swal.fire("Exito", "Cliente guardado con éxito", "success"))
+                                .then(res => {
+                                    this.form.Establecimientos.forEach(x => x.ClienteId = res.data.PersonaId);
+                                    axios.post(`/Establecimiento/AsignarCliente`, this.form.Establecimientos)
+                                        .then(res => {
+                                            Swal.fire("Exito", "Cliente guardado con éxito", "success");
+                                        })
+                                        .catch(e => console.error(e));
+                                })
                                 .catch(e => console.error(e));
                         } else {
                             Swal.fire("Advertencia", "Validar formulario", "warning");
@@ -211,9 +272,45 @@
                 editarPersona() {
                     eventHub.$emit("editar-persona:init", this.personaId);
                 },
+                crearPersona() {
+                    eventHub.$emit("editar-persona:init", 0);
+                },
+                editarEstablecimiento(id) {
+                    eventHub.$emit("editar-establecimiento:init", { ClienteId: this.personaId, Establecimientos: this.form.Establecimientos.find(x => x.EstablecimientoId === id) });
+                },
+                crearEstablecimiento() {
+                    eventHub.$emit("editar-establecimiento:init", { ClienteId: this.personaId, Establecimientos: { EstablecimientoId: 0, EstablecimientoActividades: [], Descripcion: "", Direccion: ""} });
+                },
                 responsePersona(obj) {
                     // Buscar persona y la monta en el formulario
                     this.personaId = obj;
+                },
+                responseEstablecimiento(a) {
+                    // Buscar persona y la monta en el formulario
+                    var model = this.form.Establecimientos.find(x => x.EstablecimientoId === a.EstablecimientoId);
+                    if (typeof model === "undefined")
+                        this.form.Establecimientos.push(
+                            {
+                                EstablecimientoId: a.EstablecimientoId,
+                                ClienteId: a.ClienteId,
+                                Descripcion: a.Descripcion,
+                                Direccion: a.Direccion,
+                                EstablecimientoActividades: a.EstablecimientoActividades
+                            }
+                        );
+                    else {
+                        let index = this.form.Establecimientos.indexOf(model);
+                        this.form.Establecimientos.splice(index, 1);
+                        this.form.Establecimientos.push(
+                            {
+                                EstablecimientoId: a.EstablecimientoId,
+                                ClienteId: a.ClienteId,
+                                Descripcion: a.Descripcion,
+                                Direccion: a.Direccion,
+                                EstablecimientoActividades: a.EstablecimientoActividades
+                            }
+                        );
+                    }
                 }
             }
         })

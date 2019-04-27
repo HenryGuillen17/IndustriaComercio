@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using IndustriaComercio.Entidades.Basicos;
 using IndustriaComercio.Entidades.Persona;
 using IndustriaComercio.Models.Enum;
 
@@ -16,6 +19,10 @@ namespace IndustriaComercio.Models.Model
         public int? ClasificacionContribuyenteId { get; set; }
         public string ClasificacionContribuyenteNombre { get; set; }
 
+
+        public ICollection<EstablecimientoModel> Establecimientos { get; set; }
+
+
         internal Cliente ClienteFactory()
         {
             return new Cliente
@@ -26,7 +33,19 @@ namespace IndustriaComercio.Models.Model
                 Nota = Nota,
                 NumeroEstablecimientos = NumeroEstablecimientos,
                 Estado = Estado.Activo,
-                RetieneImpIndustriaComercio = RetieneImpIndustriaComercio
+                RetieneImpIndustriaComercio = RetieneImpIndustriaComercio,
+                //Establecimientos = Establecimientos.Select(x => new Establecimiento
+                //{
+                //    EstablecimientoId = x.EstablecimientoId,
+                //    ClienteId = PersonaId,
+                //    Descripcion = x.Descripcion,
+                //    Direccion = x.Direccion,
+                //    EstablecimientoActividades = x.EstablecimientoActividades.Select(y => new EstablecimientoActividad
+                //    {
+                //        ActividadId = y.ActividadId,
+                //        EstablecimientoId = x.EstablecimientoId,
+                //    }).ToList()
+                //}).ToList()
             };
         }
     }

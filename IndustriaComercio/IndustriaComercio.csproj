@@ -183,6 +183,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ActividadGravadaController.cs" />
+    <Compile Include="Controllers\EstablecimientoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DeclaracionPreviaController.cs" />
@@ -277,6 +278,9 @@
     <Compile Include="Models\Enum\TipoBusqueda.cs" />
     <Compile Include="Models\Enum\TipoDeclaracion.cs" />
     <Compile Include="Models\Enum\Estado.cs" />
+    <Compile Include="Models\Model\ActividadGravadaModel.cs" />
+    <Compile Include="Models\Model\EstablecimientoModel.cs" />
+    <Compile Include="Models\Model\EstablecimientoActividadModel.cs" />
     <Compile Include="Models\Model\UsuarioMenuModel.cs" />
     <Compile Include="Models\Model\UsuarioModel.cs" />
     <Compile Include="Models\Model\ClienteModel.cs" />
@@ -1869,6 +1873,7 @@
     <Content Include="Views\Personas\_Create.cshtml" />
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Establecimiento\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

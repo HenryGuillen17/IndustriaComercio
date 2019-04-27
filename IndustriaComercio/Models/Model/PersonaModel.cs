@@ -23,7 +23,7 @@ namespace IndustriaComercio.Models.Model
         [NotMapped]
         public string NoIdentificacionCompleto => $"{TipoDocumentoNombre} {NoIdentificacion}";
         [NotMapped]
-        public string DigitoChequeo => Tool.CalcularDigito(NoIdentificacion);
+        public string DigitoChequeo => Tool.CalcularDigito(NoIdentificacion.Split('-')[0]);
 
         [Required]
         [Display(Name = "Primer Nombre *")]

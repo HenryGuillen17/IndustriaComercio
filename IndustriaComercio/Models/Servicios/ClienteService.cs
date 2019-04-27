@@ -183,23 +183,47 @@ namespace IndustriaComercio.Models.Servicios
                     Municipio = x.Municipio.Descripcion,
                     DepartamentoId = x.Municipio.DepartamentoId,
                     Departamento = x.Municipio.Departamento.Descripcion,
-                    Nota = x.Cliente.Nota,
-                    NoPlaca = x.Cliente.NoPlaca,
-                    RetieneImpIndustriaComercio = x.Cliente == null && x.Cliente.RetieneImpIndustriaComercio,
+                    Nota = x.Cliente != null ? x.Cliente.Nota : null,
+                    NoPlaca = x.Cliente != null ? x.Cliente.NoPlaca : null,
+                    RetieneImpIndustriaComercio = x.Cliente != null ? x.Cliente.RetieneImpIndustriaComercio : false,
                     NumeroEstablecimientos = x.Cliente != null ? x.Cliente.NumeroEstablecimientos : 1,
-                    ClasificacionContribuyenteId = x.Cliente.ClasificacionContribuyenteId,
+                    ClasificacionContribuyenteId = x.Cliente != null ? x.Cliente.ClasificacionContribuyenteId : 0,
                     ClasificacionContribuyenteNombre = x.Cliente.ClasificacionContribuyente.Descripcion,
                     Telefono = x.Telefono,
                     Estado = x.Cliente != null ? x.Cliente.Estado : 0
                 })
                 .FirstOrDefault();
 
+            if (model.ClasificacionContribuyenteId != 0)
+            {
+                model.Establecimientos = _db.Establecimiento
+                    .Where(x => model.PersonaId == x.ClienteId)
+                    .Select(a => new EstablecimientoModel
+                    {
+                        EstablecimientoId = a.EstablecimientoId,
+                        ClienteId = a.ClienteId,
+                        Descripcion = a.Descripcion,
+                        Direccion = a.Direccion,
+                        EstablecimientoActividades = a.EstablecimientoActividades
+                            .Select(y => new EstablecimientoActividadModel
+                            {
+                                ActividadId = y.ActividadId,
+                                Descripcion = y.Actividad.Descripcion,
+                                Codigo = y.Actividad.Codigo,
+                                IngresosGravados = 0,
+                                Tarifa = y.Actividad.Tarifa,
+                                Valor = y.Actividad.Valor,
+                                EstablecimientoId = a.EstablecimientoId,
+                            }).ToList(),
+                    }).ToList();
+            }
+
             return model;
         }
 
-        public int Save(ClienteModel model)
+        public ClienteModel Save(ClienteModel model)
         {
-            var cliente = _db.Cliente.Find(model.PersonaId);
+            var cliente = _db.Cliente.AsNoTracking().FirstOrDefault(x => x.PersonaId == model.PersonaId) ;
 
             if (cliente == null)
             {
@@ -209,7 +233,8 @@ namespace IndustriaComercio.Models.Servicios
                 _db.Entry(model.ClienteFactory()).State = EntityState.Modified;
 
             _db.SaveChanges();
-            return model.PersonaId;
+
+            return model;
         }
 
         public IEnumerable<ListaCorreo> GetListaCorreos()

@@ -1,5 +1,7 @@
-﻿using IndustriaComercio.Models.Context;
+﻿using IndustriaComercio.Common.Utils;
+using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Entidades.Basicos;
+using IndustriaComercio.Models.Model;
 using IndustriaComercio.Models.Servicios;
 using System.Data.Entity;
 using System.Linq;
@@ -77,7 +79,58 @@ namespace IndustriaComercio.Controllers
                 return RedirectToAction("Index");
             }
             return View(actividadGravada);
-        }        
+        }
+
+
+        public JsonResult FindAll(
+            )
+        {
+            return Json(
+                _db.ActividadGravada.Select(y => new ActividadGravadaModel
+                {
+                    ActividadId = y.ActividadId,
+                    Descripcion = y.Descripcion,
+                    Codigo = y.Codigo,
+                    IngresosGravados = 0,
+                    Tarifa = y.Tarifa,
+                    Valor = y.Valor
+                }).ToList(),
+                JsonRequestBehavior.AllowGet
+                );
+        }
+
+
+        public JsonResult FindById(int id)
+        {
+            return Json(
+                _db.ActividadGravada.Where(x => x.ActividadId == id)
+                .Select(y => new ActividadGravadaModel
+                {
+                    ActividadId = y.ActividadId,
+                    Descripcion = y.Descripcion,
+                    Codigo = y.Codigo,
+                    IngresosGravados = 0,
+                    Tarifa = y.Tarifa,
+                    Valor = y.Valor
+                }).FirstOrDefault(),
+                JsonRequestBehavior.AllowGet
+                );
+        }
+
+
+        public JsonResult FindAllCb()
+        {
+            return Json(
+                _db.ActividadGravada
+                .Select(y => new ComboBox
+                {
+                    Key = y.ActividadId,
+                    Value = y.Descripcion
+                }).ToList(),
+                JsonRequestBehavior.AllowGet
+                );
+        }
+
 
         protected override void Dispose(bool disposing)
         {

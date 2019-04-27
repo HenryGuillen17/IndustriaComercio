@@ -269,7 +269,7 @@ namespace IndustriaComercio.Models.Servicios
 
         public int Save(UsuarioModel model)
         {
-            var usuario = _db.Usuario.Find(model.PersonaId);
+            var usuario = _db.Usuario.AsNoTracking().FirstOrDefault(x => x.PersonaId == model.PersonaId);
 
             if (usuario == null)
                 _db.Usuario.Add(model.UsuarioFactory());

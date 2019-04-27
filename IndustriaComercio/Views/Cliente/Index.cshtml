@@ -27,6 +27,11 @@
                 <template slot="no-options">
                     -- Sin Opciones --
                 </template>
+                <template slot="option" slot-scope="option">
+                    <span class="font-weight-bold">{{ option.Value }}</span>
+                    <br />
+                    <span>{{ option.Label }}</span>
+                </template>
             </v-select>
         </div>
         <div class="col-sm">
