@@ -209,6 +209,18 @@
     <Compile Include="Migrations\201904230322570_CambioUsuarioPerfilId.Designer.cs">
       <DependentUpon>201904230322570_CambioUsuarioPerfilId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905160502290_Parametros_Reporte.cs" />
+    <Compile Include="Migrations\201905160502290_Parametros_Reporte.Designer.cs">
+      <DependentUpon>201905160502290_Parametros_Reporte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905160505595_Parametros_Reporte1.cs" />
+    <Compile Include="Migrations\201905160505595_Parametros_Reporte1.Designer.cs">
+      <DependentUpon>201905160505595_Parametros_Reporte1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905160524348_Cambio_DeclaracionDeudaCuota.cs" />
+    <Compile Include="Migrations\201905160524348_Cambio_DeclaracionDeudaCuota.Designer.cs">
+      <DependentUpon>201905160524348_Cambio_DeclaracionDeudaCuota.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context\GenericRepository.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\MunicipioMapping.cs" />
@@ -218,6 +230,8 @@
     <Compile Include="Models\Context\Mapping\Basicos\TipoSancionMapping.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\TipoDocumentoMapping.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\ClasificacionContribuyenteMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\ParametroVencimientoMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\DeclaracionDeudaCuotaMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\EstablecimientoActividadMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\EstablecimientoMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\ActividadGravadaMapping.cs" />
@@ -249,16 +263,14 @@
     <Compile Include="Models\Entidades\Basicos\TipoActividad.cs" />
     <Compile Include="Models\Entidades\Basicos\TipoSancion.cs" />
     <Compile Include="Models\Entidades\Basicos\TipoDocumento.cs" />
-    <Compile Include="Models\Entidades\Declaracion\DeudaDetalle.cs" />
-    <Compile Include="Models\Entidades\Declaracion\Deuda.cs" />
     <Compile Include="Models\Entidades\Declaracion\ParametroVencimiento.cs" />
+    <Compile Include="Models\Entidades\Declaracion\DeclaracionDeudaCuota.cs" />
     <Compile Include="Models\Entidades\Declaracion\Interes.cs" />
-    <Compile Include="Models\Entidades\Declaracion\DeclaracionDetalle.cs" />
-    <Compile Include="Models\Entidades\Declaracion\Declaracion.cs" />
     <Compile Include="Models\Entidades\Declaracion\Descuento.cs" />
     <Compile Include="Models\Entidades\Declaracion\EstablecimientoActividad.cs" />
     <Compile Include="Models\Entidades\Declaracion\Establecimiento.cs" />
     <Compile Include="Models\Entidades\Declaracion\Concepto.cs" />
+    <Compile Include="Models\Entidades\Declaracion\ReportePagoDeclaracion.cs" />
     <Compile Include="Models\Entidades\Declaracion\TipoConcepto.cs" />
     <Compile Include="Models\Entidades\Persona\Cliente.cs" />
     <Compile Include="Models\Entidades\Persona\Persona.cs" />
@@ -1960,6 +1972,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904230322570_CambioUsuarioPerfilId.resx">
       <DependentUpon>201904230322570_CambioUsuarioPerfilId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905160502290_Parametros_Reporte.resx">
+      <DependentUpon>201905160502290_Parametros_Reporte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905160505595_Parametros_Reporte1.resx">
+      <DependentUpon>201905160505595_Parametros_Reporte1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905160524348_Cambio_DeclaracionDeudaCuota.resx">
+      <DependentUpon>201905160524348_Cambio_DeclaracionDeudaCuota.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\Reportes\Pdf\CRDeclaracionPrevia.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -13,6 +13,5 @@ namespace IndustriaComercio.Entidades.Basicos
 
         public virtual TipoConcepto TipoConcepto { get; set; }
         public virtual ICollection<Descuento> Descuentos { get; set; }
-        public virtual ICollection<DeclaracionDetalle> DeclaracionDetalles { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace IndustriaComercio.Models.Context
     using IndustriaComercio.Models.Context.mapping.TablasBasicas;
     using IndustriaComercio.Models.Context.Mapping.Declaracion;
     using IndustriaComercio.Models.Entidades.Basicos;
+    using IndustriaComercio.Models.Entidades.Declaracion;
     using System.Data.Entity;
     using System.Data.Entity.ModelConfiguration.Conventions;
 
@@ -20,6 +21,7 @@ namespace IndustriaComercio.Models.Context
         public DbSet<ClasificacionContribuyente> ClasificacionContribuyente { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<DeclaracionPrevia> DeclaracionPrevia { get; set; }
+        public DbSet<DeclaracionDeudaCuota> DeclaracionDeudaCuota { get; set; }
         public DbSet<Departamento> Departamento { get; set; }
         public DbSet<Establecimiento> Establecimiento { get; set; }
         public DbSet<EstablecimientoActividad> EstablecimientoActividad { get; set; }
@@ -28,7 +30,10 @@ namespace IndustriaComercio.Models.Context
         public DbSet<TipoDocumento> TipoDocumento { get; set; }
         public DbSet<TipoActividad> TipoActividad { get; set; }
         public DbSet<TipoSancion> TipoSancion { get; set; }
+        public DbSet<ParametroVencimiento> ParametroVencimiento { get; set; }
         public DbSet<Persona> Persona { get; set; }
+        public DbSet<ReportePagoDeclaracion> ReportePagoDeclaracion { get; set; }
+        public DbSet<ReportePagoDeclaracionDetalle> ReportePagoDeclaracionDetalle { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
 
 
@@ -56,6 +61,7 @@ namespace IndustriaComercio.Models.Context
             modelBuilder.Configurations.Add(new TipoSancionMapping());
 
             modelBuilder.Configurations.Add(new DeclaracionPreviaMapping());
+            modelBuilder.Configurations.Add(new DeclaracionDeudaCuotaMapping());
             modelBuilder.Configurations.Add(new ActividadGravablePorDeclaracionMapping());
             modelBuilder.Configurations.Add(new ActividadGravadaMapping());
             modelBuilder.Configurations.Add(new ClasificacionContribuyenteMapping());
@@ -68,6 +74,10 @@ namespace IndustriaComercio.Models.Context
 
             modelBuilder.Configurations.Add(new DepartamentoMapping());
             modelBuilder.Configurations.Add(new MunicipioMapping());
+
+            modelBuilder.Configurations.Add(new ParametroVencimientoMapping());
+            modelBuilder.Configurations.Add(new ReportePagoDeclaracion.Map());
+            modelBuilder.Configurations.Add(new ReportePagoDeclaracionDetalle.Map());
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 

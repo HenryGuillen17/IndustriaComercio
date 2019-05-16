@@ -180,6 +180,7 @@ namespace IndustriaComercio.Models.Entidades.Basicos
         #endregion
 
         public virtual ICollection<ActividadGravablePorDeclaracion> ActividadesGravadas { get; set; }
+        public virtual ICollection<DeclaracionDeudaCuota> DeclaracionDeudasCuotas { get; set; }
         public virtual Cliente Cliente { get; set; }
         public TipoSancion TipoSancion { get; set; }
     }

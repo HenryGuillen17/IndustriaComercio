@@ -3,6 +3,7 @@ using CrystalDecisions.Shared;
 using IndustriaComercio.Common.Extensions;
 using IndustriaComercio.Common.Tools;
 using IndustriaComercio.Common.Utils;
+using IndustriaComercio.Entidades.Basicos;
 using IndustriaComercio.Models.Context;
 using IndustriaComercio.Models.Entidades.Basicos;
 using IndustriaComercio.Models.Model;
@@ -29,7 +30,7 @@ namespace IndustriaComercio.Controllers
             _declaracionPreviaService = new DeclaracionPreviaService(db);
 
             //var cliente = new GetDatosClient();
-            
+
         }
 
 
@@ -188,9 +189,11 @@ namespace IndustriaComercio.Controllers
             var actividadesGravadas = ToActividadesGravadas(
                 model.ActividadesGravadas, declaracionPreviaId
                 );
+            var deudaCuotas = ToDeudaCuotas(declaracionPrevia);
 
             db.DeclaracionPrevia.Add(declaracionPrevia);
             db.ActividadGravablePorDeclaracion.AddRange(actividadesGravadas);
+            db.DeclaracionDeudaCuota.AddRange(deudaCuotas);
 
             db.SaveChanges();
 
@@ -256,6 +259,39 @@ namespace IndustriaComercio.Controllers
                 ValorPagar = model.ValorPagar,
                 TotalPagar = model.TotalPagar
             };
+        }
+
+        private List<DeclaracionDeudaCuota> ToDeudaCuotas(DeclaracionPrevia model)
+        {
+            // 1.- consulto todas las cuotas
+            // 2.- hace un foreach de esas cuotas y divide to-do lo que vaya a guardar entre el numero de cuotas y seteas la fecha de vencimiento para retornar
+            var db = new ModelServidor();
+            var deudasCuotas = new List<DeclaracionDeudaCuota>();
+            var parametrosVencimientos = db.ParametroVencimiento.ToList();
+
+            parametrosVencimientos.ForEach(
+                x =>
+                    deudasCuotas.Add(new DeclaracionDeudaCuota
+                    {
+                        DeclaracionDeudaCuotaId = db.DeclaracionDeudaCuota.Consecutivo(y => y.DeclaracionDeudaCuotaId),
+                        DeclaracionPreviaId = model.DeclaracionPreviaId,
+                        FechaVencimiento = new DateTime(model.Año, x.Mes, x.Dia),
+                        TotalImpuestoIndustriaComercio = model.TotalImpuestoIndustriaComercio / parametrosVencimientos.Count,
+                        ImpuestoAvisosTableros = model.ImpuestoAvisosTableros / parametrosVencimientos.Count,
+                        PagoUnidadesComerciales = model.PagoUnidadesComerciales / parametrosVencimientos.Count,
+                        SobretasaBomberil = model.SobretasaBomberil / parametrosVencimientos.Count,
+                        SobretasaSeguridad = model.SobretasaSeguridad / parametrosVencimientos.Count,
+                        TotalImpuestoCargo = model.TotalImpuestoCargo / parametrosVencimientos.Count,
+                        ValorExoneracionImpuesto = model.ValorExoneracionImpuesto / parametrosVencimientos.Count,
+                        RetencionesDelMunicipio = model.RetencionesDelMunicipio / parametrosVencimientos.Count,
+                        AutoretencionesDelMunicipio = model.AutoretencionesDelMunicipio / parametrosVencimientos.Count,
+                        AnticipoAnioAnterior = model.AnticipoAnioAnterior / parametrosVencimientos.Count,
+                        AnticipoAnioSiguiente = model.AnticipoAnioSiguiente / parametrosVencimientos.Count,
+                        SaldoFavorPeriodoAnterior = model.SaldoFavorPeriodoAnterior / parametrosVencimientos.Count,
+                        TotalSaldoCargo = model.TotalSaldoCargo / parametrosVencimientos.Count,
+                        TotalSaldoFavor = model.TotalSaldoFavor / parametrosVencimientos.Count,
+                    }));
+            return deudasCuotas;
         }
     }
 }

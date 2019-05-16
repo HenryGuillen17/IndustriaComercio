@@ -217,6 +217,8 @@ namespace IndustriaComercio.Models.Servicios
                             }).ToList(),
                     }).ToList();
             }
+            else
+                model.Establecimientos = new List<EstablecimientoModel>();
 
             return model;
         }
