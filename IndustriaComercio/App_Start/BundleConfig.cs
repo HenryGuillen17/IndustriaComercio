@@ -24,6 +24,7 @@ namespace IndustriaComercio
                         "~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js",
                         "~/Content/vendor/jquery-easing/jquery.easing.min.js",
                         "~/Content/vendor/axios/axios.min.js",
+                        "~/Content/vendor/Moment/moment-with-locales.min.js",
                         "~/Content/vendor/Numeral/numeral.min.js",
                         "~/Content/vendor/Numeral/locales.min.js",
                         "~/Content/vendor/vue/vue.min.js",

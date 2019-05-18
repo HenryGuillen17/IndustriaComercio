@@ -1,0 +1,154 @@
+﻿<template id="detalle-deuda-template">
+
+    <div class="modal fade" id="detalle-deuda-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalle Cuota Deuda</h4>
+                    <button type="button" class="close" v-on:click="closeModal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <h4>Detalle</h4>
+                        <hr>
+                        
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">FechaVencimiento</div>
+                            <div class="col-6 text-left">{{ formatDate(deuda.FechaVencimiento) }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">TotalImpuestoIndustriaComercio</div>
+                            <div class="col-6 text-left">{{ deuda.TotalImpuestoIndustriaComercio }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">ImpuestoAvisosTableros</div>
+                            <div class="col-6 text-left">{{ deuda.ImpuestoAvisosTableros }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">PagoUnidadesComerciales</div>
+                            <div class="col-6 text-left">{{ deuda.PagoUnidadesComerciales }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">SobretasaBomberil</div>
+                            <div class="col-6 text-left">{{ deuda.SobretasaBomberil }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">SobretasaSeguridad</div>
+                            <div class="col-6 text-left">{{ deuda.SobretasaSeguridad }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">TotalImpuestoCargo</div>
+                            <div class="col-6 text-left">{{ deuda.TotalImpuestoCargo }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">ValorExoneracionImpuesto</div>
+                            <div class="col-6 text-left">{{ deuda.ValorExoneracionImpuesto }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">RetencionesDelMunicipio</div>
+                            <div class="col-6 text-left">{{ deuda.RetencionesDelMunicipio }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">AutoretencionesDelMunicipio</div>
+                            <div class="col-6 text-left">{{ deuda.AutoretencionesDelMunicipio }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">AnticipoAnioAnterior</div>
+                            <div class="col-6 text-left">{{ deuda.AnticipoAnioAnterior }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">AnticipoAnioSiguiente</div>
+                            <div class="col-6 text-left">{{ deuda.AnticipoAnioSiguiente }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">ValorSancion</div>
+                            <div class="col-6 text-left">{{ deuda.ValorSancion }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">SaldoFavorPeriodoAnterior</div>
+                            <div class="col-6 text-left">{{ deuda.SaldoFavorPeriodoAnterior }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">TotalSaldoCargo</div>
+                            <div class="col-6 text-left">{{ deuda.TotalSaldoCargo }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">TotalSaldoFavor</div>
+                            <div class="col-6 text-left">{{ deuda.TotalSaldoFavor }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">InteresesMora</div>
+                            <div class="col-6 text-left">{{ deuda.InteresesMora }}</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" v-on:click="closeModal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</template>
+
+<script>
+
+
+    Vue.component("detalle-deuda", {
+        template: "#detalle-deuda-template",
+        created() {
+            eventHub.$on('detalle-deuda:init', this.init)
+        },
+        data() {
+            return {
+                deuda: {},
+                declaracionDeudaCuotaId: 0
+            }
+        },
+        methods: {
+            init(obj) {
+                // this.getDeclaracionDeudaCuota();
+                this.deuda = obj;
+                openModal("#detalle-deuda-modal");
+            },
+            closeModal() {
+                closeModal("#detalle-deuda-modal");
+            },
+            getDeclaracionDeudaCuota() {
+                axios.get(`/DeclaracionDeudaCuota/FindById/${this.declaracionDeudaCuotaId}`)
+                    .then(x => this.deuda = x.data)
+                    .catch(e => console.error(e));
+            },
+            formatDate: function (value, fmt) {
+                return formatoFecha(value, fmt);
+            },
+        }
+    });
+
+</script>

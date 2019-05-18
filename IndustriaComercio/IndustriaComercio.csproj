@@ -170,6 +170,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\Extensions\ListExtensions.cs" />
     <Compile Include="Common\Extensions\SqlExtensions.cs" />
+    <Compile Include="Common\Extensions\StreamExtensions.cs" />
     <Compile Include="Common\Helpers\MvcHtmlHelpers.cs" />
     <Compile Include="Common\Tools\Tool.cs" />
     <Compile Include="Common\Utils\ComboBox.cs" />
@@ -183,6 +184,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ActividadGravadaController.cs" />
+    <Compile Include="Controllers\DeclaracionDeudaCuotaController.cs" />
     <Compile Include="Controllers\EstablecimientoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
@@ -291,6 +293,7 @@
     <Compile Include="Models\Enum\TipoDeclaracion.cs" />
     <Compile Include="Models\Enum\Estado.cs" />
     <Compile Include="Models\Model\ActividadGravadaModel.cs" />
+    <Compile Include="Models\Model\DeclaracionDeudaCuotaModel.cs" />
     <Compile Include="Models\Model\EstablecimientoModel.cs" />
     <Compile Include="Models\Model\EstablecimientoActividadModel.cs" />
     <Compile Include="Models\Model\UsuarioMenuModel.cs" />
@@ -303,6 +306,12 @@
     <Compile Include="Models\Model\UsuarioSubMenuModel.cs" />
     <Compile Include="Models\Reportes\Model\ActividadGravada.cs" />
     <Compile Include="Models\Reportes\Model\DeclaracionPreviaReport.cs" />
+    <Compile Include="Models\Reportes\Pdf\CRDeclaracionDeudaCuota.cs">
+      <DependentUpon>CRDeclaracionDeudaCuota.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Models\Reportes\Pdf\CRDeclaracionPrevia.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1757,6 +1766,9 @@
     <Content Include="Content\vendor\jquery\jquery.slim.js" />
     <Content Include="Content\vendor\jquery\jquery.slim.min.js" />
     <Content Include="Content\vendor\lodash\lodash.js" />
+    <Content Include="Content\vendor\Moment\moment-locale-es.js" />
+    <Content Include="Content\vendor\Moment\moment-with-locales.min.js" />
+    <Content Include="Content\vendor\Moment\moment.min.js" />
     <Content Include="Content\vendor\Numeral\locales.min.js" />
     <Content Include="Content\vendor\Numeral\locales\be-nl.min.js" />
     <Content Include="Content\vendor\Numeral\locales\bg.min.js" />
@@ -1886,6 +1898,8 @@
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Establecimiento\_Edit.cshtml" />
+    <Content Include="Views\DeclaracionDeudaCuota\Index.cshtml" />
+    <Content Include="Views\DeclaracionDeudaCuota\_Detalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1981,6 +1995,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905160524348_Cambio_DeclaracionDeudaCuota.resx">
       <DependentUpon>201905160524348_Cambio_DeclaracionDeudaCuota.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\Reportes\Pdf\CRDeclaracionDeudaCuota.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRDeclaracionDeudaCuota.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\Reportes\Pdf\CRDeclaracionPrevia.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

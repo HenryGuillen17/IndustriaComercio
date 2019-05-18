@@ -6,12 +6,20 @@ var validObj = {
     rules: []
 }
 
+moment.locale("es");
+
 function openModal(idModal) {
     $(idModal).modal({ backdrop: "static", keyboard: false });
 }
 
 function closeModal(idModal) {
     $(idModal).modal("hide");
+}
+
+function formatoFecha(value, fmt) {
+    if (value === null) return "";
+    fmt = (typeof fmt === "undefined") ? "DD-MM-YYYY" : fmt;
+    return moment(value).format(fmt);
 }
 
 

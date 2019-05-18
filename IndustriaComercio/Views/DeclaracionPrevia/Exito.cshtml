@@ -46,7 +46,6 @@
                             declaracionPreviaId: (@declaracionPreviaId)
                         }
                     ).then(x => {
-                        debugger;
                         var pdfUrl = window.URL.createObjectURL(x.data);
                         printJS(pdfUrl);
                     }).catch(function (x) {

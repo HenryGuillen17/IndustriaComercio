@@ -1,0 +1,233 @@
+﻿@using IndustriaComercio.Models.Enum
+
+<div id="app">
+    <div class="form-group row">
+        <div class="col-md-4">
+            <h2>Listado de Deudas Por Cliente</h2>
+        </div>
+        <div class="col-md-8">
+            <div class="float-right">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-5">
+        <div class="col-sm">
+            <h3>Filtros:</h3>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-sm">
+            <v-select ref="select"
+                      label="Value"
+                      v-bind:filterable="false"
+                      v-on:search="getData"
+                      v-on:input="setSelected"
+                      v-bind:options="options">
+                <template slot="no-options">
+                    -- Sin Opciones --
+                </template>
+                <template slot="option" slot-scope="option">
+                    <span class="font-weight-bold">{{ option.Value }}</span>
+                    <br />
+                    <span>{{ option.Label }}</span>
+                </template>
+            </v-select>
+        </div>
+        <div class="col-sm">
+            <label>Buscar por: </label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="nombre-completo" name="tipo-busqueda" value="@((int)TipoBusqueda.PorNombreCompleto)" v-model="tipoBusqueda" checked>
+                <label class="form-check-label" for="nombre-completo">Nombre Completo</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="cedula" name="tipo-busqueda" value="@((int)TipoBusqueda.PorCedula)" v-model="tipoBusqueda">
+                <label class="form-check-label" for="cedula">Cédula</label>
+            </div>
+        </div>
+        <div class="col-sm">
+            <button class="btn btn-primary" v-bind:disabled="$refs.vuetable == null || $refs.vuetable.selectedTo.length == 0" v-on:click="generarPago">Generar Pago</button>
+        </div>
+    </div>
+
+    <!-- tabla -->
+    <vuetable ref="vuetable"
+              api-url="~/DeclaracionDeudaCuota/GetListDeclaracionDeudaCuotaPaginado"
+              v-bind:fields="fields"
+              pagination-path=""
+              v-bind:sort-order="sortOrder"
+              v-bind:query-params="{ sort: 'sort', page: 'page', perPage: 'perPage' }"
+              v-bind:append-params="moreParams"
+              track-by="DeclaracionDeudaCuotaId"
+              v-bind:css="css.table"
+              v-bind:load-on-start="false"
+              v-on:vuetable:pagination-data="onPaginationData">
+        <template slot="actions" scope="props">
+            <div class="table-button-container">
+                <button type="button" class="btn btn-link btn-sm" v-on:click="editRow(props.rowData)">
+                    Detalle
+                </button>
+                <detalle-deuda ref="deuda"></detalle-deuda>
+            </div>
+        </template>
+    </vuetable>
+    <vuetable-pagination ref="pagination"
+                         v-bind:css="css.pagination"
+                         v-on:vuetable-pagination:change-page="onChangePage">
+    </vuetable-pagination>
+</div>
+
+@section scripts{
+    @Html.Partial("_Detalle")
+
+    <script>
+        Vue.use(Vuetable);
+        Vue.component('v-select', VueSelect.VueSelect)
+
+        var vm = new Vue({
+            el: '#app',
+            components: {
+                'vuetable-pagination': Vuetable.VuetablePagination,
+            },
+            data: {
+                fields: [
+                    {
+                        name: 'DeclaracionPreviaId',
+                        title: 'Declaracion Previa Id',
+                        sortField: 'DeclaracionPreviaId',
+                        titleClass: 'center aligned',
+                        dataClass: 'center aligned'
+                    },
+                    {
+                        name: 'TotalSaldoCargo',
+                        title: 'Total Saldo Cargo',
+                        sortField: 'TotalSaldoCargo',
+                        titleClass: 'center aligned',
+                        dataClass: 'center aligned'
+                    },
+                    {
+                        name: 'AnioDeclaracion',
+                        title: 'Año Declaración',
+                        sortField: 'AnioDeclaracion',
+                        titleClass: 'center aligned',
+                        dataClass: 'center aligned'
+                    },
+                    {
+                        name: 'FechaVencimiento',
+                        title: 'Fecha Vencimiento',
+                        sortField: 'FechaVencimiento',
+                        titleClass: 'center aligned',
+                        dataClass: 'center aligned',
+                        callback: 'formatDate'
+                    },
+                    '__checkbox',
+                    '__slot:actions'
+                ],
+                sortOrder: [
+                    {
+                        field: 'DeclaracionPreviaId',
+                        direction: 'desc'
+                    }
+                ],
+                moreParams: {
+                    filter: ""
+                },
+                css: {
+                    table: {
+                        tableClass: 'table',
+                        ascendingIcon: 'fa fa-arrow-up',
+                        descendingIcon: 'fa fa-arrow-down',
+                        handleIcon: 'fa fa-bars',
+                        renderIcon: function (classes, options) {
+                            return `<span class="${classes.join(' ')}"></span>`
+                        }
+                    },
+                    pagination: {
+                        wrapperClass: "pagination pull-right",
+                        activeClass: "btn-primary",
+                        disabledClass: "disabled",
+                        pageClass: "btn btn-border",
+                        linkClass: "btn btn-border",
+                        icons: {
+                            first: "",
+                            prev: "",
+                            next: "",
+                            last: ""
+                        }
+                    }
+                },
+                options: [],
+                tipoBusqueda: 1
+            },
+            computed: {
+                /*httpOptions(){
+                  return {headers: {'Authorization': "my-token"}} //table props -> :http-options="httpOptions"
+                },*/
+            },
+            methods: {
+                onPaginationData(paginationData) {
+                    this.$refs.pagination.setPaginationData(paginationData)
+                },
+                onChangePage(page) {
+                    this.$refs.vuetable.changePage(page)
+                },
+                editRow(rowData) {
+                    // Visualizar model en component
+                    eventHub.$emit("detalle-deuda:init", rowData);
+                },
+                getData(search, loading) {
+                    loading(true);
+                    this.search(loading, search, this);
+                },
+                search: _.debounce((loading, search, vm) => {
+                    if (search == null || search.length == 0) {
+                        loading(false);
+                        vm.options = [];
+                        return;
+                    }
+                    let paramsAutocomplete = `limit=5&tipoBusqueda=${vm.tipoBusqueda}&value=`;
+                    axios.get(`/Cliente/GetListClienteAutocomplete?${paramsAutocomplete}${search}`)
+                        .then(res => {
+                            vm.options = res.data;
+                            loading(false);
+                        });
+                }, 350),
+                setSelected(x) {
+                    if (x != null) {
+                        this.moreParams.filter = JSON.stringify({
+                            PersonaId: x.Key
+                        });
+                        Vue.nextTick(() => this.$refs.vuetable.refresh())
+                    } else {
+                        this.moreParams.filter = "";
+                        this.$refs.vuetable.tableData = []
+                    }
+                },
+                generarPago() {
+                    if (this.$refs.vuetable == null || this.$refs.vuetable.selectedTo.length == 0) return;
+                    axios.post(`/DeclaracionDeudaCuota/GenerarPlanillaPago`, this.$refs.vuetable.selectedTo)
+                        .then(res => {
+
+                            var binary = atob(res.data.replace(/\s/g, ''));
+                            var len = binary.length;
+                            var buffer = new ArrayBuffer(len);
+                            var view = new Uint8Array(buffer);
+                            for (var i = 0; i < len; i++) {
+                                view[i] = binary.charCodeAt(i);
+                            }
+
+                            // create the blob object with content-type "application/pdf"               
+                            var blob = new Blob([view], { type: "application/pdf" });
+                            var pdfUrl = URL.createObjectURL(blob);
+                            printJS(pdfUrl);
+                        });
+                },
+
+                formatDate: function (value, fmt) {
+                    return formatoFecha(value, fmt);
+                },
+
+            }
+        })
+    </script>
+
+}

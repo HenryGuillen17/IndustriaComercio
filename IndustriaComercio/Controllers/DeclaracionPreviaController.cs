@@ -268,12 +268,14 @@ namespace IndustriaComercio.Controllers
             var db = new ModelServidor();
             var deudasCuotas = new List<DeclaracionDeudaCuota>();
             var parametrosVencimientos = db.ParametroVencimiento.ToList();
+            var consecutivo = db.DeclaracionDeudaCuota.Consecutivo(y => y.DeclaracionDeudaCuotaId);
 
             parametrosVencimientos.ForEach(
                 x =>
+                {
                     deudasCuotas.Add(new DeclaracionDeudaCuota
                     {
-                        DeclaracionDeudaCuotaId = db.DeclaracionDeudaCuota.Consecutivo(y => y.DeclaracionDeudaCuotaId),
+                        DeclaracionDeudaCuotaId = consecutivo,
                         DeclaracionPreviaId = model.DeclaracionPreviaId,
                         FechaVencimiento = new DateTime(model.Año, x.Mes, x.Dia),
                         TotalImpuestoIndustriaComercio = model.TotalImpuestoIndustriaComercio / parametrosVencimientos.Count,
@@ -290,7 +292,9 @@ namespace IndustriaComercio.Controllers
                         SaldoFavorPeriodoAnterior = model.SaldoFavorPeriodoAnterior / parametrosVencimientos.Count,
                         TotalSaldoCargo = model.TotalSaldoCargo / parametrosVencimientos.Count,
                         TotalSaldoFavor = model.TotalSaldoFavor / parametrosVencimientos.Count,
-                    }));
+                    });
+                    consecutivo++;
+                });
             return deudasCuotas;
         }
     }
