@@ -8,229 +8,125 @@
         DATOS DEL CONTRIBUYENTE
     </div>
     <div class="card-body">
-        <!-- Nombre Completo -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.NombreCompleto, htmlAttributes: new { @class = "control-label " })
-            </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.NombreCompleto, 
-                new { htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.NombreCompleto) },
-                    { "data-placement", "top" } }
-                    })
-                @Html.ValidationMessageFor(model => model.NombreCompleto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <!-- Documento -->
+        <!-- Documento REDEFINIR -->
         <div class="form-group row">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.TipoDocumentoId, htmlAttributes: new { @class = "control-label" })
             </div>
             <!-- Tipo Documento -->
-            <div class="col-md-2">
-                @Html.DropDownListFor(Model => Model.TipoDocumentoId, Model.TipoDocumentos, "Seleccionar", new { @class = "form-control" })
+            <div class="col-md-3">
+                <select class="form-control"
+                        v-model="form.TipoDocumentoId">
+                    <option v-bind:selected="form.TipoDocumentoId === 0"
+                            v-bind:value="0">
+                        -- Seleccione --
+                    </option>
+                    <option v-for="item in listaTipoDocumento"
+                            v-bind:selected="form.TipoDocumentoId === item.Key"
+                            v-bind:value="item.Key">
+                        {{ item.Value }}
+                    </option>
+                </select>
                 @Html.ValidationMessageFor(model => model.TipoDocumentoId, "", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.PersonaId, new Dictionary<string, object>() {
+                    { "v-model", "form.PersonaId" }
+                })
             </div>
             <!-- Identificación -->
-            <div class="col-md-4">
+            <div class="col-md-5 input-group">
                 @Html.EditorFor(model => model.NoIdentificacion,
                 new
                 {
                     htmlAttributes = new Dictionary<string, object>
                     () {
                     { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.NoIdentificacion) },
-                    { "data-placement", "top" } }
+                    { "v-model", "form.NoIdentificacion" }}
                 })
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" 
+                            type="button"
+                            v-on:click="getClienteByNoDocumento(form.TipoDocumentoId, form.NoIdentificacion)"
+                            v-on:keypress.enter="getClienteByNoDocumento(form.TipoDocumentoId, form.NoIdentificacion)"
+                            >
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
                 @Html.ValidationMessageFor(model => model.NoIdentificacion, "", new { @class = "text-danger" })
             </div>
-            <!-- Dígito Chequeo (debiera ser calculado) -->
-            <div class="col-md-2">
-                @Html.EditorFor(model => model.DigitoChequeo,
-                new
-                {
-                    htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.DigitoChequeo) },
-                    { "data-placement", "top" } }
-                })
-                @Html.ValidationMessageFor(model => model.DigitoChequeo, "", new { @class = "text-danger" })
-            </div>
         </div>
-        <!-- Dirección completa de residencia -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label " })
+        <template v-if="tieneNoDocumento">
+            <!-- Nombre Completo -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label">Nombre Completo</label>
+                </div>
+                <div class="col-md-8">
+                    <h5 v-html="cliente.NombreCompleto"></h5>
+                </div>
             </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.Direccion,
-                new
-                {
-                    htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.Direccion) },
-                    { "data-placement", "top" } }
-                })
-                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+            <!-- Dirección completa de residencia -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label">Dirección</label>
+                </div>
+                <div class="col-md-8">
+                    <h5 v-html="cliente.Direccion"></h5>
+                </div>
             </div>
-        </div>
-        <!-- Municipio de residencia (Deberia ser Piedecuesta) -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.MunicipioNotificacion, htmlAttributes: new { @class = "control-label " })
+            <!-- Municipio de residencia (Deberia ser Piedecuesta) -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label">Municipio</label>
+                </div>
+                <div class="col-md-8">
+                    <h5 v-html="cliente.Municipio"></h5>
+                </div>
             </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.MunicipioNotificacion,
-                new
-                {
-                    htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.MunicipioNotificacion) },
-                    { "data-placement", "top" } }
-                })
-                @Html.ValidationMessageFor(model => model.MunicipioNotificacion, "", new { @class = "text-danger" })
+            <!-- Deaprtamento de residencia (debería ser Santander) -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label">Departamento</label>
+                </div>
+                <div class="col-md-8">
+                    <h5 v-html="cliente.Departamento"></h5>
+                </div>
             </div>
-        </div>
-        <!-- Deaprtamento de residencia (debería ser Santander) -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.DepartamentoNotificacion, htmlAttributes: new { @class = "control-label " })
+            <!-- Teléfono -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label">Teléfono</label>
+                </div>
+                <div class="col-md-8">
+                    <h5 v-html="cliente.Telefono"></h5>
+                </div>
             </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.DepartamentoNotificacion,
-                new
-                {
-                    htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.DepartamentoNotificacion) },
-                    { "data-placement", "top" } }
-                })
-                @Html.ValidationMessageFor(model => model.DepartamentoNotificacion, "", new { @class = "text-danger" })
+            <!-- Correo Electrónico -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label">Correo</label>
+                </div>
+                <div class="col-md-8">
+                    <h5 v-html="cliente.Correo"></h5>
+                </div>
             </div>
-        </div>
-        <!-- Teléfono -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label " })
+            <!-- Numero Establecimientos -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label">Número de Establecimientos</label>
+                </div>
+                <div class="col-md-8">
+                    <h5 v-html="cliente.NumeroEstablecimientos"></h5>
+                </div>
             </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.Telefono,
-                new
-                {
-                    htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.Telefono) },
-                    { "data-placement", "top" } }
-                })
-                @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+            <!-- Clasificación Contribuyente -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label">Clasificación Contribuyente</label>
+                </div>
+                <div class="col-md-8">
+                    <h5 v-html="cliente.ClasificacionContribuyente"></h5>
+                </div>
             </div>
-        </div>
-        <!-- Correo Electrónico -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label " })
-            </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.Correo,
-                new
-                {
-                    htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.Correo) },
-                    { "data-placement", "top" } }
-                })
-                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <!-- Numero Establecimientos -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.NumeroEstablecimientos, htmlAttributes: new { @class = "control-label " })
-            </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.NumeroEstablecimientos,
-                new
-                {
-                    htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.NumeroEstablecimientos) },
-                    { "data-placement", "top" } }
-                })
-                @Html.ValidationMessageFor(model => model.NumeroEstablecimientos, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <!-- Clasificación Contribuyente -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.ClasificacionContribuyenteId, htmlAttributes: new { @class = "control-label " })
-            </div>
-            <div class="col-md-8">
-
-                <select class="form-control"
-                        name="ClasificacionContribuyenteId"
-                        v-model="form.ClasificacionContribuyenteId">
-                    <option value="0"
-                            v-bind:selected="form.ClasificacionContribuyenteId == 0">
-                        -- Seleccione --
-                    </option>
-                    <option v-for="item in listaClasificacionesContribuyentes"
-                            v-bind:selected="form.ClasificacionContribuyenteId == item.Key"
-                            v-bind:value="item.Key">
-                        {{ item.Value }}
-                    </option>
-                </select>
-                @Html.ValidationMessageFor(model => model.ClasificacionContribuyenteId, "", new { @class = "text-danger" })
-
-                @*@Html.EditorFor(model => model.ClasificacionContribuyenteId,
-                new
-                {
-                    htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.ClasificacionContribuyenteId) },
-                    { "data-placement", "top" } }
-                })*@
-            </div>
-        </div>
+        </template>
     </div>
 </div>

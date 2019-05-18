@@ -11,6 +11,6 @@ namespace IndustriaComercio.Entidades.Basicos
         public int ActividadId { get; set; }
 
         public virtual Establecimiento Establecimiento { get; set; }
-        // public virtual Actividad Actividad { get; set; }
+        public virtual ActividadGravada Actividad { get; set; }
     }
 }

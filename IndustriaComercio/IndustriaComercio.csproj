@@ -45,6 +45,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine">
+      <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource">
+      <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared">
+      <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -52,11 +61,15 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -155,29 +168,79 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\Extensions\ListExtensions.cs" />
     <Compile Include="Common\Extensions\SqlExtensions.cs" />
+    <Compile Include="Common\Extensions\StreamExtensions.cs" />
     <Compile Include="Common\Helpers\MvcHtmlHelpers.cs" />
-    <Compile Include="Common\ComboBox.cs" />
+    <Compile Include="Common\Tools\Tool.cs" />
+    <Compile Include="Common\Utils\ComboBox.cs" />
+    <Compile Include="Common\Tools\EnviarCorreo.cs" />
+    <Compile Include="Common\Tools\FileSave.cs" />
+    <Compile Include="Common\Utils\ApiFilter.cs" />
+    <Compile Include="Common\Utils\Paginacion.cs" />
+    <Compile Include="Connected Services\ServicePago\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ActividadGravadaController.cs" />
+    <Compile Include="Controllers\DeclaracionDeudaCuotaController.cs" />
+    <Compile Include="Controllers\EstablecimientoController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DeclaracionPreviaController.cs" />
+    <Compile Include="Controllers\MunicipioController.cs" />
+    <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PersonasController.cs" />
+    <Compile Include="Controllers\TipoActividadsController.cs" />
+    <Compile Include="Controllers\ClasificacionContribuyenteController.cs" />
+    <Compile Include="Controllers\TipoDocumentoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901300220236_Initial.cs" />
-    <Compile Include="Migrations\201901300220236_Initial.Designer.cs">
-      <DependentUpon>201901300220236_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201904212018300_Inicial.cs" />
+    <Compile Include="Migrations\201904212018300_Inicial.Designer.cs">
+      <DependentUpon>201904212018300_Inicial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902010330391_Add-ClasificacionContribuyente.cs" />
-    <Compile Include="Migrations\201902010330391_Add-ClasificacionContribuyente.Designer.cs">
-      <DependentUpon>201902010330391_Add-ClasificacionContribuyente.cs</DependentUpon>
+    <Compile Include="Migrations\201904230242570_CambioUsuario.cs" />
+    <Compile Include="Migrations\201904230242570_CambioUsuario.Designer.cs">
+      <DependentUpon>201904230242570_CambioUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904230322570_CambioUsuarioPerfilId.cs" />
+    <Compile Include="Migrations\201904230322570_CambioUsuarioPerfilId.Designer.cs">
+      <DependentUpon>201904230322570_CambioUsuarioPerfilId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905160502290_Parametros_Reporte.cs" />
+    <Compile Include="Migrations\201905160502290_Parametros_Reporte.Designer.cs">
+      <DependentUpon>201905160502290_Parametros_Reporte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905160505595_Parametros_Reporte1.cs" />
+    <Compile Include="Migrations\201905160505595_Parametros_Reporte1.Designer.cs">
+      <DependentUpon>201905160505595_Parametros_Reporte1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905160524348_Cambio_DeclaracionDeudaCuota.cs" />
+    <Compile Include="Migrations\201905160524348_Cambio_DeclaracionDeudaCuota.Designer.cs">
+      <DependentUpon>201905160524348_Cambio_DeclaracionDeudaCuota.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Context\Mapping\Basicos\TipoContribuyenteMapping.cs" />
-    <Compile Include="Models\Context\Mapping\Basicos\TipoDocumentoMapping - Copia.cs" />
+    <Compile Include="Models\Context\GenericRepository.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\MunicipioMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\ListaCorreoMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\TipoActividadMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\DepartamentoMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\TipoSancionMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Basicos\TipoDocumentoMapping.cs" />
     <Compile Include="Models\Context\Mapping\Basicos\ClasificacionContribuyenteMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\ParametroVencimientoMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\DeclaracionDeudaCuotaMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\EstablecimientoActividadMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\EstablecimientoMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\ActividadGravadaMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\ActividadGravablePorDeclaracionMapping.cs" />
     <Compile Include="Models\Context\Mapping\Declaracion\DeclaracionPreviaMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\DescuentoMapping.cs" />
+    <Compile Include="Models\Context\Mapping\Declaracion\InteresMapping.cs" />
     <Compile Include="Models\Context\Mapping\Persona\ClienteMapping.cs" />
     <Compile Include="Models\Context\Mapping\Persona\PersonaMapping.cs" />
     <Compile Include="Models\Context\Mapping\UsuarioPermiso\OpcionesMenuMapping.cs" />
@@ -192,22 +255,24 @@
     <Compile Include="Models\Context\Mapping\UsuarioPermiso\UsuarioPermisoMapping.cs" />
     <Compile Include="Models\Context\Mapping\UsuarioPermiso\UsuarioSubMenuMapping.cs" />
     <Compile Include="Models\Context\ModelServidor.cs" />
-    <Compile Include="Models\Entidades\Basicos\ActividadGravada.cs" />
-    <Compile Include="Models\Entidades\Basicos\ActividadGravablePorDeclaracion.cs" />
+    <Compile Include="Models\Entidades\Basicos\Municipio.cs" />
+    <Compile Include="Models\Entidades\Basicos\Departamento.cs" />
+    <Compile Include="Models\Entidades\Declaracion\ActividadGravada.cs" />
+    <Compile Include="Models\Entidades\Declaracion\ActividadGravablePorDeclaracion.cs" />
     <Compile Include="Models\Entidades\Basicos\ClasificacionContribuyente.cs" />
     <Compile Include="Models\Entidades\Basicos\DeclaracionPrevia.cs" />
-    <Compile Include="Models\Entidades\Basicos\TipoContribuyente.cs" />
+    <Compile Include="Models\Entidades\Basicos\ListaCorreo.cs" />
+    <Compile Include="Models\Entidades\Basicos\TipoActividad.cs" />
+    <Compile Include="Models\Entidades\Basicos\TipoSancion.cs" />
     <Compile Include="Models\Entidades\Basicos\TipoDocumento.cs" />
     <Compile Include="Models\Entidades\Declaracion\ParametroVencimiento.cs" />
-    <Compile Include="Models\Entidades\Declaracion\Parametro.cs" />
+    <Compile Include="Models\Entidades\Declaracion\DeclaracionDeudaCuota.cs" />
     <Compile Include="Models\Entidades\Declaracion\Interes.cs" />
-    <Compile Include="Models\Entidades\Declaracion\Deuda.cs" />
-    <Compile Include="Models\Entidades\Declaracion\DeclaracionDetalle.cs" />
-    <Compile Include="Models\Entidades\Declaracion\Declaracion.cs" />
     <Compile Include="Models\Entidades\Declaracion\Descuento.cs" />
     <Compile Include="Models\Entidades\Declaracion\EstablecimientoActividad.cs" />
     <Compile Include="Models\Entidades\Declaracion\Establecimiento.cs" />
     <Compile Include="Models\Entidades\Declaracion\Concepto.cs" />
+    <Compile Include="Models\Entidades\Declaracion\ReportePagoDeclaracion.cs" />
     <Compile Include="Models\Entidades\Declaracion\TipoConcepto.cs" />
     <Compile Include="Models\Entidades\Persona\Cliente.cs" />
     <Compile Include="Models\Entidades\Persona\Persona.cs" />
@@ -222,21 +287,71 @@
     <Compile Include="Models\Entidades\UsuarioPermisos\UsuarioMenu.cs" />
     <Compile Include="Models\Entidades\UsuarioPermisos\UsuarioPermiso.cs" />
     <Compile Include="Models\Entidades\UsuarioPermisos\UsuarioSubMenu.cs" />
+    <Compile Include="Models\Enum\Lista.cs" />
+    <Compile Include="Models\Enum\PermisoMenu.cs" />
+    <Compile Include="Models\Enum\TipoBusqueda.cs" />
     <Compile Include="Models\Enum\TipoDeclaracion.cs" />
     <Compile Include="Models\Enum\Estado.cs" />
-    <Compile Include="Models\Enum\TipoSancion.cs" />
+    <Compile Include="Models\Model\ActividadGravadaModel.cs" />
+    <Compile Include="Models\Model\DeclaracionDeudaCuotaModel.cs" />
+    <Compile Include="Models\Model\EstablecimientoModel.cs" />
+    <Compile Include="Models\Model\EstablecimientoActividadModel.cs" />
+    <Compile Include="Models\Model\UsuarioMenuModel.cs" />
+    <Compile Include="Models\Model\UsuarioModel.cs" />
+    <Compile Include="Models\Model\ClienteModel.cs" />
     <Compile Include="Models\Model\DeclaracionPreviaModel.cs" />
+    <Compile Include="Models\Model\PersonaModel.cs" />
+    <Compile Include="Models\Model\TipoSancionModel.cs" />
+    <Compile Include="Models\Model\UsuarioPermisoModel.cs" />
+    <Compile Include="Models\Model\UsuarioSubMenuModel.cs" />
+    <Compile Include="Models\Reportes\Model\ActividadGravada.cs" />
+    <Compile Include="Models\Reportes\Model\DeclaracionPreviaReport.cs" />
+    <Compile Include="Models\Reportes\Pdf\CRDeclaracionDeudaCuota.cs">
+      <DependentUpon>CRDeclaracionDeudaCuota.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Models\Reportes\Pdf\CRDeclaracionPrevia.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRDeclaracionPrevia.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Models\Servicios\PersonaService.cs" />
+    <Compile Include="Models\Servicios\TipoActividadService.cs" />
+    <Compile Include="Models\Servicios\TipoDocumentoService.cs" />
+    <Compile Include="Models\Servicios\ActividadGravadaService.cs" />
+    <Compile Include="Models\Servicios\UsuarioService.cs" />
+    <Compile Include="Models\Servicios\ClienteService.cs" />
+    <Compile Include="Models\Servicios\DeclaracionPreviaService.cs" />
+    <Compile Include="Models\Tools\BusinessLogicException.cs" />
+    <Compile Include="Models\Tools\EnumTools.cs" />
+    <Compile Include="Models\Tools\Log.cs" />
+    <Compile Include="Models\Tools\SessionHelper.cs" />
+    <Compile Include="Models\Tools\Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\ServicePago\configuration91.svcinfo" />
+    <None Include="Connected Services\ServicePago\configuration.svcinfo" />
+    <Content Include="Connected Services\ServicePago\IndustriaComercio.ServicePago.TransactionInformation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\ServicePago\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\sb-admin.css" />
     <Content Include="Content\css\sb-admin.min.css" />
+    <Content Include="Content\css\toastr.min.css" />
     <Content Include="Content\Images\logo-alcaldia.png" />
     <Content Include="Content\js\demo\chart-area-demo.js" />
     <Content Include="Content\js\demo\chart-bar-demo.js" />
     <Content Include="Content\js\demo\chart-pie-demo.js" />
     <Content Include="Content\js\demo\datatables-demo.js" />
+    <Content Include="Content\js\functions.js" />
     <Content Include="Content\js\sb-admin.js" />
     <Content Include="Content\js\sb-admin.min.js" />
     <Content Include="Content\scss\sb-admin.css">
@@ -245,6 +360,7 @@
     <Content Include="Content\scss\sb-admin.min.css">
       <DependentUpon>sb-admin.css</DependentUpon>
     </Content>
+    <Content Include="Content\vendor\axios\axios.min.js" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.min.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-reboot.css" />
@@ -1649,6 +1765,10 @@
     <Content Include="Content\vendor\jquery\jquery.min.js" />
     <Content Include="Content\vendor\jquery\jquery.slim.js" />
     <Content Include="Content\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="Content\vendor\lodash\lodash.js" />
+    <Content Include="Content\vendor\Moment\moment-locale-es.js" />
+    <Content Include="Content\vendor\Moment\moment-with-locales.min.js" />
+    <Content Include="Content\vendor\Moment\moment.min.js" />
     <Content Include="Content\vendor\Numeral\locales.min.js" />
     <Content Include="Content\vendor\Numeral\locales\be-nl.min.js" />
     <Content Include="Content\vendor\Numeral\locales\bg.min.js" />
@@ -1686,18 +1806,40 @@
     <Content Include="Content\vendor\Numeral\locales\uk-ua.min.js" />
     <Content Include="Content\vendor\Numeral\locales\vi.min.js" />
     <Content Include="Content\vendor\Numeral\numeral.min.js" />
+    <Content Include="Content\vendor\printjs\print.min.css" />
+    <Content Include="Content\vendor\printjs\print.min.js" />
+    <Content Include="Content\vendor\SweetAlert\sweetalert2%408.js" />
+    <Content Include="Content\vendor\vue\vee-validate\vee-validate.js" />
+    <Content Include="Content\vendor\vue\vue-autocomplete\vue2-autocomplete.css" />
+    <Content Include="Content\vendor\vue\vue-autocomplete\vue2-autocomplete.js" />
+    <Content Include="Content\vendor\vue\vue-mask\di-vue-mask.js" />
+    <Content Include="Content\vendor\vue\vue-mask\vue-the-mask.js" />
+    <Content Include="Content\vendor\vue\vue-select\vue-select.css" />
+    <Content Include="Content\vendor\vue\vue-select\vue-select.js" />
+    <Content Include="Content\vendor\vue\vue.min.js" />
+    <Content Include="Content\vendor\vue\vuetable\vuetable-2.js" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\cog-solid.svg" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\scss\_main.scss" />
+    <None Include="Connected Services\ServicePago\GetDatos.wsdl" />
+    <None Include="Connected Services\ServicePago\GetDatos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServicePago\GetDatos1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServicePago\GetDatos2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1708,8 +1850,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1720,10 +1864,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\DeclaracionPrevia\Index - Copia.cshtml" />
     <Content Include="Views\DeclaracionPrevia\Partial\_DeclaracionForm1.cshtml" />
     <Content Include="Views\DeclaracionPrevia\Partial\_DeclaracionForm2.cshtml" />
     <Content Include="Views\DeclaracionPrevia\Partial\_DeclaracionForm4.cshtml" />
@@ -1734,17 +1875,36 @@
     <Content Include="Views\DeclaracionPrevia\Partial\_DeclaracionForm9.cshtml" />
     <Content Include="Views\DeclaracionPrevia\Partial\_DeclaracionForm5.cshtml" />
     <Content Include="Views\DeclaracionPrevia\Exito.cshtml" />
+    <Content Include="Views\Shared\FooterPartial.cshtml" />
+    <Content Include="Views\Shared\_MenuPartial.cshtml" />
+    <Content Include="Views\Shared\_toastr.cshtml" />
+    <Content Include="Views\TipoDocumento\Create.cshtml" />
+    <Content Include="Views\TipoDocumento\Edit.cshtml" />
+    <Content Include="Views\TipoDocumento\Index.cshtml" />
+    <Content Include="Views\ActividadGravada\Create.cshtml" />
+    <Content Include="Views\ActividadGravada\Edit.cshtml" />
+    <Content Include="Views\ActividadGravada\Index.cshtml" />
+    <Content Include="Views\TipoActividads\Create.cshtml" />
+    <Content Include="Views\TipoActividads\Edit.cshtml" />
+    <Content Include="Views\TipoActividads\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\DeclaracionPrevia\Index - Copia.cshtml" />
+    <Content Include="Views\Personas\Create.cshtml" />
+    <Content Include="Views\Personas\Edit.cshtml" />
+    <Content Include="Views\Personas\Index.cshtml" />
+    <Content Include="Views\Cliente\Index.cshtml" />
+    <Content Include="Views\Cliente\Edit.cshtml" />
+    <Content Include="Views\Personas\_Create.cshtml" />
+    <Content Include="Views\Usuario\Edit.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Establecimiento\_Edit.cshtml" />
+    <Content Include="Views\DeclaracionDeudaCuota\Index.cshtml" />
+    <Content Include="Views\DeclaracionDeudaCuota\_Detalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\PoCo\" />
-    <Folder Include="Views\AccionesGravables\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\scss\sb-admin.scss" />
     <Content Include="Content\scss\_cards.scss" />
     <Content Include="Content\scss\_footer.scss" />
@@ -1818,12 +1978,41 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901300220236_Initial.resx">
-      <DependentUpon>201901300220236_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904212018300_Inicial.resx">
+      <DependentUpon>201904212018300_Inicial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902010330391_Add-ClasificacionContribuyente.resx">
-      <DependentUpon>201902010330391_Add-ClasificacionContribuyente.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904230242570_CambioUsuario.resx">
+      <DependentUpon>201904230242570_CambioUsuario.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904230322570_CambioUsuarioPerfilId.resx">
+      <DependentUpon>201904230322570_CambioUsuarioPerfilId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905160502290_Parametros_Reporte.resx">
+      <DependentUpon>201905160502290_Parametros_Reporte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905160505595_Parametros_Reporte1.resx">
+      <DependentUpon>201905160505595_Parametros_Reporte1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905160524348_Cambio_DeclaracionDeudaCuota.resx">
+      <DependentUpon>201905160524348_Cambio_DeclaracionDeudaCuota.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\Reportes\Pdf\CRDeclaracionDeudaCuota.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRDeclaracionDeudaCuota.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\Reportes\Pdf\CRDeclaracionPrevia.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRDeclaracionPrevia.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ServicePago\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

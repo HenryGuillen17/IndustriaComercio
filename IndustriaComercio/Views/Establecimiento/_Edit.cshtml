@@ -1,0 +1,201 @@
+﻿<template id="editar-establecimiento-template">
+
+    <div class="modal fade" id="editar-establecimiento-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ form.EstablecimientoId == 0 ? 'Crear' : 'Editar' }} Datos</h4>
+                    <button type="button" class="close" v-on:click="closeModal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <h4>Establecimiento</h4>
+                        <hr>
+
+                        <div class="form-group">
+                            <label class="control-label" for="Descripcion">Descripción</label>
+                            <input class="form-control text-box single-line" id="Descripcion" name="Descripcion" type="text" v-model="form.Descripcion" v-validate="'required|min:5'">
+                            <div class="invalid-feedback">{{ errors.first('Descripcion') }}</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="Direccion">Dirección</label>
+                            <input class="form-control text-box single-line" id="Direccion" name="Direccion" type="text" v-model="form.Direccion" v-validate="'required|min:5'">
+                            <div class="invalid-feedback">{{ errors.first('Direccion') }}</div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="Actividades">Actividades</label>
+                        <v-select ref="select-actividad"
+                                  label="Value"
+                                  name="ActividadId"
+                                  v-on:search="getActividad"
+                                  v-on:input="setActividad"
+                                  v-bind:reduce="x => x.Key"
+                                  v-bind:options="actividades">
+                            <template slot="no-options">
+                                -- Sin Opciones --
+                            </template>
+                        </v-select>
+                    </div>
+
+                    <!-- afafasdsdafwegfwasdafs -->
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="w-25">Actividad</th>
+                                        <th class="w-15">Codigo</th>
+                                        <th class="w-10">Tarifa</th>
+                                        <th class="w-20">Valor</th>
+                                        <th class="w-10">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, x) in form.EstablecimientoActividades">
+                                        <td>
+                                            <span>{{ item.Descripcion }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ item.Codigo }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ item.Tarifa }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ item.Valor }}</span>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-times text-danger" v-on:click="form.EstablecimientoActividades.splice(x, 1)"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" v-on:click="closeModal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" v-on:click="guardarEstablecimiento">
+                            {{ form.EstablecimientoId == 0 ? 'Crear' : 'Editar' }}
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
+
+<script>
+
+    Vue.component("editar-establecimiento", {
+        template: "#editar-establecimiento-template",
+        mounted() {
+            this.getAllActividades();
+        },
+        created() {
+            eventHub.$on('editar-establecimiento:init', this.init)
+        },
+        data() {
+            return {
+                form: {
+                    EstablecimientoActividades: [],
+                    EstablecimientoId: 0
+                },
+                comboBox: {
+                    tipoDocumento: []
+                },
+                options: {
+                    actividades: []
+                }
+            }
+        },
+        computed: {
+            actividades() {
+                return this.options.actividades
+                    .filter(x => !this.form.EstablecimientoActividades.map(y => y.ActividadId).includes(x.Key))
+                    .slice(0, 10);
+            }
+        },
+        methods: {
+            init(obj) {
+                this.form = obj.Establecimientos;
+                openModal("#editar-establecimiento-modal");
+            },
+            //obtenerEstablecimiento() {
+            //    if (this.establecimientoId == 0)
+            //        return;
+            //    axios.get(`/Establecimiento/FindById/${this.establecimientoId}`)
+            //        .then(res => {
+            //            this.form = res.data;
+            //        })
+            //        .catch(e => console.error(e));
+            //},
+            getAllActividades() {
+                axios.get(`/ActividadGravada/FindAllCb`)
+                    .then(res => {
+                        this.options.actividades = res.data;
+                    })
+                    .catch(e => console.error(e));
+            },
+            closeModal() {
+                closeModal("#editar-establecimiento-modal");
+            },
+            guardarEstablecimiento() {
+
+                // Validamos
+                this.$validator.validate().then(valid => {
+                    if (valid && this.form.EstablecimientoActividades.length > 0) {
+                        eventHub.$emit('editar-establecimiento:response', this.form);
+                        this.closeModal();
+                    } else {
+                        Swal.fire("Advertencia", "Validar formulario", "warning");
+                    }
+                });
+            },
+            getActividad(search, loading) {
+                loading(true);
+                let obj = this.options.actividades.filter(x => !this.form.EstablecimientoActividades.map(y => y.ActividadId).includes(x.Key) && search.length > 0 && x.Value.includes(search));
+                loading(false);
+                return obj;
+            },
+            setActividad(x) {
+                if (x != null) {
+                    this.insertarActividad(x);
+                }
+            },
+            insertarActividad(id) {
+                axios.get(`/ActividadGravada/FindById/${id}`)
+                    .then(res => {
+                        let model = res.data;
+                        if (model !== "")
+                            this.form.EstablecimientoActividades.push(
+                                {
+                                    ActividadId: model.ActividadId,
+                                    Descripcion: model.Descripcion,
+                                    Codigo: model.Codigo,
+                                    IngresosGravados: 0,
+                                    Tarifa: model.Tarifa,
+                                    Valor: model.Valor,
+                                    EstablecimientoId: this.EstablecimientoId,
+                                }
+                            );
+                    })
+                    .catch(e => console.error(e));
+            }
+        }
+    });
+
+</script>

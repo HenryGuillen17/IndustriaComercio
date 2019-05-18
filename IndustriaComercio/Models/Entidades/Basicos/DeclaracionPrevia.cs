@@ -1,12 +1,14 @@
-﻿using IndustriaComercio.Models.Enum;
+﻿using IndustriaComercio.Entidades.Basicos;
+using IndustriaComercio.Entidades.Persona;
+using IndustriaComercio.Models.Enum;
+using System;
 using System.Collections.Generic;
 
 namespace IndustriaComercio.Models.Entidades.Basicos
 {
     public class DeclaracionPrevia
     {
-
-
+        
         #region Propiedades
 
 
@@ -24,6 +26,10 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         public bool TienePagoVoluntario { get; set; }
 
+        public bool PagaAvisoTablero { get; set; }
+
+        public DateTime FechaDeclaracion { get; set; }
+
 
         #endregion
 
@@ -31,27 +37,8 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Datos Personales Sección "A" #2
 
-        public string NombreCompleto { get; set; }
 
-        public int TipoDocumentoId { get; set; }
-
-        public string NoIdentificacion { get; set; }
-
-        public string DigitoChequeo { get; set; }
-
-        public string Direccion { get; set; }
-
-        public string MunicipioNotificacion { get; set; }
-
-        public string DepartamentoNotificacion { get; set; }
-
-        public string Telefono { get; set; }
-
-        public string Correo { get; set; }
-
-        public int NumeroEstablecimientos { get; set; }
-
-        public int ClasificacionContribuyenteId { get; set; }
+        public int PersonaId { get; set; }
 
 
         #endregion
@@ -60,11 +47,11 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Base Gravable Sección "B" #3
 
-        public int IngresosEnElPais { get; set; }
+        public double IngresosEnElPais { get; set; }
 
-        public int IngresosFueraDelMunicipio { get; set; }
+        public double IngresosFueraDelMunicipio { get; set; }
 
-        public int TotalIngresosMunicipio { get; set; }
+        public double TotalIngresosMunicipio { get; set; }
 
 
         #endregion
@@ -73,17 +60,17 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Base Gravable Sección "B" #4
 
-        public int IngresosDevoluciones { get; set; }
+        public double IngresosDevoluciones { get; set; }
 
-        public int IngresosExportaciones { get; set; }
+        public double IngresosExportaciones { get; set; }
 
-        public int IngresosActivosFijos { get; set; }
+        public double IngresosActivosFijos { get; set; }
 
-        public int IngresosNoGravados { get; set; }
+        public double IngresosNoGravados { get; set; }
 
-        public int IngresosActividadesExentas { get; set; }
+        public double IngresosActividadesExentas { get; set; }
 
-        public int TotalIngresosGravables { get; set; }
+        public double TotalIngresosGravables { get; set; }
 
 
         #endregion
@@ -95,7 +82,7 @@ namespace IndustriaComercio.Models.Entidades.Basicos
         /// <summary>
         /// Se obtiene de la sumatoria de tarifas de Actividades Gravadas
         /// </summary>
-        public int TotalTarifa { get; set; }
+        public double TotalTarifa { get; set; }
 
 
         #endregion
@@ -104,14 +91,14 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Actividades Gravadas Impuesto Generación Energía Sección "C" #6
 
-        public int CapacidadInstalada { get; set; }
+        public double CapacidadInstalada { get; set; }
 
 
         /// <summary>
         /// Se obtiene de la multiplicación de CapacidadInstalada * ValorPorKiloVatio
         /// NO LO SÉ
         /// </summary
-        public int TotaImpuestoEnergiaElectrica { get; set; }
+        public double TotaImpuestoEnergiaElectrica { get; set; }
 
 
         #endregion
@@ -120,21 +107,21 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Liquidación Privada Sección "D" #7
 
-        public int TotalImpuestoIndustriaComercio { get; set; }
+        public double TotalImpuestoIndustriaComercio { get; set; }
 
 
         /// <summary>
         /// A TotalImpuestoIndustriaComercio se le saca el 15% y se redondea por múltiplo de 1000
         /// </summary
-        public int ImpuestoAvisosTableros { get; set; }
+        public double ImpuestoAvisosTableros { get; set; }
 
-        public int PagoUnidadesComerciales { get; set; }
+        public double PagoUnidadesComerciales { get; set; }
 
-        public int SobretasaBomberil { get; set; }
+        public double SobretasaBomberil { get; set; }
 
-        public int SobretasaSeguridad { get; set; }
+        public double SobretasaSeguridad { get; set; }
 
-        public int TotalImpuestoCargo { get; set; }
+        public double TotalImpuestoCargo { get; set; }
 
 
         #endregion
@@ -143,27 +130,28 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista Liquidación Privada Total Sección "D" #8
 
-        public int ValorExoneracionImpuesto { get; set; }
 
-        public int RetencionesDelMunicipio { get; set; }
+        public double ValorExoneracionImpuesto { get; set; }
 
-        public int AutoretencionesDelMunicipio { get; set; }
+        public double RetencionesDelMunicipio { get; set; }
 
-        public int AnticipoAnioAnterior { get; set; }
+        public double AutoretencionesDelMunicipio { get; set; }
 
-        public int AnticipoAnioSiguiente { get; set; }
+        public string DocumentoRetencion { get; set; }
 
-        public TipoSancion TipoSancion { get; set; }
+        public double AnticipoAnioAnterior { get; set; }
 
-        public string OtroTipoSancion { get; set; }
+        public double AnticipoAnioSiguiente { get; set; }
 
-        public int ValorSancion { get; set; }
+        public int? TipoSancionId { get; set; }
 
-        public int SaldoFavorPeriodoAnterior { get; set; }
+        public double ValorSancion { get; set; }
 
-        public int TotalSaldoCargo { get; set; }
+        public double SaldoFavorPeriodoAnterior { get; set; }
 
-        public int TotalSaldoFavor { get; set; }
+        public double TotalSaldoCargo { get; set; }
+
+        public double TotalSaldoFavor { get; set; }
 
 
         #endregion
@@ -172,13 +160,18 @@ namespace IndustriaComercio.Models.Entidades.Basicos
 
         #region Vista De Pago Sección "E" #9
 
-        public int ValorPagar { get; set; }
 
-        public int DescuentoProntoPago { get; set; }
+        public double ValorPagar { get; set; }
 
-        public int InteresesDeMora { get; set; }
+        public double PorcentajeDescuento { get; set; }
 
-        public int TotalPagar { get; set; }
+        public double Descuento { get; set; }
+
+        public double PorcentajeIntereses { get; set; }
+
+        public double Interes { get; set; }
+
+        public double TotalPagar { get; set; }
 
 
         #endregion
@@ -187,7 +180,9 @@ namespace IndustriaComercio.Models.Entidades.Basicos
         #endregion
 
         public virtual ICollection<ActividadGravablePorDeclaracion> ActividadesGravadas { get; set; }
-        public virtual ClasificacionContribuyente ClasificacionContribuyente { get; set; }
+        public virtual ICollection<DeclaracionDeudaCuota> DeclaracionDeudasCuotas { get; set; }
+        public virtual Cliente Cliente { get; set; }
+        public TipoSancion TipoSancion { get; set; }
     }
 
 

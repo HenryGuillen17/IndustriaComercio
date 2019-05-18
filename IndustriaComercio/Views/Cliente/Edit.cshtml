@@ -1,0 +1,319 @@
+﻿@using IndustriaComercio.Models.Enum
+@using IndustriaComercio.Models.Model
+
+@model ClienteModel
+
+@{
+    var isCreated = Model.PersonaId == 0;
+}
+
+<div id="app">
+
+    <h2>@(isCreated ? "Crear" : "Editar") Cliente</h2>
+    <editar-persona ref="editar-persona"></editar-persona>
+    <editar-establecimiento ref="editar-establecimiento"></editar-establecimiento>
+
+    <div class="row mt-5 mb-5" v-if="@(isCreated ? "true" : "false")">
+        <div class="col-sm-8">
+            <h3>Buscar en Base de datos</h3>
+            <div class="row">
+                <div class="col-sm">
+                    <label>Ingrese texto a buscar:</label> <br />
+                    <v-select ref="select"
+                              label="Value"
+                              v-bind:filterable="false"
+                              v-on:search="getData"
+                              v-on:input="setSelected"
+                              v-bind:options="options">
+                        <template slot="no-options">
+                            -- Sin Opciones --
+                        </template>
+                        <template slot="option" slot-scope="option">
+                            <span class="font-weight-bold">{{ option.Value }}</span>
+                            <br />
+                            <span>{{ option.Label }}</span>
+                        </template>
+                    </v-select>
+                </div>
+                <div class="col-sm">
+                    <label>Buscar por: </label><br />
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="nombre-completo" name="tipo-busqueda" value="@((int)TipoBusqueda.PorNombreCompleto)" v-model="tipoBusqueda" checked>
+                        <label class="form-check-label" for="nombre-completo">Nombre Completo</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="cedula" name="tipo-busqueda" value="@((int)TipoBusqueda.PorCedula)" v-model="tipoBusqueda">
+                        <label class="form-check-label" for="cedula">Cédula</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h3>O Crear en Base de datos</h3>
+            <button type="button" class="btn btn-primary" v-on:click="crearPersona">Crear</button>
+        </div>
+    </div>
+
+    <!-- -->
+    <template v-if="personaId != 0">
+        <div class="row mt-5 mb-5">
+            <div class="col-6">
+                <label>Nombre Completo:</label><br />
+                <h4>{{ form.NombreCompleto }}</h4>
+            </div>
+            <div class="col-4">
+                <label>Identificación:</label><br />
+                <h4>{{ form.NoIdentificacionCompleto }}</h4>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-primary" v-on:click="editarPersona">Editar</button>
+            </div>
+        </div>
+        <div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="Nota">Nota</label>
+                    <input type="text" class="form-control" id="Nota" name="Nota" placeholder="Ingrese Nota" v-model="form.Nota" v-validate="'required'">
+                    <div class="invalid-feedback">{{ errors.first('Nota') }}</div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="NumeroEstablecimientos">Número de Establecimientos</label>
+                    <input type="number" min="1" class="form-control" id="NumeroEstablecimientos" name="NumeroEstablecimientos" v-model="form.NumeroEstablecimientos" v-validate="'required|between:1,999'">
+                    <div class="invalid-feedback">{{ errors.first('NumeroEstablecimientos') }}</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="NoPlaca">No. Placa</label>
+                    <input type="text" class="form-control" id="NoPlaca" name="NoPlaca" placeholder="Ingrese Placa" v-model="form.NoPlaca" v-validate="'required|min:2'">
+                    <div class="invalid-feedback">{{ errors.first('NoPlaca') }}</div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="RetieneImpIndustriaComercio">¿Retiene Impuestos?</label>
+                    <input type="checkbox" class="form-control" id="RetieneImpIndustriaComercio" v-model="form.RetieneImpIndustriaComercio">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="ClasificacionContribuyenteId">Clasificacion Contribuyente</label>
+                    <select class="form-control" id="ClasificacionContribuyenteId" v-model="form.ClasificacionContribuyenteId" v-validate="'required'">
+                        <option v-bind:value="null">-- Seleccione --</option>
+                        <option v-for="(item, index) in comboBox.clasificacionContribuyente" v-bind:value="item.Key">{{ item.Value }}</option>
+                    </select>
+                    <div class="invalid-feedback">{{ errors.first('ClasificacionContribuyenteId') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- -->
+
+        <div class="form-group row">
+            <div class="col-md-4">
+                <h4>Listado de Establecimientos</h4>
+            </div>
+            <div class="col-md-8">
+                <div class="float-right">
+                    <button class="btn btn-primary" v-on:click="crearEstablecimiento">Crear Establecimiento</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="">Descripcion</th>
+                            <th class="">Direccion</th>
+                            <th class="">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, x) in form.Establecimientos">
+                            <td>
+                                <span>{{ item.Descripcion }}</span>
+                            </td>
+                            <td>
+                                <span>{{ item.Direccion }}</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-link btn-sm" v-on:click="editarEstablecimiento(item.EstablecimientoId)">
+                                    Editar
+                                </button>
+                                <button type="button" class="btn btn-link btn-sm" v-on:click="form.Establecimientos.splice(x, 1)">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="form-group d-flex justify-content-center align-items-end">
+            <button type="button" class="btn btn-primary" v-on:click="guardarCliente">Guardar</button>
+        </div>
+
+    </template>
+
+</div>
+
+
+@section scripts{
+
+    @Html.Partial("../Personas/_Create")
+    @Html.Partial("../Establecimiento/_Edit")
+
+    <script>
+        Vue.use(VeeValidate, {
+            classes: true,
+            classNames: {
+                invalid: 'is-invalid'
+            }
+        })
+        Vue.component('v-select', VueSelect.VueSelect)
+
+        var vm = new Vue({
+            el: '#app',
+            mounted() {
+                this.getClasificacionContribuyente();
+                this.getCliente();
+            },
+            created() {
+                eventHub.$on('editar-persona:response', this.responsePersona);
+                eventHub.$on('editar-establecimiento:response', this.responseEstablecimiento);
+            },
+            data: {
+                options: [],
+                tipoBusqueda: @((int)TipoBusqueda.PorNombreCompleto),
+                personaId: @(Model.PersonaId),
+                comboBox: {
+                    clasificacionContribuyente: []
+                },
+                form: {},
+            },
+            computed: {
+                /*httpOptions(){
+                  return {headers: {'Authorization': "my-token"}} //table props -> :http-options="httpOptions"
+                },*/
+            },
+            watch: {
+                personaId(val) {
+                    if (val == 0) {
+                        // Por decidir
+                        return;
+                    }
+                    // Buscar persona con Cliente
+                    this.getCliente();
+                }
+            },
+            methods: {
+                getClasificacionContribuyente() {
+                    axios.get(`/ClasificacionContribuyente/FindAllCb`)
+                        .then(x => this.comboBox.clasificacionContribuyente = x.data)
+                        .catch(e => console.error(e));
+                },
+                getCliente() {
+                    if (this.personaId == 0)
+                        return;
+
+                    axios.get(`/Cliente/FindById/${this.personaId}`)
+                        .then(res => this.form = res.data)
+                        .catch(e => console.error(e));
+                },
+                getData(search, loading) {
+                    loading(true);
+                    this.search(loading, search, this);
+                },
+                search: _.debounce((loading, search, vm) => {
+                    if (search == null || search.length == 0) {
+                        loading(false);
+                        vm.options = [];
+                        return;
+                    }
+                    let paramsAutocomplete = `limit=5&tipoBusqueda=${vm.tipoBusqueda}&value=`;
+                    axios.get(`/Cliente/GetListPersonaSinClienteAutocomplete?${paramsAutocomplete}${search}`)
+                        .then(res => {
+                            vm.options = res.data;
+                            loading(false);
+                        })
+                        .catch(e => {
+                            console.error(e);
+                            loading(false);
+                        });
+                }, 350),
+                setSelected(x) {
+                    if (x != null) {
+                        this.personaId = x.Key;
+                    } else {
+                        this.personaId = 0;
+                    }
+                },
+                guardarCliente() {
+                    // validar
+                    this.$validator.validate().then(valid => {
+                        if (valid) {
+                            // guardamos con ajax
+                            axios.post(`/Cliente/Save`, this.form)
+                                .then(res => {
+                                    this.form.Establecimientos.forEach(x => x.ClienteId = res.data.PersonaId);
+                                    axios.post(`/Establecimiento/AsignarCliente`, this.form.Establecimientos)
+                                        .then(res => {
+                                            Swal.fire("Exito", "Cliente guardado con éxito", "success");
+                                        })
+                                        .catch(e => console.error(e));
+                                })
+                                .catch(e => console.error(e));
+                        } else {
+                            Swal.fire("Advertencia", "Validar formulario", "warning");
+                        }
+                    });
+                },
+                editarPersona() {
+                    eventHub.$emit("editar-persona:init", this.personaId);
+                },
+                crearPersona() {
+                    eventHub.$emit("editar-persona:init", 0);
+                },
+                editarEstablecimiento(id) {
+                    eventHub.$emit("editar-establecimiento:init", { ClienteId: this.personaId, Establecimientos: this.form.Establecimientos.find(x => x.EstablecimientoId === id) });
+                },
+                crearEstablecimiento() {
+                    eventHub.$emit("editar-establecimiento:init", { ClienteId: this.personaId, Establecimientos: { EstablecimientoId: 0, EstablecimientoActividades: [], Descripcion: "", Direccion: ""} });
+                },
+                responsePersona(obj) {
+                    // Buscar persona y la monta en el formulario
+                    this.personaId = obj;
+                },
+                responseEstablecimiento(a) {
+                    // Buscar persona y la monta en el formulario
+                    var model = this.form.Establecimientos.find(x => x.EstablecimientoId === a.EstablecimientoId);
+                    if (typeof model === "undefined")
+                        this.form.Establecimientos.push(
+                            {
+                                EstablecimientoId: a.EstablecimientoId,
+                                ClienteId: a.ClienteId,
+                                Descripcion: a.Descripcion,
+                                Direccion: a.Direccion,
+                                EstablecimientoActividades: a.EstablecimientoActividades
+                            }
+                        );
+                    else {
+                        let index = this.form.Establecimientos.indexOf(model);
+                        this.form.Establecimientos.splice(index, 1);
+                        this.form.Establecimientos.push(
+                            {
+                                EstablecimientoId: a.EstablecimientoId,
+                                ClienteId: a.ClienteId,
+                                Descripcion: a.Descripcion,
+                                Direccion: a.Direccion,
+                                EstablecimientoActividades: a.EstablecimientoActividades
+                            }
+                        );
+                    }
+                }
+            }
+        })
+    </script>
+
+}

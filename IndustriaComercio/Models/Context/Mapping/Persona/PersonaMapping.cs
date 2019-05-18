@@ -11,14 +11,24 @@ namespace IndustriaComercio.Models.Context.mapping.Persona
             HasKey(t => t.PersonaId);
 
             // Tabla y esquema de la base de datos.
-            ToTable("Persona", "dbo");
+            ToTable("Personas", "dbo");
 
-            Property(a => a.PersonaId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None); // No autoIncremental 
+            Property(a => a.PersonaId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            
+            // -- FK
 
             HasRequired(x => x.TipoDocumento)
                 .WithMany(x => x.Personas)
                 .HasForeignKey(x => x.TipoDocumentoId)
                 .WillCascadeOnDelete(false);
+
+            HasRequired(x => x.Municipio)
+                .WithMany(x => x.Personas)
+                .HasForeignKey(x => x.MunicipioId)
+                .WillCascadeOnDelete(false);
+
+            
 
 
         }

@@ -1,7 +1,5 @@
 ﻿@using IndustriaComercio.Common.Helpers
-
 @model IndustriaComercio.Models.Model.DeclaracionPreviaModel
-
 <div class="card"
      v-show="vista === 5">
     <div class="card-header">
@@ -14,6 +12,9 @@
                 class="btn btn-outline-primary">
             Añadir
         </button>
+        <span v-bind:class="{ 'text-danger' : TotalIngresosGravables < TotalIngresosGravablesPorActividades }">
+            El total del impuesto debe ser hasta <b>{{ TotalIngresosGravables | formatPrecio }}</b>
+        </span>
         <div class="row">
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -26,48 +27,61 @@
                             <th class="w-10">(Acciones)</th>
                         </tr>
                     </thead>
-                    <tr v-for="(item, x) in actividades">
-                        <td>
-                            <h5>{{ item.Descripcion }}</h5>
-                            <input type="hidden"
-                                   v-model="item.ActividadId"
-                                   v-bind:name="calcularNameActividades(x, 'ActividadId')" />
-                        </td>
-                        <td>
-                            <input type="number"
-                                   class="form-control"
-                                   v-bind:name="calcularNameActividades(x, 'IngresosGravados')"
-                                   min="0"
-                                   max="2000000000"
-                                   v-model="actividades[x].IngresosGravados" />
-                        </td>
-                        <td>
-                            <input type="number"
-                                   class="form-control"
-                                   v-bind:name="calcularNameActividades(x, 'Tarifa')"
-                                   min="0"
-                                   max="2000000000"
-                                   v-model="actividades[x].Tarifa" />
-                        </td>
-                        <td>
-                            <input type="number"
-                                   class="form-control"
-                                   v-bind:name="calcularNameActividades(x, 'Impuesto')"
-                                   min="0"
-                                   max="2000000000"
-                                   v-model="actividades[x].Impuesto" />
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-danger"
-                                    type="button"
-                                    v-on:click="actividades.splice(x, 1)">
-                                <i class="fa fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr v-for="(item, x) in actividades">
+                            <td>
+                                <h5>{{ item.Descripcion }}</h5>
+                                <input type="hidden"
+                                       v-model="item.ActividadId"
+                                       v-bind:name="calcularNameActividades(x, 'ActividadId')" />
+                            </td>
+                            <td>
+                                <input type="number"
+                                       class="form-control"
+                                       v-bind:name="calcularNameActividades(x, 'IngresosGravados')"
+                                       min="1"
+                                       v-on:keyup="actividades[x].Impuesto = ((parseInt(actividades[x].IngresosGravados) * parseInt(actividades[x].Tarifa)) / 1000)"
+                                       v-model="actividades[x].IngresosGravados" />
+                            </td>
+                            <td>
+                                <input type="number"
+                                       class="form-control"
+                                       readonly
+                                       v-bind:name="calcularNameActividades(x, 'Tarifa')"
+                                       v-model="actividades[x].Tarifa" />
+                            </td>
+                            <td>
+                                <input type="number"
+                                       class="form-control"
+                                       v-bind:name="calcularNameActividades(x, 'Impuesto')"
+                                       readonly
+                                       v-bind:value="actividades[x].Impuesto" />
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-danger"
+                                        type="button"
+                                        v-on:click="actividades.splice(x, 1)">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td v-bind:class="{ 'text-danger' : TotalIngresosGravablesPorActividades > TotalIngresosGravables }">
+                                {{ TotalIngresosGravablesPorActividades | formatPrecio }}
+                            </td>
+                            <td></td>
+                            <td>
+                                <h4>{{ totalActividadesImpuesto | formatPrecio }}</h4>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
-        </div>
+        </div> <!-- TotalIngresosGravables -->
     </div>
 </div>
 <!-- modal para elegir Actividad -->
@@ -83,7 +97,6 @@
                 </button>
             </div>
             <div class="modal-body">
-
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col">
@@ -97,34 +110,43 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <table class="table table-hover table-sm">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Actividad</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="item in listaActividadesGravadas.filter(x => x.Value.toLowerCase().indexOf(searchActividad.toLowerCase()) > -1)">
-                                        <td>{{ item.Value }}</td>
-                                        <td>
-                                            <input type="radio" 
-                                                   name="radio-actividad"
-                                                   v-model="selectActividad"
-                                                   v-bind:value="item.Key"
-                                                   class="form-check" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
+                            <div class="table-wrapper-scroll-y">
+                                <table class="table table-hover table-sm table-bordered table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Codigo</th>
+                                            <th>Actividad</th>
+                                            <th>Tarifa</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="item in listaActividadesASeleccionar">
+                                            <td>{{ item.Codigo }}</td>
+                                            <td>{{ item.Descripcion }}</td>
+                                            <td>{{ item.Tarifa }}</td>
+                                            <td>
+                                                <input type="radio"
+                                                       name="radio-actividad"
+                                                       v-model="selectActividad"
+                                                       v-bind:value="item"
+                                                       class="form-check" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" v-bind:disabled="selectActividad === 0" v-on:click="anadirActividades(selectActividad)">Save changes</button>
+                <button type="button" class="btn btn-primary"
+                        v-bind:disabled="selectActividad === null"
+                        v-on:click="anadirActividades(selectActividad)">
+                    Guardar Cambios
+                </button>
             </div>
         </div>
     </div>

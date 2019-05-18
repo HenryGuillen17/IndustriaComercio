@@ -4,10 +4,11 @@ using System.Collections.Generic;
 namespace IndustriaComercio.Entidades.Basicos
 {
     
-    public class ParametroVencimiento
+    public class ParametroVencimiento 
     {
-        public short Id { get; set; }
-        public byte NoCuota { get; set; }
-        public short NoDiaVencimiento { get; set; }
+        public int ParametroVencimientoId { get; set; }
+        public int Mes { get; set; }
+        public int Dia { get; set; }
+        
     }
 }

@@ -1,0 +1,209 @@
+﻿@using IndustriaComercio.Models.Enum
+
+<div id="app">
+    <div class="form-group row">
+        <div class="col-md-4">
+            <h2>Listado de Usuarios</h2>
+        </div>
+        <div class="col-md-8">
+            <div class="float-right">
+                <a class="btn btn-primary" href="@Url.Action("Edit")" role="button">Crear</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-5">
+        <div class="col-sm">
+            <h3>Filtros:</h3>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-sm">
+            <v-select ref="select"
+                      label="Value"
+                      v-bind:filterable="false"
+                      v-on:search="getData"
+                      v-on:input="setSelected"
+                      v-bind:options="options">
+                <template slot="no-options">
+                    -- Sin Opciones --
+                </template>
+                <template slot="option" slot-scope="option">
+                    <span class="font-weight-bold">{{ option.Value }}</span>
+                    <br />
+                    <span>{{ option.Label }}</span>
+                </template>
+            </v-select>
+        </div>
+        <div class="col-sm">
+            <label>Buscar por: </label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="nombre-completo" name="tipo-busqueda" value="@((int)TipoBusqueda.PorNombreCompleto)" v-model="tipoBusqueda" checked>
+                <label class="form-check-label" for="nombre-completo">Nombre Completo</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="cedula" name="tipo-busqueda" value="@((int)TipoBusqueda.PorCedula)" v-model="tipoBusqueda">
+                <label class="form-check-label" for="cedula">Cédula</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="login" name="tipo-busqueda" value="@((int)TipoBusqueda.PorUsuario)" v-model="tipoBusqueda">
+                <label class="form-check-label" for="login">Usuario</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- tabla -->
+    <vuetable ref="vuetable"
+              api-url="~/Usuario/GetListUsuarioPaginado"
+              v-bind:fields="fields"
+              pagination-path=""
+              v-bind:sort-order="sortOrder"
+              v-bind:query-params="{ sort: 'sort', page: 'page', perPage: 'perPage' }"
+              v-bind:append-params="moreParams"
+              v-bind:css="css.table"
+              v-on:vuetable:pagination-data="onPaginationData">
+        <template slot="actions" scope="props">
+            <div class="table-button-container">
+                <button type="button" class="btn btn-link btn-sm" v-on:click="editRow(props.rowData)">
+                    Editar
+                </button>
+            </div>
+        </template>
+    </vuetable>
+    <vuetable-pagination ref="pagination"
+                         v-bind:css="css.pagination"
+                         v-on:vuetable-pagination:change-page="onChangePage">
+    </vuetable-pagination>
+</div>
+
+@section scripts{
+
+    <script>
+        Vue.use(Vuetable);
+        Vue.component('v-select', VueSelect.VueSelect)
+
+        var vm = new Vue({
+            el: '#app',
+            components: {
+                'vuetable-pagination': Vuetable.VuetablePagination,
+            },
+            data: {
+                fields: [
+                    {
+                        name: 'NoIdentificacionCompleto',
+                        title: 'Identificacion',
+                        sortField: 'NoIdentificacion',
+                        titleClass: 'center aligned',
+                        dataClass: 'center aligned'
+                    },
+                    {
+                        name: 'NombreCompleto',
+                        title: 'Nombre Completo',
+                        sortField: 'NombreCompleto',
+                        titleClass: 'center aligned',
+                        dataClass: 'center aligned'
+                    },
+                    {
+                        name: 'Login',
+                        title: 'Login',
+                        sortField: 'Login',
+                        titleClass: 'center aligned',
+                        dataClass: 'center aligned'
+                    },
+                    {
+                        name: 'Correo',
+                        title: 'Correo',
+                        sortField: 'Correo',
+                        titleClass: 'center aligned',
+                        dataClass: 'center aligned'
+                    },
+                    '__slot:actions'
+                ],
+                sortOrder: [
+                    {
+                        field: 'PersonaId',
+                        direction: 'asc'
+                    }
+                ],
+                moreParams: {
+                    filter: ""
+                },
+                css: {
+                    table: {
+                        tableClass: 'table',
+                        ascendingIcon: 'fa fa-arrow-up',
+                        descendingIcon: 'fa fa-arrow-down',
+                        handleIcon: 'fa fa-bars',
+                        renderIcon: function (classes, options) {
+                            return `<span class="${classes.join(' ')}"></span>`
+                        }
+                    },
+                    pagination: {
+                        wrapperClass: "pagination pull-right",
+                        activeClass: "btn-primary",
+                        disabledClass: "disabled",
+                        pageClass: "btn btn-border",
+                        linkClass: "btn btn-border",
+                        icons: {
+                            first: "",
+                            prev: "",
+                            next: "",
+                            last: ""
+                        }
+                    }
+                },
+                options: [],
+                tipoBusqueda: 1
+            },
+            computed: {
+                /*httpOptions(){
+                  return {headers: {'Authorization': "my-token"}} //table props -> :http-options="httpOptions"
+                },*/
+            },
+            methods: {
+                onPaginationData(paginationData) {
+                    this.$refs.pagination.setPaginationData(paginationData)
+                },
+                onChangePage(page) {
+                    this.$refs.vuetable.changePage(page)
+                },
+                editRow(rowData) {
+                    // alert("You clicked edit on" + JSON.stringify(rowData))
+                    window.location.href = `/Usuario/Edit/${rowData.PersonaId}`;
+                },
+                deleteRow(rowData) {
+                    alert("You clicked delete on" + JSON.stringify(rowData))
+                },
+                getData(search, loading) {
+                    loading(true);
+                    this.search(loading, search, this);
+                },
+                search: _.debounce((loading, search, vm) => {
+                    if (search == null || search.length == 0) {
+                        loading(false);
+                        vm.options = [];
+                        return;
+                    }
+                    let paramsAutocomplete = `limit=5&tipoBusqueda=${vm.tipoBusqueda}&value=`;
+                    axios.get(`/Usuario/GetListUsuarioAutocomplete?${paramsAutocomplete}${search}`)
+                        .then(res => {
+                            vm.options = res.data;
+                            loading(false);
+                        });
+                }, 350),
+                setSelected(x) {
+                    console.log(x);
+                    if (x != null) {
+                        this.moreParams.filter = JSON.stringify({
+                            PersonaId: x.Key
+                        });
+                        Vue.nextTick(() => this.$refs.vuetable.refresh())
+                    } else {
+                        this.moreParams.filter = "";
+                        Vue.nextTick(() => this.$refs.vuetable.refresh())
+                    }
+                }
+            }
+        })
+    </script>
+
+}

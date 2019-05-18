@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GetDatos" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://200.122.221.193:8995/GetDatos.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://200.122.221.193:8995/GetDatos.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://200.122.221.193:8995/GetDatos.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WCFDatos" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGetDatos_InsertTransaction_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertTransaction" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_InsertTransaction_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_InsertTransactionJson_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertTransactionJson" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_InsertTransactionJson_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertTransactionJsonResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_InsertTransactionMultiCredit_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertTransactionMultiCredit" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_InsertTransactionMultiCredit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertTransactionMultiCreditResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_StateTickedID_InputMessage">
+    <wsdl:part name="parameters" element="tns:StateTickedID" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_StateTickedID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StateTickedIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_GetTransactionInformation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTransactionInformation" />
+  </wsdl:message>
+  <wsdl:message name="IGetDatos_GetTransactionInformation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTransactionInformationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGetDatos">
+    <wsdl:operation name="InsertTransaction">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGetDatos/InsertTransaction" message="tns:IGetDatos_InsertTransaction_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGetDatos/InsertTransactionResponse" message="tns:IGetDatos_InsertTransaction_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertTransactionJson">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGetDatos/InsertTransactionJson" message="tns:IGetDatos_InsertTransactionJson_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGetDatos/InsertTransactionJsonResponse" message="tns:IGetDatos_InsertTransactionJson_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertTransactionMultiCredit">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGetDatos/InsertTransactionMultiCredit" message="tns:IGetDatos_InsertTransactionMultiCredit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGetDatos/InsertTransactionMultiCreditResponse" message="tns:IGetDatos_InsertTransactionMultiCredit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StateTickedID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGetDatos/StateTickedID" message="tns:IGetDatos_StateTickedID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGetDatos/StateTickedIDResponse" message="tns:IGetDatos_StateTickedID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTransactionInformation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGetDatos/GetTransactionInformation" message="tns:IGetDatos_GetTransactionInformation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGetDatos/GetTransactionInformationResponse" message="tns:IGetDatos_GetTransactionInformation_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IGetDatos" type="tns:IGetDatos">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="InsertTransaction">
+      <soap:operation soapAction="http://tempuri.org/IGetDatos/InsertTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertTransactionJson">
+      <soap:operation soapAction="http://tempuri.org/IGetDatos/InsertTransactionJson" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertTransactionMultiCredit">
+      <soap:operation soapAction="http://tempuri.org/IGetDatos/InsertTransactionMultiCredit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StateTickedID">
+      <soap:operation soapAction="http://tempuri.org/IGetDatos/StateTickedID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTransactionInformation">
+      <soap:operation soapAction="http://tempuri.org/IGetDatos/GetTransactionInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GetDatos">
+    <wsdl:port name="BasicHttpBinding_IGetDatos" binding="tns:BasicHttpBinding_IGetDatos">
+      <soap:address location="http://200.122.221.193:8995/GetDatos.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

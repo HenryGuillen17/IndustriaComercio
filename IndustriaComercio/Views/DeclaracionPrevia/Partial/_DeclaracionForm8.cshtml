@@ -48,6 +48,27 @@
                 @Html.ValidationMessageFor(model => model.RetencionesDelMunicipio, "", new { @class = "text-danger" })
             </div>
         </div>
+        <!-- Archivo Retención Practicada Por El Municipio -->
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.RetencionesDelMunicipio, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                <input id="imagen-upload" 
+                       class="form-control" 
+                       type="file" 
+                       name="ArchivoRetencion"
+                       v-on:change="getFile"
+                       style="display:none" />
+                <label for="imagen-upload"
+                       v-bind:class="{ 'bg-success text-white' : form.ArchivoRetencion != null }"
+                       class="upload-image-label">
+                    <span class="fa fa-file-pdf">
+                        {{ ( form.ArchivoRetencion == null ? 'Archivo' : form.ArchivoRetencion.name ) }}
+                    </span>
+                </label>
+            </div>
+        </div>
         <!-- Autoretención Practicada Por El Municipio -->
         <div class="form-group row">
             <div class="col-md-4">
@@ -83,7 +104,8 @@
                     { "data-trigger", "focus" },
                     { "data-content", @Html.DescriptionFor(model => model.AnticipoAnioAnterior) },
                     { "data-placement", "top" },
-                    { "v-model", "form.AnticipoAnioAnterior" }
+                    { "v-model", "form.AnticipoAnioAnterior" },
+                    { "readonly", "readonly" }
                     } })
                 @Html.ValidationMessageFor(model => model.AnticipoAnioAnterior, "", new { @class = "text-danger" })
             </div>
@@ -103,7 +125,8 @@
                     { "data-trigger", "focus" },
                     { "data-content", @Html.DescriptionFor(model => model.AnticipoAnioSiguiente) },
                     { "data-placement", "top" },
-                    { "v-model", "form.AnticipoAnioSiguiente" }
+                    { "v-model", "form.AnticipoAnioSiguiente" },
+                    { "readonly", "readonly" }
                     } })
                 @Html.ValidationMessageFor(model => model.AnticipoAnioSiguiente, "", new { @class = "text-danger" })
             </div>
@@ -114,26 +137,17 @@
                 @Html.LabelFor(model => model.TipoSancion, htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="col-md-8">
-                @Html.EnumDropDownListFor(Model => Model.TipoSancion, null, new { @class = "form-control" })
-            </div>
-        </div>
-        <!-- Otro Tipo de Sanción -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.OtroTipoSancion, htmlAttributes: new { @class = "control-label " })
-            </div>
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.OtroTipoSancion,
-                new { htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.OtroTipoSancion) },
-                    { "data-placement", "top" }
-                    } })
-                @Html.ValidationMessageFor(model => model.OtroTipoSancion, "", new { @class = "text-danger" })
+                <select class="form-control"
+                        v-model="form.TipoSancionId">
+                    <option v-for="item in listaTipoSanciones"
+                            v-bind:selected="form.TipoSancionId === item.Key"
+                            v-bind:value="item.Key">
+                        {{ item.Value }}
+                    </option>
+                </select>
+                @Html.HiddenFor(x => x.TipoSancion, new Dictionary<string, object>() {
+                    { "v-model", "form.TipoSancionId" }
+                })
             </div>
         </div>
         <!-- Valor de la Sanción -->
@@ -142,18 +156,11 @@
                 @Html.LabelFor(model => model.ValorSancion, htmlAttributes: new { @class = "control-label " })
             </div>
             <div class="col-md-8">
-                @Html.EditorFor(model => model.ValorSancion,
-                new { htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.ValorSancion) },
-                    { "data-placement", "top" },
-                    { "v-model", "form.ValorSancion" }
-                    } })
-                @Html.ValidationMessageFor(model => model.ValorSancion, "", new { @class = "text-danger" })
+                <h4>{{ TotalValorSancion | formatPrecio }}</h4>
+                <font size="3" color="#FF0000">{{ MensajeSancion }}</font>
+                @Html.HiddenFor(x => x.ValorSancion, new Dictionary<string, object>() {
+                    { "v-bind:value", "TotalValorSancion" }
+                })
             </div>
         </div>
         <!-- Saldo a favor Período Anterior -->

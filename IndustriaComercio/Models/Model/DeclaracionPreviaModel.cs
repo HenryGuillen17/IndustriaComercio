@@ -1,5 +1,4 @@
-﻿using IndustriaComercio.Common;
-using IndustriaComercio.Entidades.Basicos;
+﻿using IndustriaComercio.Common.Utils;
 using IndustriaComercio.Models.Enum;
 using System;
 using System.Collections.Generic;
@@ -29,15 +28,15 @@ namespace IndustriaComercio.Models.Model
         #region Vista Encabezado #1
 
 
-        [Required(ErrorMessage = "Año Gravableo es Requerido")]
-        [Display(Name = "Año Gravable", Description = "Lorem ipsum")]
+        [Required(ErrorMessage = "Año Gravable es Requerido")]
+        [Display(Name = "Año Gravable", Description = "Escriba el año al cual corresponden los ingresos que está declarando. El período gravable del Impuesto de Industria y Comercio es el año calendario inmediatamente anterior a aquel en que se debe presentar la declaración")]
         public int Año { get; set; }
 
 
         [Required(ErrorMessage = "Clase de declaración es requerido")]
-        [Display(Name = "Elija la clase de declaración", Description = "Lorem ipsum")]
-        public TipoDeclaracion TipoDeclaracion { get; set; }
-
+        [Display(Name = "Elija la clase de declaración", Description = "Si es la primera declaración de este período gravable, marque Declaración Inicial")]
+        public TipoDeclaracion TipoDeclaracion { get; set; } = TipoDeclaracion.DeclaracionInicial;
+        
 
         [Required(ErrorMessage = "Tipo de Documento es Requerido")]
         [Display(Name = "Tipo de Contribuyente", Description = "Lorem ipsum")]
@@ -48,6 +47,10 @@ namespace IndustriaComercio.Models.Model
         public bool TienePagoVoluntario { get; set; }
 
 
+        [Display(Name = "¿Paga Avisos y Tableros?", Description = "Lorem ipsum")]
+        public bool PagaAvisoTablero { get; set; }
+
+
         #endregion
 
         // --------------------------------------------------------------------
@@ -55,94 +58,23 @@ namespace IndustriaComercio.Models.Model
         #region Vista Datos Personales Sección "A" #2
 
 
-        [Required(ErrorMessage = "Nombre es Requerido")]
-        [Display(
-            Name = "Nombres y Apellidos o Razon social",
-            Description = "Lorem ipsum"
-        )]
-        public string NombreCompleto { get; set; }
-
-
-        [Required(ErrorMessage = "Tipo de Documento es Requerido")]
-        [Display(
-            Name = "Tipo de Documento",
-            Description = "Lorem ipsum"
-        )]
+        [Required]
+        [Display(Name = "Tipo Identificacion")]
         public int TipoDocumentoId { get; set; }
 
 
-        [Required(ErrorMessage = "Identificacion es Requerido")]
-        [Display(
-            Name = "Identificacion",
-            Description = "Lorem ipsum"
-        )]
+        [Required]
+        [Display(Name = "Numero Identificacion")]
         public string NoIdentificacion { get; set; }
 
 
-        [Required(ErrorMessage = "DigitoChequeo es Requerido")]
-        [Display(
-            Name = "DigitoChequeo",
-            Description = "Lorem ipsum"
-        )]
-        public string DigitoChequeo { get; set; }
+        [Required]
+        public int PersonaId { get; set; }
 
 
-        [Required(ErrorMessage = "Direccion es Requerido")]
-        [Display(
-            Name = "Direccion",
-            Description = "Lorem ipsum"
-        )]
-        public string Direccion { get; set; }
+        [NotMapped]
+        public ClienteModel Cliente { get; set; }
 
-
-        [Required(ErrorMessage = "Municipio de notificacion es Requerido")]
-        [Display(
-            Name = "Municipio Notificacion",
-            Description = "Lorem ipsum"
-        )]
-        public string MunicipioNotificacion { get; set; }
-
-
-        [Required(ErrorMessage = "Departamento de notificacion es Requerido")]
-        [Display(
-            Name = "Departamento Notificacion",
-            Description = "Lorem ipsum"
-        )]
-        public string DepartamentoNotificacion { get; set; }
-
-
-        [Required(ErrorMessage = "Teléfono es Requerido")]
-        [Display(
-            Name = "Telefono",
-            Description = "Este es un teléfono casero"
-        )]
-        public string Telefono { get; set; }
-
-
-        [Required(ErrorMessage = "Correo es Requerido")]
-        [Display(
-            Name = "Correo",
-            Description = "Lorem ipsum"
-        )]
-        public string Correo { get; set; }
-
-
-        [Required(ErrorMessage = "Numero Establecimientos es Requerido")]
-        [Display(
-            Name = "Numero Establecimientos",
-            Description = "Lorem ipsum"
-        )]
-        [Range(1, 999)]
-        public int NumeroEstablecimientos { get; set; }
-
-
-        [Required(ErrorMessage = "Clasificacion Contribuyente es Requerido")]
-        [Display(
-            Name = "Clasificacion Contribuyente",
-            Description = "Lorem ipsum"
-        )]
-        [Range(1, 999, ErrorMessage = "Debe elegir Tipo Clasificación")]
-        public int? ClasificacionContribuyenteId { get; set; } = 0;
 
 
         #endregion
@@ -155,28 +87,28 @@ namespace IndustriaComercio.Models.Model
         [Required]
         [Display(
             Name = "Ingresos Del Periodo En Todo El Pais",
-            Description = "Lorem ipsum"
+            Description = "Registre la totalidad de ingresos ordinarios y extraordinarios obtenidos en todo el país, durante el período gravable, incluyendo los ingresos por rendimientos financieros, comisiones, obtenidos dentro y fuera del municipio"
         )]
-        [Range(0, int.MaxValue)]
-        public int IngresosEnElPais { get; set; }
+        [Range(0, double.MaxValue)]
+        public double IngresosEnElPais { get; set; }
 
 
         [Required]
         [Display(
             Name = "Ingresos Fuera Del Municipio",
-            Description = "Lorem ipsum"
+            Description = "Registre el total de ingresos obtenidos fuera del municipio. Para el efecto, tenga en cuenta las reglas de territorialidad aplicables a cada actividad; en general los ingresos se entienden percibidos en el municipio donde se realiza la respectiva actividad."
         )]
-        [Range(0, int.MaxValue)]
-        public int IngresosFueraDelMunicipio { get; set; }
+        [Range(0, double.MaxValue)]
+        public double IngresosFueraDelMunicipio { get; set; }
 
 
         [NotMapped]
         [Display(
             Name = "Total Ingresos Del Municipio",
-            Description = "Lorem ipsum"
+            Description = "Es el resultado de restar el total de ingresos obtenidos fuera de este municipio al total de ingresos en todo el país"
         )]
-        [Range(0, int.MaxValue)]
-        public int TotalIngresosMunicipio => IngresosEnElPais - IngresosFueraDelMunicipio;
+        [Range(0, double.MaxValue)]
+        public double TotalIngresosMunicipio => IngresosEnElPais - IngresosFueraDelMunicipio;
 
 
         #endregion
@@ -189,54 +121,54 @@ namespace IndustriaComercio.Models.Model
         [Required]
         [Display(
             Name = "Ingresos Por Devoluciones, Rebajas, Descuentos",
-            Description = "Lorem ipsum"
+            Description = "Escriba el valor de ingresos registrados en el municipio de concepto de devolucionens, rebajas, descuentos"
         )]
-        [Range(0, int.MaxValue)]
-        public int IngresosDevoluciones { get; set; }
+        [Range(0, double.MaxValue)]
+        public double IngresosDevoluciones { get; set; }
 
 
         [Required]
         [Display(
             Name = "Ingresos Por Exportaciones",
-            Description = "Lorem ipsum"
+            Description = "Escriba el valor de ingresos registrados en este municipio por concepto de exportaciones"
         )]
-        [Range(0, int.MaxValue)]
-        public int IngresosExportaciones { get; set; }
+        [Range(0, double.MaxValue)]
+        public double IngresosExportaciones { get; set; }
 
 
         [Required]
         [Display(
             Name = "Ingresos Por Activos Fijos",
-            Description = "Lorem ipsum"
+            Description = "Escriba el valor de ingresos registrados en este municipio o distrito por concepto de venta de activos fijos"
         )]
-        [Range(0, int.MaxValue)]
-        public int IngresosActivosFijos { get; set; }
+        [Range(0, double.MaxValue)]
+        public double IngresosActivosFijos { get; set; }
 
 
         [Required]
         [Display(
             Name = "Ingresos No Gravados",
-            Description = "Lorem ipsum"
+            Description = "Escriba el valor de ingresos registradoos en este municipio o distrito por concepto de actividades excluidas o no sujetas y otros ingresos no gravados de conformidad con las normas que regulan el impuesto de Industria y Comercio"
         )]
-        [Range(0, int.MaxValue)]
-        public int IngresosNoGravados { get; set; }
+        [Range(0, double.MaxValue)]
+        public double IngresosNoGravados { get; set; }
 
 
         [Required]
         [Display(
             Name = "Ingresos Actividades Exentas",
-            Description = "Lorem ipsum"
+            Description = "Escriba el valor de ingresos registrados en el municipio por concepto de actividades que gozan de tratamiento de exención, de conformidad con las normas propias del municipio"
         )]
-        [Range(0, int.MaxValue)]
-        public int IngresosActividadesExentas { get; set; }
+        [Range(0, double.MaxValue)]
+        public double IngresosActividadesExentas { get; set; }
 
 
         [NotMapped]
         [Display(
             Name = "Total Ingresos Gravables",
-            Description = "Lorem ipsum"
+            Description = "Es el resultado del Renglón 10 menos 11, 12, 13, 14 y 15"
         )]
-        public int TotalIngresosGravables => (
+        public double TotalIngresosGravables => (
             TotalIngresosMunicipio
             - IngresosDevoluciones
             - IngresosExportaciones
@@ -266,7 +198,7 @@ namespace IndustriaComercio.Models.Model
         /// Se obtiene de la sumatoria de tarifas de Actividades Gravadas
         /// </summary>
         [NotMapped]
-        public int TotalTarifa => ActividadesGravadas?.Sum(x => x.Impuesto) ?? 0;
+        public double TotalTarifa => ActividadesGravadas?.Sum(x => x.Impuesto) ?? 0;
 
 
         #endregion
@@ -279,10 +211,10 @@ namespace IndustriaComercio.Models.Model
         [Required]
         [Display(
             Name = "Capacidad de Energía Instalada (En KiloVatios)",
-            Description = "Lorem ipsum"
+            Description = "En el caso de la actividad de generación de energía eléctrica en cabeza de los propietarios de las obras para ese fin, escriba en kilovatios la capacidad instalada de la generadora en el municipio."
         )]
-        [Range(0, int.MaxValue)]
-        public int CapacidadInstalada { get; set; }
+        [Range(0, double.MaxValue)]
+        public double CapacidadInstalada { get; set; }
 
 
         /// <summary>
@@ -292,9 +224,9 @@ namespace IndustriaComercio.Models.Model
         [NotMapped]
         [Display(
             Name = "Total Impuesto de Energía",
-            Description = "Lorem ipsum"
+            Description = "Multiplique el total de capacidad instalada de la planta generadora, en kilovatios, por valor de impuesto que por cada kilovatio ordena la Ley 57 de 1981, actualizado"
         )]
-        public int TotaImpuestoEnergiaElectrica => CapacidadInstalada * 5; // No es 5$, hay que preguntar eso
+        public double TotaImpuestoEnergiaElectrica => CapacidadInstalada * 5; // No es 5$, hay que preguntar eso
 
 
         #endregion
@@ -307,10 +239,10 @@ namespace IndustriaComercio.Models.Model
         [NotMapped]
         [Display(
             Name = "Total Impuesto Industria Comercio",
-            Description = "Lorem ipsum"
+            Description = "Es el resultado de sumar el renglón 17 y el renglón 19"
         )]
-        [Range(0, int.MaxValue)]
-        public int TotalImpuestoIndustriaComercio => TotalTarifa + TotaImpuestoEnergiaElectrica;
+        [Range(0, double.MaxValue)]
+        public double TotalImpuestoIndustriaComercio => TotalTarifa + TotaImpuestoEnergiaElectrica;
 
 
         /// <summary>
@@ -319,45 +251,45 @@ namespace IndustriaComercio.Models.Model
         [NotMapped]
         [Display(
             Name = "Total Impuesto Avisos Tableros",
-            Description = "Lorem ipsum"
+            Description = "Es el 15% del renglón 20"
         )]
-        [Range(0, int.MaxValue)]
-        public int ImpuestoAvisosTableros => (int)(Math.Round(TotalImpuestoIndustriaComercio * 0.00015) * 1000);
+        [Range(0, double.MaxValue)]
+        public double ImpuestoAvisosTableros { get; set; }
 
 
         [Required]
         [Display(
             Name = "Pago Unidades Comerciales",
-            Description = "Lorem ipsum"
+            Description = "Registre el valor resultante de multiplicar el nùmero de sucursales, agencias u oficinas adicionales abiertas al público, de Establecimientos de Crédito, Instituciones Financieras y Compañías de Seguro y Reaseguro, por el valor establecido como pago adicional en la norma de municipio, de conformidad con el Artículo 209 del Decreto Ley 1333 de 1986."
         )]
-        [Range(0, int.MaxValue)]
-        public int PagoUnidadesComerciales { get; set; }
+        [Range(0, double.MaxValue)]
+        public double PagoUnidadesComerciales { get; set; }
 
 
         [Required]
         [Display(
             Name = "Sobretasa Bomberil",
-            Description = "Lorem ipsum"
+            Description = "El municipio de Piedecuesta no tiene establecida la Sobretasa Bomberil para el impuesto de Industria y Comercio"
         )]
-        [Range(0, int.MaxValue)]
-        public int SobretasaBomberil { get; set; }
+        [Range(0, double.MaxValue)]
+        public double SobretasaBomberil { get; set; }
 
 
         [Required]
         [Display(
             Name = "Sobretasa Seguridad",
-            Description = "Lorem ipsum"
+            Description = "El municipio de Piedecuesta no tiene establecida la Sobretasa de Seguridad para el Impuesto de Industria y Comercio"
         )]
-        [Range(0, int.MaxValue)]
-        public int SobretasaSeguridad { get; set; }
+        [Range(0, double.MaxValue)]
+        public double SobretasaSeguridad { get; set; }
 
 
         [NotMapped]
         [Display(
             Name = "Total Impuesto Cargo",
-            Description = "Lorem ipsum"
+            Description = "Es la suma de los renglones 20+21+22+23+24"
         )]
-        public int TotalImpuestoCargo => (
+        public double TotalImpuestoCargo => (
             TotalImpuestoIndustriaComercio
             + ImpuestoAvisosTableros
             + PagoUnidadesComerciales
@@ -376,85 +308,86 @@ namespace IndustriaComercio.Models.Model
         [Required]
         [Display(
             Name = "Valor Exoneración Sobre Impuesto",
-            Description = "Lorem ipsum"
+            Description = "Si tiene derecho a disminuir el valor del impuesto liquidado, por existir una exención o beneficio que así lo autorice, escriba aquí el valor exento o exonerado. Tenga en cuenta que este beneficio tributario es diferente al que se aplica sobre los ingresos por actividades exentas"
         )]
-        [Range(0, int.MaxValue)]
-        public int ValorExoneracionImpuesto { get; set; }
+        [Range(0, double.MaxValue)]
+        public double ValorExoneracionImpuesto { get; set; }
 
 
         [Required]
         [Display(
-            Name = "Retención Practicada Por El Municipio",
-            Description = "Lorem ipsum"
+            Name = "Retenciones que le practicaron a favor del municipio",
+            Description = "Registre el valor que le retuvieron a favor del municipio durante el período gravable declarado, por los conceptos que sean objeto de esta declaración (ICA, Avisos, Sobretasas)"
         )]
-        [Range(0, int.MaxValue)]
-        public int RetencionesDelMunicipio { get; set; }
+        [Range(0, double.MaxValue)]
+        public double RetencionesDelMunicipio { get; set; }
 
-
-        [Required]
+        
         [Display(
-            Name = "Autoretención Practicada Por El Municipio",
-            Description = "Lorem ipsum"
+            Name = "Autorretencionens Practicadas a favor del municipio",
+            Description = "Si tiene la calidad de autorretenedor (Artículo 106 del Acuerdo 009 de 2018), registre el valor que pagó a favor de este municipio, durante el período gravable declarado, que no hayan sido previamente descontadas"
         )]
-        [Range(0, int.MaxValue)]
-        public int AutoretencionesDelMunicipio { get; set; }
-
-
-        [Required]
-        [Display(
-            Name = "Anticipo Año Anterior",
-            Description = "Lorem ipsum"
-        )]
-        [Range(0, int.MaxValue)]
-        public int AnticipoAnioAnterior { get; set; }
-
-
-        [Required]
-        [Display(
-            Name = "Anticipo Año Siguiente",
-            Description = "Lorem ipsum"
-        )]
-        [Range(0, int.MaxValue)]
-        public int AnticipoAnioSiguiente { get; set; }
-
-
-        [Required]
-        [Display(
-            Name = "Tipo de Sanción",
-            Description = "Lorem ipsum"
-        )]
-        public TipoSancion TipoSancion { get; set; }
-
+        public HttpPostedFileBase ArchivoRetencion { get; set; }
 
         [NotMapped]
+        public string RutaArchivoRetencion { get; set; }
+
+
+        [Required]
         [Display(
-            Name = "Otro Tipo de Sanción",
-            Description = "Lorem ipsum"
+            Name = "Autorretenciones Practicadas a favor del municipio",
+            Description = "Si tiene la calidad de autorretenedor (Artículo 106 del Acuerdo 009 de 2018), registre el valor que pagó a favor de este municipio, durante el período gravable declarado, que no hayan sido previamente descontadas"
         )]
-        public string OtroTipoSancion { get; set; }
+        [Range(0, double.MaxValue)]
+        public double AutoretencionesDelMunicipio { get; set; }
+
+
+        [Required]
+        [Display(
+            Name = "Anticipo Liquidado en el Año Anterior",
+            Description = "Si en el municipio existe el anticipo del impuesto de Industria y Comercio, registre el valor liquidado por ese concepto en la declaración del año inmediatamente anterior"
+        )]
+        [Range(0, double.MaxValue)]
+        public double AnticipoAnioAnterior { get; set; }
+
+
+        [Required]
+        [Display(
+            Name = "Anticipo del Año Siguiente",
+            Description = "Si en el municipio existe el anticipo del impuesto de Industria y Comercio, registre el valor de anticipo para el año siguiente según la regulación"
+        )]
+        [Range(0, double.MaxValue)]
+        public double AnticipoAnioSiguiente { get; set; }
+
+        
+        [Display(
+            Name = "Tipo de Sanción",
+            Description = ""
+        )]
+        public int? TipoSancion { get; set; }
 
 
         [Display(
             Name = "Valor de la Sanción",
-            Description = "Lorem ipsum"
+            Description = "Es el 5% del total del impuesto a cargo (si es diferente de cero) multiplicado por el número de meses o fracción de mes calendario de retardo "
         )]
-        [Range(0, int.MaxValue)]
-        public int ValorSancion { get; set; }
+        [Range(0, double.MaxValue)]
+        public double ValorSancion { get; set; }
 
 
         [Display(
             Name = "Saldo a favor Período Anterior",
-            Description = "Lorem ipsum"
+            Description = "Si cuenta con un saldo a favor en acto administrativo que autorice su compensación con esta declaración, diligencia aquí ese valor"
         )]
-        [Range(0, int.MaxValue)]
-        public int SaldoFavorPeriodoAnterior { get; set; }
+        [Range(0, double.MaxValue)]
+        public double SaldoFavorPeriodoAnterior { get; set; }
 
 
         [Display(
             Name = "Total Saldo a Cargo",
-            Description = "Lorem ipsum"
+            Description = "Es el resultado de la siguiente operación: 25-26-27-28-29+30+31-32"
         )]
-        public int TotalSaldoCargo => (
+        public double TotalSaldoCargo => (
             TotalImpuestoCargo
             - ValorExoneracionImpuesto
             - RetencionesDelMunicipio
@@ -468,9 +401,9 @@ namespace IndustriaComercio.Models.Model
 
         [Display(
             Name = "Total Saldo a Favor",
-            Description = "Lorem ipsum"
+            Description = "Es el resultado de la siguiente operación: 25-26-27-28-29+30+31-32"
         )]
-        public int TotalSaldoFavor => TotalSaldoCargo < 0 ? Math.Abs(TotalSaldoFavor) : 0;
+        public double TotalSaldoFavor => TotalSaldoCargo < 0 ? Math.Abs(TotalSaldoFavor) : 0;
 
 
         #endregion
@@ -483,10 +416,13 @@ namespace IndustriaComercio.Models.Model
         [Required]
         [Display(
             Name = "Valor A Pagar",
-            Description = "Lorem ipsum"
+            Description = ""
         )]
-        [Range(0, int.MaxValue)]
-        public int ValorPagar => TotalSaldoCargo;
+        [Range(0, double.MaxValue)]
+        public double ValorPagar => TotalSaldoCargo;
+
+
+        public double PorcentajeDescuento { get; set; }
 
 
         [Required]
@@ -494,17 +430,17 @@ namespace IndustriaComercio.Models.Model
             Name = "Descuento Por Pronto Pago",
             Description = "Lorem ipsum"
         )]
-        [Range(0, int.MaxValue)]
-        public int DescuentoProntoPago { get; set; }
+        public double Descuento => ValorPagar * (PorcentajeDescuento * 0.01);
 
 
+        public double PorcentajeInteres { get; set; }
         [Required]
         [Display(
             Name = "Intereses de Mora",
             Description = "Lorem ipsum"
         )]
-        [Range(0, int.MaxValue)]
-        public int InteresesDeMora { get; set; }
+        public double Interes => ValorPagar * (PorcentajeInteres * 0.01);
+
 
 
         [NotMapped]
@@ -512,7 +448,7 @@ namespace IndustriaComercio.Models.Model
             Name = "Total a Pagar",
             Description = "Lorem ipsum"
         )]
-        public int TotalPagar => (ValorPagar + InteresesDeMora - DescuentoProntoPago);
+        public double TotalPagar => (ValorPagar + Interes - Descuento);
 
 
         #endregion
@@ -520,7 +456,7 @@ namespace IndustriaComercio.Models.Model
         // --------------------------------------------------------------------
 
 
-        public List<SelectListItem> TipoDocumentos { get; set; }
+        public ICollection<ComboBox> TipoDocumentos { get; set; }
         public List<SelectListItem> TipoContribuyentes { get; set; }
         public List<SelectListItem> Años
         {
@@ -539,48 +475,12 @@ namespace IndustriaComercio.Models.Model
                 return años;
             }
         }
-        public ICollection<ComboBox> ListaActividadesGravadas { get; set; }
+        public ICollection<ActividadGravadaModel> ListaActividadesGravadas { get; set; }
         public ICollection<ComboBox> ListaClasificacionesContribuyentes { get; set; }
+        public ICollection<TipoSancionModel> ListaTipoSanciones { get; internal set; }
 
 
         #endregion
     }
 
-
-    public class ActividadGravadaModel
-    {
-        private int tarifa;
-
-        public int ActividadId { get; set; }
-
-        [NotMapped]
-        public string Descripcion { get; set; }
-
-        [Required]
-        [Display(
-            Name = "Ingresos Gravados",
-            Description = "Lorem ipsum"
-        )]
-        public int IngresosGravados { get; set; }
-
-        [Required]
-        [Display(
-            Name = "Ingresos Gravados",
-            Description = "Lorem ipsum"
-        )]
-        public int Tarifa
-        {
-            get { return (int)(Math.Round(tarifa * 0.001) * 1000); }
-            set { tarifa = value; }
-        }
-
-        [Required]
-        [Display(
-            Name = "Impuestos Industria Comercio",
-            Description = "Lorem ipsum"
-        )]
-        public int Impuesto { get; set; }
-
-
-    }
 }

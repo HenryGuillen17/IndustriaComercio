@@ -1,0 +1,292 @@
+﻿<template id="editar-persona-template">
+
+    <div class="modal fade" id="editar-persona-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ personaId == 0 ? 'Crear' : 'Editar' }} Datos</h4>
+                    <button type="button" class="close" v-on:click="closeModal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <h4>Persona</h4>
+                        <hr>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md-4">
+                                <label class="control-label" for="TipoDocumentoId">TipoDocumentoId</label>
+                                <select class="form-control" id="TipoDocumentoId" name="TipoDocumentoId" v-model="form.TipoDocumentoId" v-validate="'required|numeric'">
+                                    <option v-bind:value="null">-- Elegir Opción --</option>
+                                    <option v-for="(item, index) in comboBox.tipoDocumento" v-bind:value="item.Key">{{ item.Value }}</option>
+                                </select>
+                                <div class="invalid-feedback">{{ errors.first('TipoDocumentoId') }}</div>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="control-label" for="NoIdentificacion">NoIdentificacion</label>
+                                <input class="form-control text-box single-line" id="NoIdentificacion" name="NoIdentificacion" type="text" v-model="form.NoIdentificacion" v-validate="'required|numeric'">
+                                <div class="invalid-feedback">{{ errors.first('NoIdentificacion') }}</div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md">
+                                <label class="control-label" for="PrimerNombre">PrimerNombre</label>
+                                <input class="form-control text-box single-line" id="PrimerNombre" name="PrimerNombre" type="text" v-model="form.PrimerNombre" v-validate="'required|alpha'">
+                                <div class="invalid-feedback">{{ errors.first('PrimerNombre') }}</div>
+                            </div>
+
+                            <div class="form-group col-md">
+                                <label class="control-label" for="SegundoNombre">Segundo Nombre</label>
+                                <input class="form-control text-box single-line" id="SegundoNombre" name="SegundoNombre" type="text" v-model="form.SegundoNombre" v-validate="'alpha'">
+                                <div class="invalid-feedback">{{ errors.first('SegundoNombre') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md">
+                                <label class="control-label" for="PrimerApellido">Primer Apellido</label>
+                                <input class="form-control text-box single-line" id="PrimerApellido" name="PrimerApellido" type="text" v-model="form.PrimerApellido" v-validate="'required|alpha'">
+                                <div class="invalid-feedback">{{ errors.first('PrimerApellido') }}</div>
+                            </div>
+
+                            <div class="form-group col-md">
+                                <label class="control-label" for="SegundoApellido">Segundo Apellido</label>
+                                <input class="form-control text-box single-line" id="SegundoApellido" name="SegundoApellido" type="text" v-model="form.SegundoApellido" v-validate="'alpha'">
+                                <div class="invalid-feedback">{{ errors.first('SegundoApellido') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md">
+                                <label class="control-label" for="Telefono">Teléfono</label>
+                                <input class="form-control text-box single-line" id="Telefono" name="Telefono" type="text" v-model="form.Telefono" v-validate="'numeric'">
+                                <div class="invalid-feedback">{{ errors.first('Telefono') }}</div>
+                            </div>
+
+                            <div class="form-group col-md">
+                                <label class="control-label" for="Celular">Celular</label>
+                                <input class="form-control text-box single-line" id="Celular" name="Celular" type="text" v-model="form.Celular" v-validate="'numeric'">
+                                <div class="invalid-feedback">{{ errors.first('Celular') }}</div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label" for="Direccion">Direccion</label>
+                            <input class="form-control text-box single-line" id="Direccion" name="Direccion" type="text" v-model="form.Direccion" v-validate="'required'">
+                            <div class="invalid-feedback">{{ errors.first('Direccion') }}</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md">
+                                <label class="control-label" for="Departamento">Departamento</label>
+                                <v-select ref="select-departamento"
+                                          label="Value"
+                                          name="DepartamentoId"
+                                          v-bind:filterable="false"
+                                          v-on:search="getDepartamento"
+                                          v-on:input="setDepartamento"
+                                          v-validate="'required'"
+                                          v-bind:reduce="x => x.Key"
+                                          v-model="form.MunicipioId"
+                                          v-bind:options="options.departamento">
+                                    <template slot="no-options">-- Sin Opciones --</template>
+                                </v-select>
+                                <div v-show="errors.has('DepartamentoId')" class="invalid-small">{{ errors.first('DepartamentoId') }}</div>
+                            </div>
+
+                            <div class="form-group col-md">
+                                <label class="control-label" for="Municipio">Municipio</label>
+                                <v-select ref="select-municipio"
+                                          label="Value"
+                                          v-bind:filterable="false"
+                                          name="MunicipioId"
+                                          v-on:search="getMunicipio"
+                                          v-on:input="setMunicipio"
+                                          v-validate="'required'"
+                                          v-bind:reduce="x => x.Key"
+                                          v-model="form.MunicipioId"
+                                          v-bind:options="options.municipio">
+                                    <template slot="no-options">-- Sin Opciones --</template>
+                                </v-select>
+                                <div v-show="errors.has('MunicipioId')" class="invalid-small">{{ errors.first('MunicipioId') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="Correo">Correo</label>
+                            <input class="form-control text-box single-line" id="Correo" name="Correo" type="email" v-model="form.Correo" v-validate="'required|email|unique_email'">
+                            <div class="invalid-feedback">{{ errors.first('Correo') }}</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" v-on:click="closeModal">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="guardarPersona">
+                        {{ personaId == 0 ? 'Crear' : 'Editar' }}
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</template>
+
+<script>
+
+    VeeValidate.Validator.extend('unique_email', {
+        validate: (value) => axios.post('/Persona/FindByEmail', { Correo: value }).then((x) => { return { valid: x.data == "" }; }),
+        getMessage: () => `El email ya está registrado en el sistema.`
+    });
+
+
+    Vue.component("editar-persona", {
+        template: "#editar-persona-template",
+        props: {
+            personaId: {
+                type: Number,
+                default: 0
+            }
+        },
+        mounted() {
+            this.getTipoDocumento();
+        },
+        created() {
+            eventHub.$on('editar-persona:init', this.init)
+        },
+        data() {
+            return {
+                form: {
+                    TipoDocumentoId: "",
+                    DepartamentoId: 0
+                },
+                comboBox: {
+                    tipoDocumento: []
+                },
+                options: {
+                    departamento: [],
+                    municipio: []
+                }
+            }
+        },
+        methods: {
+            init(obj) {
+                this.personaId = obj;
+                this.form = { TipoDocumentoId: null };
+                this.obtenerPersona();
+                openModal("#editar-persona-modal");
+            },
+            closeModal() {
+                closeModal("#editar-persona-modal");
+            },
+            getTipoDocumento() {
+                axios.get(`/TipoDocumento/FindAllCb`)
+                    .then(x => this.comboBox.tipoDocumento = x.data)
+                    .catch(e => console.error(e));
+            },
+            obtenerPersona() {
+                if (this.personaId == 0)
+                    return;
+                axios.get(`/Persona/FindById/${this.personaId}`)
+                    .then(res => {
+                        this.form = res.data;
+
+                        if (this.form.DepartamentoId != 0) {
+                            this.$refs['select-departamento'].updateValue({ Key: this.form.DepartamentoId, Value: this.form.Departamento });
+
+                            if (this.form.MunicipioId != 0) {
+                                this.$refs['select-municipio'].updateValue({ Key: this.form.MunicipioId, Value: this.form.Municipio });
+                            }
+                        }
+                    })
+                    .catch(e => console.error(e));
+            },
+            guardarPersona() {
+                //eventHub.$emit('editar-persona:response', 16385);
+                //closeModal("#editar-persona-modal");
+                //return;
+
+                // Validamos
+                this.$validator.validate().then(valid => {
+                    if (valid) {
+                        // guardamos con ajax
+                        axios.post(`/Persona/Save`, this.form)
+                            .then(res => {
+                                this.personaId = res.data;
+                                eventHub.$emit('editar-persona:response', this.personaId);
+                                closeModal("#editar-persona-modal");
+                            })
+                            .catch(e => console.error(e));
+                    } else {
+                        Swal.fire("Advertencia", "Validar formulario", "warning");
+                    }
+                });
+            },
+            getDepartamento(search, loading) {
+                if (search == null || search.length == 0) {
+                    vm.options.departamento = [];
+                    vm.options.municipio = [];
+                    return;
+                }
+                let url = `/Departamento/FindAllAutocomplete?limit=5&value=${search}`;
+                this.search(loading, this, url, "departamento");
+            },
+            getMunicipio(search, loading) {
+                if (search == null || search.length == 0) {
+                    vm.options.municipio = [];
+                    return;
+                }
+                if (this.form.DepartamentoId == null || this.form.DepartamentoId == 0) {
+                    return;
+                }
+                let url = `/Municipio/FindAllAutocomplete?limit=5&departamentoId=${this.form.DepartamentoId}&value=${search}`;
+                this.search(loading, this, url, "municipio");
+            },
+            search: _.debounce((loading, vm, url, index) => {
+                loading(true);
+                axios.get(url)
+                    .then(res => {
+                        vm.options[index] = res.data;
+                        loading(false);
+                    })
+                    .catch(e => {
+                        console.error(e);
+                        loading(false);
+                    });
+            }, 350),
+            setMunicipio(x) {
+                if (x != null) {
+                    this.form.MunicipioId = x;
+                } else {
+                    this.form.MunicipioId = "";
+                }
+            },
+            setDepartamento(x) {
+                if (x != null) {
+                    this.form.DepartamentoId = x;
+                } else {
+                    this.form.DepartamentoId = "";
+                    this.form.MunicipioId = "";
+                    this.$refs['select-municipio'].clearSelection();
+                }
+            }
+        }
+    });
+
+</script>

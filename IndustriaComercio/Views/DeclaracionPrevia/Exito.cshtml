@@ -1,45 +1,91 @@
-﻿@model IndustriaComercio.Models.Model.DeclaracionPreviaModel
-<!DOCTYPE html>
-<html lang="es-co">
-<head>
+﻿
+@{
+    var declaracionPreviaId = (int)ViewBag.DeclaracionPreviaId;
+}
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<div class="container" id="app">
+    <div class="row">
+        <div class="col">
+            &nbsp;
 
-    <title>Declaracion</title>
-
-    <!-- Bootstrap core CSS-->
-    @Styles.Render("~/bundles/css")
-    @{
-        Layout = null;
-    }
-</head>
-
-<body id="page-top">
-    <div class="container" id="app">
-        <div class="row">
-            <div class="col">
-
-                &nbsp;
-
-                <center>
-                    <img src="~/Content/Images/logo-alcaldia.png">
-                </center>
-
-                &nbsp;
-            </div>
-        </div>
-        <div class="row">
-            <h1>Guardado Con Éxito</h1>
+            <center>
+                <img src="~/Content/Images/logo-alcaldia.png">
+            </center>
+            &nbsp;
         </div>
     </div>
-    <!-- Bootstrap core JavaScript-->
-    @Scripts.Render("~/bundles/js")
-    @Scripts.Render("~/bundles/jqueryval")
+    <div class="row">
+        <font size="5">!La declaracion se genero con exito¡</font>
+    </div>
+    <div class="row">
+        <font size="5" color="#0000FF">En unos segundos se iniciara la descarga del documento</font>
+    </div>
 
-</body>
+    <button type="submit"
+            class="btn btn-success"
+            v-on:click="getClienteByNoDocumento(form.TipoDocumentoId, form.NoIdentificacion)">
+        Pagar
+    </button>
+</div>
 
-</html>
+@section scripts{
+    <script>
+
+        var vm = new Vue({
+            el: '#app',
+            mounted() {
+                this.imprimirReporte();
+            },
+            methods: {
+                imprimirReporte() {
+                    window.location.href = `/DeclaracionPrevia/ExportarReporteDeclaracionPrevia?declaracionPreviaId=${@declaracionPreviaId}`;
+                    return;
+                    axios.post(
+                        "/DeclaracionPrevia/ExportarReporteDeclaracionPrevia",
+                        {
+                            declaracionPreviaId: (@declaracionPreviaId)
+                        }
+                    ).then(x => {
+                        var pdfUrl = window.URL.createObjectURL(x.data);
+                        printJS(pdfUrl);
+                    }).catch(function (x) {
+                            Swal.fire(
+                                'Error',
+                                "Error Irrecuperable en el sistema",
+                                'error'
+                            );
+                            console.error(x);
+                        });
+                },
+                Pagar() {
+
+                    var url = `/Cliente/GetClienteByNoDocumento/${tipoDocumento}/${noDocumento}`
+
+                    axios.get(url)
+                        .then(x => {
+                            if (x.data === '') {
+                                // Mostrar Alerta
+                                Swal.fire(
+                                    'Advertencia',
+                                    "El No. Documento Ingresado no se encuentra en el sistema",
+                                    'warning'
+                                );
+                                return;
+                            }
+
+
+                        }).catch(function (x) {
+                            Swal.fire(
+                                'Error',
+                                "Error Irrecuperable en el sistema",
+                                'error'
+                            );
+                            console.error(x);
+                        });
+                }
+            }
+        })
+
+
+    </script>
+}

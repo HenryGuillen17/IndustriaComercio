@@ -12,12 +12,12 @@ namespace IndustriaComercio.Entidades.UsuarioPermisos
         public string Login { get; set; }
 
         [DataType(DataType.Password)]
-        public string Contraseña { get; set; }
+        public string Contrasenia { get; set; }
 
         public Estado Estado { get; set; }
 
         [Display(Name = "Perfil")]
-        public byte PerfilId { get; set; }
+        public byte? PerfilId { get; set; }
 
 
         // Propiedades 

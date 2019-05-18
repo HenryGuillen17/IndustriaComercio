@@ -2,46 +2,54 @@
 
 @model IndustriaComercio.Models.Model.DeclaracionPreviaModel
 
-<div class="card" 
+<div class="card"
      v-show="vista === 1">
     <div class="card-header">
         DATOS DE LA DECLARACIÓN
     </div>
     <div class="card-body">
+        @*<div class="row">
+                <input type="text" name="number" v-model="maskNumber" v-mask-number>
+            </div>*@
         <!-- Año Gravable -->
         <div class="form-group row">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.Año, htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="col-md-8">
-                @Html.DropDownListFor(Model => Model.Año, Model.Años, "Seleccionar", new { @class = "form-control" })
+                @Html.DropDownListFor(Model => Model.Año, Model.Años, "Seleccionar",
+                htmlAttributes: new Dictionary<string, object>() {
+                    { "class", "form-control" },
+                    { "v-model", "form.Anio" }
+                })
                 @Html.ValidationMessageFor(model => model.Año, "", new { @class = "text-danger" })
             </div>
         </div>
         <!-- Tipo De Declaración -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.TipoDeclaracion, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-8">
-                @Html.EnumDropDownListFor(Model => Model.TipoDeclaracion, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TipoDeclaracion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <!-- Tipo Contribuyente -->
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.TipoContribuyenteId, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-8">
-                @Html.DropDownListFor(Model => Model.TipoContribuyenteId, Model.TipoContribuyentes, "Seleccionar", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TipoContribuyenteId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <!-- ¿Tiene Pago Voluntario? -->
-        <div class="form-group row">
+        <!-- ¿Tiene Pago Voluntario? --> <!-- DEBE DEFINIRSE SI SE VA A INCLUIR O NO -->
+        @*<div class="form-group row">
             <div class="col-md-4">
                 @Html.LabelFor(model => model.TienePagoVoluntario, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-8">
+                @Html.CheckBoxFor(model => model.TienePagoVoluntario,
+                new
+                {
+                htmlAttributes = new Dictionary<string, object>
+                    () {
+                    { "class", "form-control" },
+                    { "placeholder", "Requerido" },
+                    { "data-toggle", "popover" },
+                    { "data-trigger", "focus" },
+                    { "data-content", @Html.DescriptionFor(model => model.TienePagoVoluntario) },
+                    { "data-placement", "top" } }
+                    })
+            </div>
+        </div>*@
+        <!-- ¿Paga Avisos Y Tableros? --> <!-- INCLUIR EN TABLA CLIENTES CUANDO SE TRAE -->
+        @*<div class="form-group row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PagaAvisoTablero, htmlAttributes: new { @class = "control-label " })
             </div>
             <div class="col-md-8">
                 @Html.CheckBoxFor(model => model.TienePagoVoluntario,
@@ -54,9 +62,10 @@
                     { "data-toggle", "popover" },
                     { "data-trigger", "focus" },
                     { "data-content", @Html.DescriptionFor(model => model.TienePagoVoluntario) },
-                    { "data-placement", "top" } }
+                    { "data-placement", "top" },
+                    { "v-model", "form.PagaAvisoTablero" } }
                 })
             </div>
-        </div>
+        </div>*@
     </div>
 </div>

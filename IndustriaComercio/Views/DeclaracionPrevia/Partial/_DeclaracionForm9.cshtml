@@ -14,63 +14,25 @@
                 @Html.LabelFor(model => model.ValorPagar, htmlAttributes: new { @class = "control-label " })
             </div>
             <div class="col-md-8">
-                @Html.HiddenFor(model => model.ValorPagar, new
-                   {
-                       htmlAttributes = new Dictionary<string, object>() { { "v-bind:value", "TotalSaldoCargo" } }
-                   })
                 <h4>{{ TotalSaldoCargo | formatPrecio }}</h4>
-                @*@Html.EditorFor(model => model.ValorPagar,
-                    new { htmlAttributes = new Dictionary<string, object>
-                        () {
-                        { "class", "form-control" },
-                        { "placeholder", "Requerido" },
-                        { "data-toggle", "popover" },
-                        { "data-trigger", "focus" },
-                        { "data-content", @Html.DescriptionFor(model => model.ValorPagar) },
-                        { "data-placement", "top" },
-                        { "v-model", "form.ValorPagar" }
-                        } })
-                    @Html.ValidationMessageFor(model => model.ValorPagar, "", new { @class = "text-danger" })*@
             </div>
         </div>
         <!-- Descuento Por Pronto Pago -->
         <div class="form-group row">
             <div class="col-md-4">
-                @Html.LabelFor(model => model.DescuentoProntoPago, htmlAttributes: new { @class = "control-label " })
+                @Html.LabelFor(model => model.Descuento, htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="col-md-8">
-                @Html.EditorFor(model => model.DescuentoProntoPago,
-                new { htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.DescuentoProntoPago) },
-                    { "data-placement", "top" },
-                    { "v-model", "form.DescuentoProntoPago" }
-                    } })
-                @Html.ValidationMessageFor(model => model.DescuentoProntoPago, "", new { @class = "text-danger" })
+                <h4>{{ TotalDescuentoSaldo | formatPrecio }}</h4>
             </div>
         </div>
         <!-- Intereses de Mora -->
         <div class="form-group row">
             <div class="col-md-4">
-                @Html.LabelFor(model => model.InteresesDeMora, htmlAttributes: new { @class = "control-label " })
+                @Html.LabelFor(model => model.Interes, htmlAttributes: new { @class = "control-label " })
             </div>
             <div class="col-md-8">
-                @Html.EditorFor(model => model.InteresesDeMora,
-                new { htmlAttributes = new Dictionary<string, object>
-                    () {
-                    { "class", "form-control" },
-                    { "placeholder", "Requerido" },
-                    { "data-toggle", "popover" },
-                    { "data-trigger", "focus" },
-                    { "data-content", @Html.DescriptionFor(model => model.InteresesDeMora) },
-                    { "data-placement", "top" },
-                    { "v-model", "form.InteresesDeMora" }
-                    } })
-                @Html.ValidationMessageFor(model => model.InteresesDeMora, "", new { @class = "text-danger" })
+                <h4>{{ TotalInteresSaldo | formatPrecio }}</h4>
             </div>
         </div>
         <!-- Total a Pagar -->
