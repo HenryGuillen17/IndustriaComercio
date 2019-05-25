@@ -125,7 +125,8 @@ namespace IndustriaComercio.Controllers
                 .Select(y => new ComboBox
                 {
                     Key = y.ActividadId,
-                    Value = y.Descripcion
+                    Value = y.Descripcion,
+                    Label = y.Codigo
                 }).ToList(),
                 JsonRequestBehavior.AllowGet
                 );

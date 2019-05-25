@@ -86,7 +86,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Ingresos Del Periodo En Todo El Pais",
+            Name = "8 - Ingresos Del Periodo En Todo El Pais",
             Description = "Registre la totalidad de ingresos ordinarios y extraordinarios obtenidos en todo el país, durante el período gravable, incluyendo los ingresos por rendimientos financieros, comisiones, obtenidos dentro y fuera del municipio"
         )]
         [Range(0, double.MaxValue)]
@@ -95,7 +95,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Ingresos Fuera Del Municipio",
+            Name = "9 - Ingresos Fuera Del Municipio",
             Description = "Registre el total de ingresos obtenidos fuera del municipio. Para el efecto, tenga en cuenta las reglas de territorialidad aplicables a cada actividad; en general los ingresos se entienden percibidos en el municipio donde se realiza la respectiva actividad."
         )]
         [Range(0, double.MaxValue)]
@@ -104,7 +104,7 @@ namespace IndustriaComercio.Models.Model
 
         [NotMapped]
         [Display(
-            Name = "Total Ingresos Del Municipio",
+            Name = "10 - Total Ingresos Del Municipio",
             Description = "Es el resultado de restar el total de ingresos obtenidos fuera de este municipio al total de ingresos en todo el país"
         )]
         [Range(0, double.MaxValue)]
@@ -120,7 +120,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Ingresos Por Devoluciones, Rebajas, Descuentos",
+            Name = "11 - Ingresos Por Devoluciones, Rebajas, Descuentos",
             Description = "Escriba el valor de ingresos registrados en el municipio de concepto de devolucionens, rebajas, descuentos"
         )]
         [Range(0, double.MaxValue)]
@@ -129,7 +129,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Ingresos Por Exportaciones",
+            Name = "12 - Ingresos Por Exportaciones",
             Description = "Escriba el valor de ingresos registrados en este municipio por concepto de exportaciones"
         )]
         [Range(0, double.MaxValue)]
@@ -138,7 +138,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Ingresos Por Activos Fijos",
+            Name = "13 - Ingresos Por Activos Fijos",
             Description = "Escriba el valor de ingresos registrados en este municipio o distrito por concepto de venta de activos fijos"
         )]
         [Range(0, double.MaxValue)]
@@ -147,7 +147,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Ingresos No Gravados",
+            Name = "14 - Ingresos No Gravados",
             Description = "Escriba el valor de ingresos registradoos en este municipio o distrito por concepto de actividades excluidas o no sujetas y otros ingresos no gravados de conformidad con las normas que regulan el impuesto de Industria y Comercio"
         )]
         [Range(0, double.MaxValue)]
@@ -156,7 +156,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Ingresos Actividades Exentas",
+            Name = "15 - Ingresos Actividades Exentas",
             Description = "Escriba el valor de ingresos registrados en el municipio por concepto de actividades que gozan de tratamiento de exención, de conformidad con las normas propias del municipio"
         )]
         [Range(0, double.MaxValue)]
@@ -165,7 +165,7 @@ namespace IndustriaComercio.Models.Model
 
         [NotMapped]
         [Display(
-            Name = "Total Ingresos Gravables",
+            Name = "16 - Total Ingresos Gravables",
             Description = "Es el resultado del Renglón 10 menos 11, 12, 13, 14 y 15"
         )]
         public double TotalIngresosGravables => (
@@ -210,7 +210,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Capacidad de Energía Instalada (En KiloVatios)",
+            Name = "18 - Capacidad de Energía Instalada (En KiloVatios)",
             Description = "En el caso de la actividad de generación de energía eléctrica en cabeza de los propietarios de las obras para ese fin, escriba en kilovatios la capacidad instalada de la generadora en el municipio."
         )]
         [Range(0, double.MaxValue)]
@@ -223,7 +223,7 @@ namespace IndustriaComercio.Models.Model
         /// </summary>
         [NotMapped]
         [Display(
-            Name = "Total Impuesto de Energía",
+            Name = "19 - Total Impuesto de Energía",
             Description = "Multiplique el total de capacidad instalada de la planta generadora, en kilovatios, por valor de impuesto que por cada kilovatio ordena la Ley 57 de 1981, actualizado"
         )]
         public double TotaImpuestoEnergiaElectrica => CapacidadInstalada * 5; // No es 5$, hay que preguntar eso
@@ -238,7 +238,7 @@ namespace IndustriaComercio.Models.Model
 
         [NotMapped]
         [Display(
-            Name = "Total Impuesto Industria Comercio",
+            Name = "20 - Total Impuesto Industria Comercio",
             Description = "Es el resultado de sumar el renglón 17 y el renglón 19"
         )]
         [Range(0, double.MaxValue)]
@@ -250,7 +250,7 @@ namespace IndustriaComercio.Models.Model
         /// </summary>
         [NotMapped]
         [Display(
-            Name = "Total Impuesto Avisos Tableros",
+            Name = "21 - Total Impuesto Avisos Tableros",
             Description = "Es el 15% del renglón 20"
         )]
         [Range(0, double.MaxValue)]
@@ -259,7 +259,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Pago Unidades Comerciales",
+            Name = "22 - Pago Unidades Comerciales",
             Description = "Registre el valor resultante de multiplicar el nùmero de sucursales, agencias u oficinas adicionales abiertas al público, de Establecimientos de Crédito, Instituciones Financieras y Compañías de Seguro y Reaseguro, por el valor establecido como pago adicional en la norma de municipio, de conformidad con el Artículo 209 del Decreto Ley 1333 de 1986."
         )]
         [Range(0, double.MaxValue)]
@@ -268,7 +268,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Sobretasa Bomberil",
+            Name = "23 - Sobretasa Bomberil",
             Description = "El municipio de Piedecuesta no tiene establecida la Sobretasa Bomberil para el impuesto de Industria y Comercio"
         )]
         [Range(0, double.MaxValue)]
@@ -277,7 +277,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Sobretasa Seguridad",
+            Name = "24 - Sobretasa Seguridad",
             Description = "El municipio de Piedecuesta no tiene establecida la Sobretasa de Seguridad para el Impuesto de Industria y Comercio"
         )]
         [Range(0, double.MaxValue)]
@@ -286,7 +286,7 @@ namespace IndustriaComercio.Models.Model
 
         [NotMapped]
         [Display(
-            Name = "Total Impuesto Cargo",
+            Name = "25 - Total Impuesto Cargo",
             Description = "Es la suma de los renglones 20+21+22+23+24"
         )]
         public double TotalImpuestoCargo => (
@@ -307,7 +307,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Valor Exoneración Sobre Impuesto",
+            Name = "26 - Valor Exoneración Sobre Impuesto",
             Description = "Si tiene derecho a disminuir el valor del impuesto liquidado, por existir una exención o beneficio que así lo autorice, escriba aquí el valor exento o exonerado. Tenga en cuenta que este beneficio tributario es diferente al que se aplica sobre los ingresos por actividades exentas"
         )]
         [Range(0, double.MaxValue)]
@@ -316,7 +316,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Retenciones que le practicaron a favor del municipio",
+            Name = "27 - Retenciones que le practicaron a favor del municipio",
             Description = "Registre el valor que le retuvieron a favor del municipio durante el período gravable declarado, por los conceptos que sean objeto de esta declaración (ICA, Avisos, Sobretasas)"
         )]
         [Range(0, double.MaxValue)]
@@ -335,7 +335,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Autorretenciones Practicadas a favor del municipio",
+            Name = "28 - Autorretenciones Practicadas a favor del municipio",
             Description = "Si tiene la calidad de autorretenedor (Artículo 106 del Acuerdo 009 de 2018), registre el valor que pagó a favor de este municipio, durante el período gravable declarado, que no hayan sido previamente descontadas"
         )]
         [Range(0, double.MaxValue)]
@@ -344,7 +344,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Anticipo Liquidado en el Año Anterior",
+            Name = "29 - Anticipo Liquidado en el Año Anterior",
             Description = "Si en el municipio existe el anticipo del impuesto de Industria y Comercio, registre el valor liquidado por ese concepto en la declaración del año inmediatamente anterior"
         )]
         [Range(0, double.MaxValue)]
@@ -353,7 +353,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Anticipo del Año Siguiente",
+            Name = "30 - Anticipo del Año Siguiente",
             Description = "Si en el municipio existe el anticipo del impuesto de Industria y Comercio, registre el valor de anticipo para el año siguiente según la regulación"
         )]
         [Range(0, double.MaxValue)]
@@ -368,7 +368,7 @@ namespace IndustriaComercio.Models.Model
 
 
         [Display(
-            Name = "Valor de la Sanción",
+            Name = "31 - Valor de la Sanción",
             Description = "Es el 5% del total del impuesto a cargo (si es diferente de cero) multiplicado por el número de meses o fracción de mes calendario de retardo "
         )]
         [Range(0, double.MaxValue)]
@@ -376,7 +376,7 @@ namespace IndustriaComercio.Models.Model
 
 
         [Display(
-            Name = "Saldo a favor Período Anterior",
+            Name = "32 - Saldo a favor Período Anterior",
             Description = "Si cuenta con un saldo a favor en acto administrativo que autorice su compensación con esta declaración, diligencia aquí ese valor"
         )]
         [Range(0, double.MaxValue)]
@@ -384,7 +384,7 @@ namespace IndustriaComercio.Models.Model
 
 
         [Display(
-            Name = "Total Saldo a Cargo",
+            Name = "33 - Total Saldo a Cargo",
             Description = "Es el resultado de la siguiente operación: 25-26-27-28-29+30+31-32"
         )]
         public double TotalSaldoCargo => (
@@ -400,7 +400,7 @@ namespace IndustriaComercio.Models.Model
 
 
         [Display(
-            Name = "Total Saldo a Favor",
+            Name = "34 - Total Saldo a Favor",
             Description = "Es el resultado de la siguiente operación: 25-26-27-28-29+30+31-32"
         )]
         public double TotalSaldoFavor => TotalSaldoCargo < 0 ? Math.Abs(TotalSaldoFavor) : 0;
@@ -415,7 +415,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Valor A Pagar",
+            Name = "35 - Valor A Pagar",
             Description = ""
         )]
         [Range(0, double.MaxValue)]
@@ -427,7 +427,7 @@ namespace IndustriaComercio.Models.Model
 
         [Required]
         [Display(
-            Name = "Descuento Por Pronto Pago",
+            Name = "36 - Descuento Por Pronto Pago",
             Description = "Lorem ipsum"
         )]
         public double Descuento => ValorPagar * (PorcentajeDescuento * 0.01);
@@ -436,7 +436,7 @@ namespace IndustriaComercio.Models.Model
         public double PorcentajeInteres { get; set; }
         [Required]
         [Display(
-            Name = "Intereses de Mora",
+            Name = "37 - Intereses de Mora",
             Description = "Lorem ipsum"
         )]
         public double Interes => ValorPagar * (PorcentajeInteres * 0.01);
@@ -445,7 +445,7 @@ namespace IndustriaComercio.Models.Model
 
         [NotMapped]
         [Display(
-            Name = "Total a Pagar",
+            Name = "38 - Total a Pagar",
             Description = "Lorem ipsum"
         )]
         public double TotalPagar => (ValorPagar + Interes - Descuento);

@@ -79,6 +79,7 @@ namespace IndustriaComercio.Controllers
         {
             var fechaVencimiento = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
             var modelReport = _db.DeclaracionDeudaCuota.Include(x => x.DeclaracionPrevia).Include(x => x.DeclaracionPrevia.Cliente.Persona).Include(x => x.DeclaracionPrevia.Cliente.Persona.TipoDocumento)
+                .Where(x => ids.Contains(x.DeclaracionDeudaCuotaId))
                 .GroupBy(x => new
                 {
                     x.DeclaracionPrevia.PersonaId,

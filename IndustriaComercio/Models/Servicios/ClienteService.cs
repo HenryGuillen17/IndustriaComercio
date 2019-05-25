@@ -119,8 +119,10 @@ namespace IndustriaComercio.Models.Servicios
                 .Include(x => x.TipoDocumento)
                 .Include(x => x.Municipio)
                 .Include(x => x.Municipio.Departamento)
+                .Include(x => x.Cliente.Establecimientos.Select(y => y.EstablecimientoActividades))
                 .Where(
                     x =>
+                    x.Cliente != null &&
                     x.TipoDocumentoId == tipoDocumento
                     && x.NoIdentificacion == noDocumento
                 ).Select(x => new ClienteModel
@@ -150,6 +152,27 @@ namespace IndustriaComercio.Models.Servicios
                     Estado = x.Cliente.Estado
                 })
                 .FirstOrDefault();
+
+            model.Establecimientos = _db.Establecimiento
+                    .Where(x => model.PersonaId == x.ClienteId)
+                    .Select(a => new EstablecimientoModel
+                    {
+                        EstablecimientoId = a.EstablecimientoId,
+                        ClienteId = a.ClienteId,
+                        Descripcion = a.Descripcion,
+                        Direccion = a.Direccion,
+                        EstablecimientoActividades = a.EstablecimientoActividades
+                            .Select(y => new EstablecimientoActividadModel
+                            {
+                                ActividadId = y.ActividadId,
+                                Descripcion = y.Actividad.Descripcion,
+                                Codigo = y.Actividad.Codigo,
+                                IngresosGravados = 0,
+                                Tarifa = y.Actividad.Tarifa,
+                                Valor = y.Actividad.Valor,
+                                EstablecimientoId = a.EstablecimientoId,
+                            }).ToList(),
+                    }).ToList();
 
             return model;
         }

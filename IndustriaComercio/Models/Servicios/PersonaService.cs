@@ -73,6 +73,29 @@ namespace IndustriaComercio.Models.Servicios
             return model;
         }
 
+        public PersonaModel FindByIndentificacion(string noIdentificacion)
+        {
+            var model = _db.Persona
+                .Where(x => x.NoIdentificacion == noIdentificacion)
+                .Select(x => new PersonaModel
+                {
+                    PersonaId = x.PersonaId,
+                    TipoDocumentoId = x.TipoDocumentoId,
+                    NoIdentificacion = x.NoIdentificacion,
+                    PrimerNombre = x.PrimerNombre,
+                    SegundoNombre = x.SegundoNombre,
+                    PrimerApellido = x.PrimerApellido,
+                    SegundoApellido = x.SegundoApellido,
+                    NombreCompleto = x.NombreCompleto,
+                    FotoPerfil = x.FotoPerfil,
+                    Correo = x.Correo,
+                    Celular = x.Celular,
+                })
+                .FirstOrDefault();
+
+            return model;
+        }
+
         public PersonaModel FindByEmail(string email)
         {
             var model = _db.Persona

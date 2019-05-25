@@ -30,7 +30,7 @@
 
                             <div class="form-group col-md-8">
                                 <label class="control-label" for="NoIdentificacion">NoIdentificacion</label>
-                                <input class="form-control text-box single-line" id="NoIdentificacion" name="NoIdentificacion" type="text" v-model="form.NoIdentificacion" v-validate="'required|numeric'">
+                                <input class="form-control text-box single-line" id="NoIdentificacion" name="NoIdentificacion" type="text" v-model="form.NoIdentificacion" v-validate="'required|numeric|unique_cedula'">
                                 <div class="invalid-feedback">{{ errors.first('NoIdentificacion') }}</div>
                             </div>
 
@@ -125,7 +125,7 @@
 
                         <div class="form-group">
                             <label class="control-label" for="Correo">Correo</label>
-                            <input class="form-control text-box single-line" id="Correo" name="Correo" type="email" v-model="form.Correo" v-validate="'required|email|unique_email'">
+                            <input class="form-control text-box single-line" id="Correo" name="Correo" type="email" v-model="form.Correo" v-validate="'email'">
                             <div class="invalid-feedback">{{ errors.first('Correo') }}</div>
                         </div>
 
@@ -155,6 +155,10 @@
         getMessage: () => `El email ya está registrado en el sistema.`
     });
 
+    VeeValidate.Validator.extend('unique_cedula', {
+        validate: (value) => axios.post('/Persona/FindByIndentificacion', { NoIdentificacion: value }).then((x) => { return { valid: x.data == "" }; }),
+        getMessage: () => `El NoIdentificacion ya está registrado en el sistema.`
+    });
 
     Vue.component("editar-persona", {
         template: "#editar-persona-template",

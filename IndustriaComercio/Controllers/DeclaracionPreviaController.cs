@@ -72,18 +72,23 @@ namespace IndustriaComercio.Controllers
             {
                 new Tuple<Stream, string> (model.ExportToStream(ExportFormatType.PortableDocFormat), "declaracion.pdf")
             };
-            // Si vas a utilizar tu cuenta de gmail. primero ve al link y activa el switch que te va a aparecer
-            // https://myaccount.google.com/lesssecureapps?pli=1
-            EnviarCorreo.EnviarEmail(
-                "richardjacomeg@gmail.com",
-                "rijako9004",
-                listaCorreos,
-                $"DeclaracionPrevia_{declaracionPreviaId}_{DateTime.Now:yyyyMMdd}",
-                "Declaración Previa",
-                null,
-                informesPdf,
-                null
-                );
+
+            if (listaCorreos.Any())
+            {
+                // Si vas a utilizar tu cuenta de gmail. primero ve al link y activa el switch que te va a aparecer
+                // https://myaccount.google.com/lesssecureapps?pli=1
+                EnviarCorreo.EnviarEmail(
+                    "richardjacomeg@gmail.com",
+                    "rijako9004",
+                    listaCorreos,
+                    $"DeclaracionPrevia_{declaracionPreviaId}_{DateTime.Now:yyyyMMdd}",
+                    "Declaración Previa",
+                    null,
+                    informesPdf,
+                    null
+                    );
+            }
+
             return Export(model, $"DeclaracionPrevia_{declaracionPreviaId}_{DateTime.Now:yyyyMMdd}");
         }
 
@@ -277,7 +282,7 @@ namespace IndustriaComercio.Controllers
                     {
                         DeclaracionDeudaCuotaId = consecutivo,
                         DeclaracionPreviaId = model.DeclaracionPreviaId,
-                        FechaVencimiento = new DateTime(model.Año, x.Mes, x.Dia),
+                        FechaVencimiento = new DateTime(model.Año + 1, x.Mes, x.Dia),
                         TotalImpuestoIndustriaComercio = model.TotalImpuestoIndustriaComercio / parametrosVencimientos.Count,
                         ImpuestoAvisosTableros = model.ImpuestoAvisosTableros / parametrosVencimientos.Count,
                         PagoUnidadesComerciales = model.PagoUnidadesComerciales / parametrosVencimientos.Count,

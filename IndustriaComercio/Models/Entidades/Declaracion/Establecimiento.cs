@@ -14,6 +14,5 @@ namespace IndustriaComercio.Entidades.Basicos
         //Propiedades
         public virtual Persona.Cliente Cliente { get; set; }
         public virtual ICollection<EstablecimientoActividad> EstablecimientoActividades { get; set; }
-        //public virtual ICollection<Declaracion> Declaraciones { get; set; }
     }
 }

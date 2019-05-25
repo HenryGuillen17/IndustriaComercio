@@ -36,12 +36,18 @@
                         <v-select ref="select-actividad"
                                   label="Value"
                                   name="ActividadId"
+                                  v-bind:filterable="false"
                                   v-on:search="getActividad"
                                   v-on:input="setActividad"
                                   v-bind:reduce="x => x.Key"
-                                  v-bind:options="actividades">
+                                  v-bind:options="options.actividades">
                             <template slot="no-options">
                                 -- Sin Opciones --
+                            </template>
+                            <template slot="option" slot-scope="option">
+                                <span class="font-weight-bold">{{ option.Value }}</span>
+                                <br />
+                                <span>{{ option.Label }}</span>
                             </template>
                         </v-select>
                     </div>
@@ -115,7 +121,7 @@
                     EstablecimientoId: 0
                 },
                 comboBox: {
-                    tipoDocumento: []
+                    actividades: []
                 },
                 options: {
                     actividades: []
@@ -123,11 +129,11 @@
             }
         },
         computed: {
-            actividades() {
-                return this.options.actividades
-                    .filter(x => !this.form.EstablecimientoActividades.map(y => y.ActividadId).includes(x.Key))
-                    .slice(0, 10);
-            }
+            //actividades() {
+            //    return this.options.actividades
+            //        .filter(x => !this.form.EstablecimientoActividades.map(y => y.ActividadId).includes(x.Key))
+            //        .slice(0, 10);
+            //}
         },
         methods: {
             init(obj) {
@@ -146,7 +152,7 @@
             getAllActividades() {
                 axios.get(`/ActividadGravada/FindAllCb`)
                     .then(res => {
-                        this.options.actividades = res.data;
+                        this.comboBox.actividades = res.data;
                     })
                     .catch(e => console.error(e));
             },
@@ -167,9 +173,12 @@
             },
             getActividad(search, loading) {
                 loading(true);
-                let obj = this.options.actividades.filter(x => !this.form.EstablecimientoActividades.map(y => y.ActividadId).includes(x.Key) && search.length > 0 && x.Value.includes(search));
+                let obj = this.comboBox.actividades.filter(
+                    x =>
+                        !this.form.EstablecimientoActividades.map(y => y.ActividadId).includes(x.Key)
+                        && search.length > 0 && (x.Value.toLowerCase().includes(search.toLowerCase()) || x.Label.includes(search)));
                 loading(false);
-                return obj;
+                this.options.actividades = obj.slice(0, 10);
             },
             setActividad(x) {
                 if (x != null) {
