@@ -24,82 +24,87 @@
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">TotalImpuestoIndustriaComercio</div>
-                            <div class="col-6 text-left">{{ deuda.TotalImpuestoIndustriaComercio }}</div>
+                            <div class="col-6 text-left">{{ deuda.TotalImpuestoIndustriaComercio | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">ImpuestoAvisosTableros</div>
-                            <div class="col-6 text-left">{{ deuda.ImpuestoAvisosTableros }}</div>
+                            <div class="col-6 text-left">{{ deuda.ImpuestoAvisosTableros | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">PagoUnidadesComerciales</div>
-                            <div class="col-6 text-left">{{ deuda.PagoUnidadesComerciales }}</div>
+                            <div class="col-6 text-left">{{ deuda.PagoUnidadesComerciales | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">SobretasaBomberil</div>
-                            <div class="col-6 text-left">{{ deuda.SobretasaBomberil }}</div>
+                            <div class="col-6 text-left">{{ deuda.SobretasaBomberil | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">SobretasaSeguridad</div>
-                            <div class="col-6 text-left">{{ deuda.SobretasaSeguridad }}</div>
+                            <div class="col-6 text-left">{{ deuda.SobretasaSeguridad | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">TotalImpuestoCargo</div>
-                            <div class="col-6 text-left">{{ deuda.TotalImpuestoCargo }}</div>
+                            <div class="col-6 text-left">{{ deuda.TotalImpuestoCargo | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">ValorExoneracionImpuesto</div>
-                            <div class="col-6 text-left">{{ deuda.ValorExoneracionImpuesto }}</div>
+                            <div class="col-6 text-left">{{ deuda.ValorExoneracionImpuesto | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">RetencionesDelMunicipio</div>
-                            <div class="col-6 text-left">{{ deuda.RetencionesDelMunicipio }}</div>
+                            <div class="col-6 text-left">{{ deuda.RetencionesDelMunicipio | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">AutoretencionesDelMunicipio</div>
-                            <div class="col-6 text-left">{{ deuda.AutoretencionesDelMunicipio }}</div>
+                            <div class="col-6 text-left">{{ deuda.AutoretencionesDelMunicipio | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">AnticipoAnioAnterior</div>
-                            <div class="col-6 text-left">{{ deuda.AnticipoAnioAnterior }}</div>
+                            <div class="col-6 text-left">{{ deuda.AnticipoAnioAnterior | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">AnticipoAnioSiguiente</div>
-                            <div class="col-6 text-left">{{ deuda.AnticipoAnioSiguiente }}</div>
+                            <div class="col-6 text-left">{{ deuda.AnticipoAnioSiguiente | formatPrecio }}</div>
                         </div>
 
-                        <div class="row">
+                        @*<div class="row">
                             <div class="col-6 text-right text-dark">ValorSancion</div>
-                            <div class="col-6 text-left">{{ deuda.ValorSancion }}</div>
-                        </div>
+                            <div class="col-6 text-left">{{ deuda.ValorSancion | formatPrecio }}</div>
+                        </div>*@
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">SaldoFavorPeriodoAnterior</div>
-                            <div class="col-6 text-left">{{ deuda.SaldoFavorPeriodoAnterior }}</div>
+                            <div class="col-6 text-left">{{ deuda.SaldoFavorPeriodoAnterior | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">TotalSaldoCargo</div>
-                            <div class="col-6 text-left">{{ deuda.TotalSaldoCargo }}</div>
+                            <div class="col-6 text-left">{{ deuda.TotalSaldoCargo | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">TotalSaldoFavor</div>
-                            <div class="col-6 text-left">{{ deuda.TotalSaldoFavor }}</div>
+                            <div class="col-6 text-left">{{ deuda.TotalSaldoFavor | formatPrecio }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-6 text-right text-dark">InteresesMora</div>
-                            <div class="col-6 text-left">{{ deuda.InteresesMora }}</div>
+                            <div class="col-6 text-left">{{ deuda.InteresesMora | formatPrecio }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 text-right text-dark">TOTAL DEUDA:</div>
+                            <div class="col-6 text-left">{{ total | formatPrecio }}</div>
                         </div>
                     </div>
 
@@ -131,8 +136,22 @@
                 declaracionDeudaCuotaId: 0
             }
         },
+        filters: {
+            formatPrecio: function (value) {
+                var precio = numeral(value).format("$0,0");
+                //var precio = numeral(value).format("$0,0");
+                numeral.locale("es");
+                return precio;
+            }
+        },
+        computed: {
+            total() {
+                return this.deuda.InteresesMora + this.deuda.TotalSaldoFavor;
+            }
+        },
         methods: {
             init(obj) {
+                this.declaracionDeudaCuotaId = obj.DeclaracionDeudaCuotaId;
                 this.getDeclaracionDeudaCuota();
                 // this.deuda = obj;
                 window.setTimeout(openModal("#detalle-deuda-modal"), 1000);
