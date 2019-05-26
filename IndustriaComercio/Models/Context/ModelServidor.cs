@@ -25,6 +25,7 @@ namespace IndustriaComercio.Models.Context
         public DbSet<Departamento> Departamento { get; set; }
         public DbSet<Establecimiento> Establecimiento { get; set; }
         public DbSet<EstablecimientoActividad> EstablecimientoActividad { get; set; }
+        public DbSet<Interes> Interes { get; set; }
         public DbSet<ListaCorreo> ListaCorreo { get; set; }
         public DbSet<Municipio> Municipio { get; set; }
         public DbSet<TipoDocumento> TipoDocumento { get; set; }

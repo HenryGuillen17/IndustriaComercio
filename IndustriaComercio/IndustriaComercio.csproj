@@ -186,6 +186,7 @@
     <Compile Include="Controllers\ActividadGravadaController.cs" />
     <Compile Include="Controllers\DeclaracionDeudaCuotaController.cs" />
     <Compile Include="Controllers\EstablecimientoController.cs" />
+    <Compile Include="Controllers\ParametrosController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DeclaracionPreviaController.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Models\Model\DeclaracionDeudaCuotaModel.cs" />
     <Compile Include="Models\Model\EstablecimientoModel.cs" />
     <Compile Include="Models\Model\EstablecimientoActividadModel.cs" />
+    <Compile Include="Models\Model\ParametroVencimientoModel.cs" />
     <Compile Include="Models\Model\UsuarioMenuModel.cs" />
     <Compile Include="Models\Model\UsuarioModel.cs" />
     <Compile Include="Models\Model\ClienteModel.cs" />
@@ -1900,6 +1902,7 @@
     <Content Include="Views\Establecimiento\_Edit.cshtml" />
     <Content Include="Views\DeclaracionDeudaCuota\Index.cshtml" />
     <Content Include="Views\DeclaracionDeudaCuota\_Detalle.cshtml" />
+    <Content Include="Views\Parametros\VencimientoCuota.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

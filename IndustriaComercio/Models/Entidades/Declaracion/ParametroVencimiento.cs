@@ -1,9 +1,6 @@
-﻿
-using System.Collections.Generic;
-
-namespace IndustriaComercio.Entidades.Basicos
+﻿namespace IndustriaComercio.Entidades.Basicos
 {
-    
+
     public class ParametroVencimiento 
     {
         public int ParametroVencimientoId { get; set; }
