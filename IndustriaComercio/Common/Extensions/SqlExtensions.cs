@@ -106,6 +106,39 @@ namespace IndustriaComercio.Common.Extensions
             }
         }
 
+
+        /// <summary>
+        /// Metodo generico para obtener el valor maximo + 1 de un campo
+        /// </summary>
+        /// <param name="dbset"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static long Consecutivo<TEntity>(
+            this DbSet<TEntity> dbset,
+            Expression<Func<TEntity, long?>> predicate,
+            Expression<Func<TEntity, bool>> whereExp = null
+            ) where TEntity : class
+        {
+            try
+            {
+                long? valor;
+                if (whereExp != null)
+                    valor = dbset.Where(whereExp).Max(predicate);
+                else
+                    valor = dbset.Max(predicate);
+
+                if (valor == null)
+                    return 1;
+
+                return (int)(valor + 1);
+            }
+            catch (Exception err)
+            {
+                var messageError = err.InnerException?.InnerException?.Message ?? (err.InnerException?.Message ?? err.Message);
+                throw new Exception(messageError, err);
+            }
+        }
+
         #endregion
 
 

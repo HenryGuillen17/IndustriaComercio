@@ -5,6 +5,8 @@ namespace IndustriaComercio.Models.Model
 
     public class DeclaracionDeudaCuotaModel
     {
+        public long ReporteId { get; set; }
+
         public int DeclaracionDeudaCuotaId { get; set; }
         public int DeclaracionPreviaId { get; set; }
         public DateTime FechaVencimiento { get; set; }
@@ -46,5 +48,18 @@ namespace IndustriaComercio.Models.Model
         public double InteresesMora { get; set; }
         public string NombreCompleto { get; set; }
         public string NoIdentificacionCompleto { get; set; }
+    }
+
+    public class CalculoInteres
+    {
+        public DateTime FechaVencimiento { get; set; }
+        public double Total { get; set; }
+
+        public CalculoInteres() { }
+        public CalculoInteres(DateTime fechaVencimiento, double total)
+        {
+            FechaVencimiento = fechaVencimiento;
+            Total = total;
+        }
     }
 }

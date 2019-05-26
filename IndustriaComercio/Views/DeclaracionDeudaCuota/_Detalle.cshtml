@@ -133,9 +133,9 @@
         },
         methods: {
             init(obj) {
-                // this.getDeclaracionDeudaCuota();
-                this.deuda = obj;
-                openModal("#detalle-deuda-modal");
+                this.getDeclaracionDeudaCuota();
+                // this.deuda = obj;
+                window.setTimeout(openModal("#detalle-deuda-modal"), 1000);
             },
             closeModal() {
                 closeModal("#detalle-deuda-modal");
